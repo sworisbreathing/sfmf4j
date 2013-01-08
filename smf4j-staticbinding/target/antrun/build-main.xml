@@ -1,8 +1,0 @@
-<?xml version="1.0" encoding="UTF-8" ?>
-<project name="maven-antrun-" default="main"  >
-<target name="main">
-  <echo>Removing dummy binding implementations.</echo>
-  <delete dir="/Volumes/Development/Git/sfmf4j/smf4j-staticbinding/target/classes/sfmf4j/staticbinding/impl"/>
-  <delete dir="target/generated-classes/cobertura/sfmf4j/staticbinding/impl"/>
-</target>
-</project>
