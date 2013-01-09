@@ -14,11 +14,11 @@
       developer to choose a particular file monitoring implementation.
       ]]>
     </description>
-  
+
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
     </properties>
-  
+
     <dependencyManagement>
         <dependencies>
             <dependency>
@@ -58,7 +58,7 @@
             </dependency>
         </dependencies>
     </dependencyManagement>
-    
+
     <build>
         <pluginManagement>
             <plugins>
@@ -98,13 +98,25 @@
             </plugins>
         </pluginManagement>
     </build>
-  
+
     <modules>
         <module>sfmf4j-api</module>
         <module>sfmf4j-commonsio</module>
-        <module>sfmf4j-nio2</module>
         <module>smf4j-staticbinding</module>
-    <module>sfmf4j-tests</module>
-    <module>watchservicetest</module>
-  </modules>
+        <module>sfmf4j-tests</module>
+    </modules>
+
+    <profiles>
+        <profile>
+            <id>has-nio2</id>
+            <activation>
+                <!-- Activate by default on JDK version 7 or higher. -->
+                <jdk>[1.7,)</jdk>
+            </activation>
+            <modules>
+                <module>sfmf4j-nio2</module>
+                <module>watchservicetest</module>
+            </modules>
+        </profile>
+    </profiles>
 </project>
