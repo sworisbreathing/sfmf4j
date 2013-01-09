@@ -54,8 +54,8 @@ public class CommonsIOFileMonitorServiceFactory implements FileMonitorServiceFac
      * @return a new {@link CommonsIOFileMonitorServiceImpl}, which wraps a
      * newly-created {@link FileAlterationMonitor}
      */
-    public FileMonitorService createFileMonitorService(long pollingInterval, TimeUnit pollingTimeUnit) {
-        long pollingIntervalMillis = pollingTimeUnit.toMillis(pollingInterval);
+    public FileMonitorService createFileMonitorService() {
+        long pollingIntervalMillis = getPollingTimeUnit().toMillis(getPollingInterval());
         FileAlterationMonitor fileAlterationMonitor = new FileAlterationMonitor(pollingIntervalMillis);
         return new CommonsIOFileMonitorServiceImpl(fileAlterationMonitor);
     }

@@ -45,7 +45,7 @@ public class WatchServiceFileMonitorServiceFactory implements FileMonitorService
     }
     
     @Override
-    public WatchServiceFileMonitorServiceImpl createFileMonitorService(long pollingInterval, TimeUnit pollingTimeUnit) {
+    public WatchServiceFileMonitorServiceImpl createFileMonitorService() {
         WatchServiceFileMonitorServiceImpl instance = new WatchServiceFileMonitorServiceImpl(watchService, executorService);
         return instance;
     }

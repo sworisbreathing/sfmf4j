@@ -48,7 +48,7 @@ public class WatchServiceFileMonitorServiceFactoryTest {
         WatchService watchService = FileSystems.getDefault().newWatchService();
         watchService.close();
         WatchServiceFileMonitorServiceFactory instance = new WatchServiceFileMonitorServiceFactory(dummyService, watchService);
-        WatchServiceFileMonitorServiceImpl service = instance.createFileMonitorService(1, TimeUnit.MINUTES);
+        WatchServiceFileMonitorServiceImpl service = instance.createFileMonitorService();
         assertSame(dummyService, service.getExecutorService());
         assertSame(watchService, service.getWatchService());
         

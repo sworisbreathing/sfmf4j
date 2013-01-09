@@ -29,5 +29,5 @@ public interface FileMonitorServiceFactory {
      *
      * @return a new file monitor service
      */
-    FileMonitorService createFileMonitorService(final long pollingInterval, final TimeUnit pollingTimeUnit);
+    FileMonitorService createFileMonitorService();
 }
