@@ -13,5 +13,7 @@ import org.ops4j.pax.exam.Option;
 public interface SFMF4JImplementationOptionBuilder {
 
     Option sfmf4jOption();
+    
+    String getExpectedClassName();
 
 }

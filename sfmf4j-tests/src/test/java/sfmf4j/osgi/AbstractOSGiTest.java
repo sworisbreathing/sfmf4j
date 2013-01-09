@@ -5,6 +5,7 @@
 package sfmf4j.osgi;
 
 import javax.inject.Inject;
+import org.junit.After;
 import static org.ops4j.pax.exam.CoreOptions.*;
 import org.junit.Test;
 import static org.junit.Assert.*;
@@ -25,12 +26,21 @@ public abstract class AbstractOSGiTest {
         this.implementationResolver = resolver;
     }
     private final SFMF4JImplementationOptionBuilder implementationResolver;
-
+    
+    protected void doBefore() throws Exception {}
+    
+    protected void doAfter() throws Exception {}
+    
+    @After
+    public void tearDown() throws Exception {
+        doAfter();
+    }
     @Inject
     private FileMonitorServiceFactory factoryInstance;
 
     @Configuration
-    public Option[] config() {
+    public Option[] config() throws Exception {
+        doBefore();
         return options(
                 mavenBundle("org.apache.felix","org.apache.felix.configadmin","1.2.4"),
                 mavenBundle("org.apache.aries","org.apache.aries.util","1.0.0"),
@@ -44,6 +54,6 @@ public abstract class AbstractOSGiTest {
     @Test
     public void getFactory() {
         assertNotNull(factoryInstance);
-        assertEquals("sfmf4j.commonsio.CommonsIOFileMonitorServiceFactory", factoryInstance.getClass().getName());
+        assertEquals(implementationResolver.getExpectedClassName(), factoryInstance.getClass().getName());
     }
 }

@@ -69,9 +69,8 @@
                 <extensions>true</extensions>
                 <configuration>
                     <instructions>
-                        <Bundle-Activator>sfmf4j.sfmf4jnio2.Activator</Bundle-Activator>
                         <Export-Package>sfmf4j.api</Export-Package>
-                        <Private-Package>sfmf4j.nio2, sfmf4j.staticbinding.impl</Private-Package>
+                        <Private-Package>sfmf4j.nio2</Private-Package>
                     </instructions>
                 </configuration>
             </plugin>

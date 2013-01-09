@@ -18,7 +18,6 @@ package sfmf4j.nio2;
 
 import java.nio.file.WatchService;
 import java.util.concurrent.ExecutorService;
-import java.util.concurrent.TimeUnit;
 import sfmf4j.api.FileMonitorServiceFactory;
 
 /**
