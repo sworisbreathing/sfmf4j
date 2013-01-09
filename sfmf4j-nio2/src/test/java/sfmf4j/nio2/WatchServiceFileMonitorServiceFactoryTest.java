@@ -36,8 +36,10 @@ public class WatchServiceFileMonitorServiceFactoryTest {
         dummyService.shutdown();
         WatchService watchService = FileSystems.getDefault().newWatchService();
         watchService.close();
-        WatchServiceFileMonitorServiceFactory instance = new WatchServiceFileMonitorServiceFactory(dummyService, watchService);
+        WatchServiceFileMonitorServiceFactory instance = new WatchServiceFileMonitorServiceFactory();
+        instance.setExecutorService(dummyService);
         assertSame(dummyService, instance.getExecutorService());
+        instance.setWatchService(watchService);
         assertSame(watchService, instance.getWatchService());
     }
 
@@ -47,7 +49,9 @@ public class WatchServiceFileMonitorServiceFactoryTest {
         dummyService.shutdown();
         WatchService watchService = FileSystems.getDefault().newWatchService();
         watchService.close();
-        WatchServiceFileMonitorServiceFactory instance = new WatchServiceFileMonitorServiceFactory(dummyService, watchService);
+        WatchServiceFileMonitorServiceFactory instance = new WatchServiceFileMonitorServiceFactory();
+        instance.setExecutorService(dummyService);
+        instance.setWatchService(watchService);
         WatchServiceFileMonitorServiceImpl service = instance.createFileMonitorService();
         assertSame(dummyService, service.getExecutorService());
         assertSame(watchService, service.getWatchService());

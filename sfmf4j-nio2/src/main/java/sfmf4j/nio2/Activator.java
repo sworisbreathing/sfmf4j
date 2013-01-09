@@ -26,7 +26,9 @@ public class Activator implements BundleActivator {
                 return new Thread(r,"SFMF4JWatchService");
             }
         });
-        WatchServiceFileMonitorServiceFactory factory = new WatchServiceFileMonitorServiceFactory(executorService, watchService);
+        WatchServiceFileMonitorServiceFactory factory = new WatchServiceFileMonitorServiceFactory();
+        factory.setExecutorService(executorService);
+        factory.setWatchService(watchService);
         registration = context.registerService(FileMonitorServiceFactory.class.getName(), factory, null);
     }
 

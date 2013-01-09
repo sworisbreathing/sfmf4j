@@ -87,7 +87,9 @@ public class NIO2IT {
             }
         };
         folder = tempFolder.getRoot();
-        factory = new WatchServiceFileMonitorServiceFactory(executor, watchService);
+        factory = new WatchServiceFileMonitorServiceFactory();
+        factory.setExecutorService(executor);
+        factory.setWatchService(watchService);
         fileMonitorService = factory.createFileMonitorService();
         fileMonitorService.initialize();
         fileMonitorService.registerDirectoryListener(folder, listener);

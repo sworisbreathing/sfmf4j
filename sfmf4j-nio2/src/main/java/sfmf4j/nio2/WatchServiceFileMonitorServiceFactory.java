@@ -27,13 +27,11 @@ import sfmf4j.api.FileMonitorServiceFactory;
  */
 public class WatchServiceFileMonitorServiceFactory implements FileMonitorServiceFactory {
 
-    private final ExecutorService executorService;
+    private ExecutorService executorService;
     
-    private final WatchService watchService;
+    private WatchService watchService;
 
-    public WatchServiceFileMonitorServiceFactory(ExecutorService executor, WatchService watchService) {
-        this.executorService = executor;
-        this.watchService = watchService;
+    public WatchServiceFileMonitorServiceFactory() {
     }
 
     public ExecutorService getExecutorService() {
@@ -42,6 +40,14 @@ public class WatchServiceFileMonitorServiceFactory implements FileMonitorService
     
     public WatchService getWatchService() {
         return this.watchService;
+    }
+
+    public void setExecutorService(ExecutorService executorService) {
+        this.executorService = executorService;
+    }
+
+    public void setWatchService(WatchService watchService) {
+        this.watchService = watchService;
     }
     
     @Override

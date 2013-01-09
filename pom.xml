@@ -130,7 +130,6 @@
     <modules>
         <module>sfmf4j-api</module>
         <module>sfmf4j-commonsio</module>
-        <module>smf4j-staticbinding</module>
         <module>sfmf4j-tests</module>
     </modules>
 
