@@ -13,6 +13,19 @@
 
     <modules>
         <module>sfmf4j-tests</module>
-    <module>sfmf4j-tests-commonsio</module>
-  </modules>
+        <module>sfmf4j-tests-commonsio</module>
+    </modules>
+    
+    <profiles>
+        <profile>
+            <id>has-nio2</id>
+            <activation>
+                <!-- Activate by default on JDK version 7 or higher. -->
+                <jdk>[1.7,)</jdk>
+            </activation>
+            <modules>
+                <module>sfmf4j-tests-nio2</module>
+            </modules>
+        </profile>
+    </profiles>
 </project>
