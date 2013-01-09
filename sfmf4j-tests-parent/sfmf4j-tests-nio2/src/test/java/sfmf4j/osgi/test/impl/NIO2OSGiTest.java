@@ -2,7 +2,7 @@
  * To change this template, choose Tools | Templates
  * and open the template in the editor.
  */
-package sfmf4j.osgi;
+package sfmf4j.osgi.test.impl;
 
 import org.junit.Ignore;
 import static org.ops4j.pax.exam.CoreOptions.mavenBundle;
