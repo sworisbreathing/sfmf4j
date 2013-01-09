@@ -27,6 +27,26 @@ import sfmf4j.api.FileMonitorServiceFactory;
  */
 public class CommonsIOFileMonitorServiceFactory implements FileMonitorServiceFactory {
 
+    private long pollingInterval = 1;
+
+    private TimeUnit pollingTimeUnit = TimeUnit.MINUTES;
+
+    public long getPollingInterval() {
+        return pollingInterval;
+    }
+
+    public void setPollingInterval(long pollingInterval) {
+        this.pollingInterval = pollingInterval;
+    }
+
+    public TimeUnit getPollingTimeUnit() {
+        return pollingTimeUnit;
+    }
+
+    public void setPollingTimeUnit(TimeUnit pollingTimeUnit) {
+        this.pollingTimeUnit = pollingTimeUnit;
+    }
+
     /**
      * Creates a new {@link CommonsIOFileMonitorServiceImpl}.
      * @param pollingInterval the polling interval
