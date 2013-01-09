@@ -18,6 +18,7 @@
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <pax.exam.version>2.6.0</pax.exam.version>
+        <pax.url.version>1.5.0</pax.url.version>
     </properties>
 
     <dependencyManagement>
@@ -77,7 +78,12 @@
             <dependency>
                 <groupId>org.ops4j.pax.url</groupId>
                 <artifactId>pax-url-aether</artifactId>
-                <version>1.5.0</version>
+                <version>${pax.url.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>org.ops4j.pax.url</groupId>
+                <artifactId>pax-url-wrap</artifactId>
+                <version>${pax.url.version}</version>
             </dependency>
             <dependency>
                 <groupId>org.apache.felix</groupId>
@@ -130,7 +136,7 @@
     <modules>
         <module>sfmf4j-api</module>
         <module>sfmf4j-commonsio</module>
-        <module>sfmf4j-tests</module>
+        <module>sfmf4j-tests-parent</module>
     </modules>
 
     <profiles>
