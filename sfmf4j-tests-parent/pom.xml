@@ -11,11 +11,25 @@
     <packaging>pom</packaging>
     <name>SFMF4J :: OSGi Tests</name>
 
+    <dependencies>
+        <dependency>
+            <groupId>${project.groupId}</groupId>
+            <artifactId>sfmf4j-commonsio</artifactId>
+            <version>${project.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>${project.groupId}</groupId>
+            <artifactId>sfmf4j-jpathwatch</artifactId>
+            <version>${project.version}</version>
+        </dependency>
+    </dependencies>
+
     <modules>
         <module>sfmf4j-tests</module>
         <module>sfmf4j-tests-commonsio</module>
+        <module>sfmf4j-tests-jpathwatch</module>
     </modules>
-    
+
     <profiles>
         <profile>
             <id>has-nio2</id>
@@ -23,6 +37,13 @@
                 <!-- Activate by default on JDK version 7 or higher. -->
                 <jdk>[1.7,)</jdk>
             </activation>
+            <dependencies>
+                <dependency>
+                    <groupId>${project.groupId}</groupId>
+                    <artifactId>sfmf4j-nio2</artifactId>
+                    <version>${project.version}</version>
+                </dependency>
+            </dependencies>
             <modules>
                 <module>sfmf4j-tests-nio2</module>
             </modules>
