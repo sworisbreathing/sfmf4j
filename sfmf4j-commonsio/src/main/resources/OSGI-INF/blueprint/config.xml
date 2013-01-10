@@ -8,9 +8,9 @@
 
     <cm:property-placeholder persistent-id="${project.artifactId}" update-strategy="reload">
         <cm:default-properties>
-            <cm:property name="pollingInterval" value="1" />
+            <cm:property name="pollingInterval" value="250" />
             <cm:property name="pollingTimeUnit">
-                <value type="java.util.concurrent.TimeUnit">MINUTES</value>
+                <value type="java.util.concurrent.TimeUnit">MILLISECONDS</value>
             </cm:property>
         </cm:default-properties>
     </cm:property-placeholder>
