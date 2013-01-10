@@ -24,13 +24,13 @@ import sfmf4j.api.DirectoryListener;
 import sfmf4j.api.FileMonitorService;
 
 /**
- * 
+ *
  * @author Steven Swor
  */
 public class CommonsIOFileMonitorServiceImpl implements FileMonitorService {
 
     private final FileAlterationMonitor fileMonitor;
-    
+
     private final ConcurrentMap<File, FileAlterationObserver> directoryObservers;
 
     public CommonsIOFileMonitorServiceImpl(FileAlterationMonitor fileMonitor) {
@@ -65,6 +65,7 @@ public class CommonsIOFileMonitorServiceImpl implements FileMonitorService {
         if (observer == newObserver) {
             try {
                 observer.initialize();
+                fileMonitor.addObserver(observer);
             }catch(Exception ex) {
                 //trap
             }
@@ -90,6 +91,7 @@ public class CommonsIOFileMonitorServiceImpl implements FileMonitorService {
                 if (!observer.getListeners().iterator().hasNext()) {
                     shouldDestroy = true;
                     directoryObservers.remove(directory);
+                    fileMonitor.removeObserver(observer);
                 }
             }
             if (shouldDestroy) {
