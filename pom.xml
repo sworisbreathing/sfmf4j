@@ -162,7 +162,6 @@
             </activation>
             <modules>
                 <module>sfmf4j-nio2</module>
-                <module>watchservicetest</module>
             </modules>
         </profile>
     </profiles>

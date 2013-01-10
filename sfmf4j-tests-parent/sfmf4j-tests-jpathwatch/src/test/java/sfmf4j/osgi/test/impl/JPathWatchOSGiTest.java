@@ -4,6 +4,7 @@
  */
 package sfmf4j.osgi.test.impl;
 
+import org.ops4j.pax.exam.Constants;
 import static org.ops4j.pax.exam.CoreOptions.composite;
 import static org.ops4j.pax.exam.CoreOptions.mavenBundle;
 import org.ops4j.pax.exam.Option;
@@ -18,7 +19,7 @@ public class JPathWatchOSGiTest extends AbstractOSGiTest {
     @Override
     protected Option implementationOption() {
         return composite(
-                mavenBundle("jpathwatch", "jpathwatch", "0.94"),
+                mavenBundle("jpathwatch", "jpathwatch", "0.94").startLevel(Constants.START_LEVEL_SYSTEM_BUNDLES),
                 mavenBundle(sfmf4jGroupId(), "sfmf4j-jpathwatch", sfmf4jVersion()));
     }
 

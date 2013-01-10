@@ -4,6 +4,7 @@
  */
 package sfmf4j.osgi.test.impl;
 
+import java.util.concurrent.TimeUnit;
 import static org.ops4j.pax.exam.CoreOptions.mavenBundle;
 import org.ops4j.pax.exam.Option;
 import sfmf4j.osgi.test.AbstractOSGiTest;
@@ -23,5 +24,17 @@ public class NIO2OSGiTest extends AbstractOSGiTest {
     protected String implementationClassName() {
          return "sfmf4j.nio2.WatchServiceFileMonitorServiceFactory";
     }
+
+    @Override
+    protected long eventTimeoutDuration() {
+        return 2L;
+    }
+
+    @Override
+    protected TimeUnit eventTimeoutTimeUnit() {
+        return TimeUnit.MINUTES;
+    }
+    
+    
 
 }

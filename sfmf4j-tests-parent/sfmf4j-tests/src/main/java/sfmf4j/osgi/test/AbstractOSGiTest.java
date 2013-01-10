@@ -37,6 +37,10 @@ public abstract class AbstractOSGiTest {
     protected abstract Option implementationOption();
 
     protected abstract String implementationClassName();
+    
+    protected long eventTimeoutDuration(){return 10;}
+    
+    protected TimeUnit eventTimeoutTimeUnit(){return TimeUnit.SECONDS;}
 
     @Inject
     private FileMonitorServiceFactory factoryInstance;
@@ -70,12 +74,6 @@ public abstract class AbstractOSGiTest {
     }
 
     @Test
-    public void getFactory() {
-        assertNotNull(factoryInstance);
-        assertEquals(implementationClassName(), factoryInstance.getClass().getName());
-    }
-
-    @Test
     public void testFileMonitoring() throws Throwable {
         assertNotNull(factoryInstance);
         final Logger logger = LoggerFactory.getLogger(getClass());
@@ -93,7 +91,7 @@ public abstract class AbstractOSGiTest {
                 public void fileCreated(File created) {
                     createdFiles.add(created);
                     try {
-                        barrier.await(10, TimeUnit.SECONDS);
+                        barrier.await(eventTimeoutDuration(), eventTimeoutTimeUnit());
                     }catch(Exception ex) {
                         //trap
                     }
@@ -102,7 +100,7 @@ public abstract class AbstractOSGiTest {
                 public void fileChanged(File changed) {
                     modifiedFiles.add(changed);
                     try {
-                        barrier.await(10, TimeUnit.SECONDS);
+                        barrier.await(eventTimeoutDuration(), eventTimeoutTimeUnit());
                     }catch(Exception ex) {
                         //trap
                     }
@@ -111,7 +109,7 @@ public abstract class AbstractOSGiTest {
                 public void fileDeleted(File deleted) {
                     deletedFiles.add(deleted);
                     try {
-                        barrier.await(10, TimeUnit.SECONDS);
+                        barrier.await(eventTimeoutDuration(), eventTimeoutTimeUnit());
                     }catch(Exception ex) {
                         //trap
                     }
@@ -124,7 +122,7 @@ public abstract class AbstractOSGiTest {
             File newFile = tempFolder.newFile();
             logger.debug("Test file: {}", newFile.getAbsolutePath());
             logger.info("Testing for created event.");
-            barrier.await(10, TimeUnit.SECONDS);
+            barrier.await(eventTimeoutDuration(), eventTimeoutTimeUnit());
             barrier.reset();
             assertEquals(1, createdFiles.size());
             assertEquals(newFile.getAbsolutePath(), createdFiles.get(0).getAbsolutePath());
@@ -147,7 +145,7 @@ public abstract class AbstractOSGiTest {
                     }
                 }
             }
-            barrier.await(10, TimeUnit.SECONDS);
+            barrier.await(eventTimeoutDuration(), eventTimeoutTimeUnit());
             barrier.reset();
             assertEquals(1, modifiedFiles.size());
             assertEquals(newFile.getAbsolutePath(), modifiedFiles.get(0).getAbsolutePath());

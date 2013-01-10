@@ -70,7 +70,7 @@
                     <instructions>
                         <Bundle-SymbolicName>${project.groupId}.${project.artifactId}</Bundle-SymbolicName>
                         <Export-Package>sfmf4j.api</Export-Package>
-                        <Private-Package>sfmf4j.commonsio, sfmf4j.staticbinding.impl</Private-Package>
+                        <Private-Package>sfmf4j.commonsio</Private-Package>
                         <Embed-Dependency>commons-io</Embed-Dependency>
                     </instructions>
                 </configuration>
