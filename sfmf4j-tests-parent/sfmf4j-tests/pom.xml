@@ -24,7 +24,6 @@
             <artifactId>sfmf4j-api</artifactId>
             <version>${project.version}</version>
         </dependency>
-
         <!-- OSGi Testing Dependencies -->
 
         <dependency>

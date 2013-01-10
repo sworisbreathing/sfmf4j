@@ -5,21 +5,24 @@
 package sfmf4j.osgi.test;
 
 import java.io.File;
+import java.io.FileOutputStream;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.concurrent.CyclicBarrier;
 import java.util.concurrent.TimeUnit;
 import javax.inject.Inject;
 import static org.junit.Assert.*;
-import org.junit.Before;
 import org.junit.Rule;
 import org.junit.Test;
 import org.junit.rules.TemporaryFolder;
 import org.junit.runner.RunWith;
+import org.ops4j.pax.exam.Constants;
 import static org.ops4j.pax.exam.CoreOptions.*;
 import org.ops4j.pax.exam.Option;
 import org.ops4j.pax.exam.junit.Configuration;
 import org.ops4j.pax.exam.junit.JUnit4TestRunner;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import sfmf4j.api.DirectoryListener;
 import sfmf4j.api.FileMonitorService;
 import sfmf4j.api.FileMonitorServiceFactory;
@@ -52,6 +55,10 @@ public abstract class AbstractOSGiTest {
     @Configuration
     public Option[] config() throws Exception {
         return options(
+                mavenBundle("org.slf4j","slf4j-api").startLevel(Constants.START_LEVEL_SYSTEM_BUNDLES),
+                mavenBundle("org.codehaus.groovy","groovy-all").startLevel(Constants.START_LEVEL_SYSTEM_BUNDLES),
+                mavenBundle("ch.qos.logback","logback-core").startLevel(Constants.START_LEVEL_SYSTEM_BUNDLES),
+                mavenBundle("ch.qos.logback","logback-classic").startLevel(Constants.START_LEVEL_SYSTEM_BUNDLES),
                 mavenBundle("org.apache.felix","org.apache.felix.configadmin","1.2.4"),
                 mavenBundle("org.apache.aries","org.apache.aries.util","1.0.0"),
                 mavenBundle("org.apache.aries.proxy","org.apache.aries.proxy","1.0.0"),
@@ -71,6 +78,7 @@ public abstract class AbstractOSGiTest {
     @Test
     public void testFileMonitoring() throws Throwable {
         assertNotNull(factoryInstance);
+        final Logger logger = LoggerFactory.getLogger(getClass());
         FileMonitorService fileMonitor = factoryInstance.createFileMonitorService();
         fileMonitor.initialize();
         try {
@@ -110,10 +118,39 @@ public abstract class AbstractOSGiTest {
                 }
             });
 
+            /*
+             * Create a new file.
+             */
             File newFile = tempFolder.newFile();
+            logger.debug("Test file: {}", newFile.getAbsolutePath());
+            logger.info("Testing for created event.");
             barrier.await(10, TimeUnit.SECONDS);
+            barrier.reset();
             assertEquals(1, createdFiles.size());
             assertEquals(newFile.getAbsolutePath(), createdFiles.get(0).getAbsolutePath());
+
+            /*
+             * Write to the file.
+             */
+            logger.info("Testing for modification event.");
+            FileOutputStream fileOut = null;
+            byte[] bytes = new byte[4096];
+            try {
+                fileOut = new FileOutputStream(newFile);
+                fileOut.write(bytes);
+            }finally{
+                if (fileOut != null) {
+                    try {
+                        fileOut.close();
+                    } catch(Exception ex) {
+                        //trap.  We'll have bigger fish to fry if this happens
+                    }
+                }
+            }
+            barrier.await(10, TimeUnit.SECONDS);
+            barrier.reset();
+            assertEquals(1, modifiedFiles.size());
+            assertEquals(newFile.getAbsolutePath(), modifiedFiles.get(0).getAbsolutePath());
         }finally {
             fileMonitor.shutdown();
         }
