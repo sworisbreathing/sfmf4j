@@ -195,4 +195,10 @@ public class WatchServiceFileMonitorServiceImpl implements FileMonitorService {
             cleanup(key);
         }
     }
+
+    public synchronized boolean isMonitoringDirectory(File directory) {
+        return !getExecutorService().isShutdown() && watchKeysByPath.containsKey(directory.getAbsolutePath());
+    }
+
+
 }

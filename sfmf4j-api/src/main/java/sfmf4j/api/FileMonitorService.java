@@ -20,7 +20,7 @@ import java.io.File;
 
 /**
  * A file monitor service.
- * 
+ *
  * @author Steven Swor
  */
 public interface FileMonitorService {
@@ -38,6 +38,13 @@ public interface FileMonitorService {
      * @param directoryListener the callback
      */
     void unregisterDirectoryListener(File directory, DirectoryListener directoryListener);
+
+    /**
+     * Determines if the service is monitoring a given directory.
+     * @param directory the directory
+     * @return {@code true} if the service is monitoring the directory
+     */
+    boolean isMonitoringDirectory(final File directory);
     /**
      * Shuts down the file monitor service.
      */

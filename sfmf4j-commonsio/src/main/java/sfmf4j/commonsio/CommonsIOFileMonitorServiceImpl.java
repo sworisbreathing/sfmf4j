@@ -50,6 +50,10 @@ public class CommonsIOFileMonitorServiceImpl implements FileMonitorService {
         }
     }
 
+    public boolean isMonitoringDirectory(File directory) {
+        return directoryObservers.containsKey(directory);
+    }
+    
     public void registerDirectoryListener(File directory, DirectoryListener directoryListener) {
         FileAlterationObserver newObserver = new FileAlterationObserver(directory);
         FileAlterationObserver oldObserver = directoryObservers.putIfAbsent(directory, newObserver);
