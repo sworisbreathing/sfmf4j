@@ -165,7 +165,11 @@ public abstract class AbstractOSGiTest {
             assertEquals(newFile.getAbsolutePath(), deleted.getAbsolutePath());
         } finally {
             if (folder!=null) {
-                fileMonitor.unregisterDirectoryListener(folder, listener);
+                try {
+                    fileMonitor.unregisterDirectoryListener(folder, listener);
+                }catch(Exception ex) {
+                    //trap
+                }
             }
             if (newFile != null && newFile.exists()) {
                 try {

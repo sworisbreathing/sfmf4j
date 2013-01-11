@@ -130,7 +130,11 @@ public class WatchServiceFileMonitorServiceImpl implements FileMonitorService {
 
     private synchronized void cleanup(final WatchKey key) {
         logger.trace("cleanUp {}", key);
-        key.cancel();
+        try {
+            key.cancel();
+        }catch(Exception ex) {
+            
+        }
         Collection<SFMF4JWatchListener> listeners = listenersByWatchKey.remove(key);
         if (listeners != null && !listeners.isEmpty()) {
             logger.warn("Cleaning up key but listeners are still registered.");
