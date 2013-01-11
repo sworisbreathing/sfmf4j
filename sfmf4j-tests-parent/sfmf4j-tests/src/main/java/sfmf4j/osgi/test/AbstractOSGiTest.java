@@ -8,8 +8,8 @@ import com.carrotsearch.junitbenchmarks.BenchmarkOptions;
 import com.carrotsearch.junitbenchmarks.BenchmarkRule;
 import java.io.File;
 import java.io.FileOutputStream;
-import java.util.LinkedList;
-import java.util.List;
+import java.util.concurrent.BlockingQueue;
+import java.util.concurrent.LinkedBlockingQueue;
 import java.util.concurrent.TimeUnit;
 import javax.inject.Inject;
 import static org.junit.Assert.*;
@@ -73,11 +73,9 @@ public abstract class AbstractOSGiTest {
                 bootDelegationPackage( "sun.*" ),
                 frameworkStartLevel( Constants.START_LEVEL_TEST_BUNDLE ),
                 url( "link:classpath:META-INF/links/org.ops4j.pax.exam.link" ).startLevel( Constants.START_LEVEL_SYSTEM_BUNDLES ),
-//                url( "link:classpath:META-INF/links/org.ops4j.pax.exam.rbc.link" ).startLevel( Constants.START_LEVEL_SYSTEM_BUNDLES ),
                 url( "link:classpath:META-INF/links/org.ops4j.pax.exam.inject.link" ).startLevel( Constants.START_LEVEL_SYSTEM_BUNDLES ),
                 url( "link:classpath:META-INF/links/org.ops4j.pax.extender.service.link" ).startLevel( Constants.START_LEVEL_SYSTEM_BUNDLES ),
                 url( "link:classpath:META-INF/links/org.osgi.compendium.link" ).startLevel( Constants.START_LEVEL_SYSTEM_BUNDLES ),
-//                url( "link:classpath:META-INF/links/org.ops4j.pax.logging.api.link" ).startLevel( Constants.START_LEVEL_SYSTEM_BUNDLES ),
                 url( "link:classpath:META-INF/links/org.ops4j.base.link" ).startLevel( Constants.START_LEVEL_SYSTEM_BUNDLES ),
                 url( "link:classpath:META-INF/links/org.ops4j.pax.swissbox.core.link" ).startLevel( Constants.START_LEVEL_SYSTEM_BUNDLES ),
                 url( "link:classpath:META-INF/links/org.ops4j.pax.swissbox.extender.link" ).startLevel( Constants.START_LEVEL_SYSTEM_BUNDLES ),
@@ -99,31 +97,27 @@ public abstract class AbstractOSGiTest {
     }
 
     @Test
-    @BenchmarkOptions(warmupRounds=1, benchmarkRounds=1)
+    @BenchmarkOptions(warmupRounds=2, benchmarkRounds=10)
     public void testFileMonitoring() throws Throwable {
         assertNotNull(factoryInstance);
         final Logger logger = LoggerFactory.getLogger(getClass());
         FileMonitorService fileMonitor = factoryInstance.createFileMonitorService();
         fileMonitor.initialize();
         File newFile = null;
-        final List<File> createdFiles = new LinkedList<File>();
-        final List<File> modifiedFiles = new LinkedList<File>();
-        final List<File> deletedFiles = new LinkedList<File>();
-        final ResettableLatch latch = new ResettableLatch(1);
+        final BlockingQueue<File> createdFiles = new LinkedBlockingQueue<File>();
+        final BlockingQueue<File> modifiedFiles = new LinkedBlockingQueue<File>();
+        final BlockingQueue<File> deletedFiles = new LinkedBlockingQueue<File>();
         final DirectoryListener listener = new DirectoryListener() {
                 public void fileCreated(File created) {
                     createdFiles.add(created);
-                    latch.countDown();
                 }
 
                 public void fileChanged(File changed) {
                     modifiedFiles.add(changed);
-                    latch.countDown();
                 }
 
                 public void fileDeleted(File deleted) {
                     deletedFiles.add(deleted);
-                    latch.countDown();
                 }
             };
         File folder = null;
@@ -137,15 +131,13 @@ public abstract class AbstractOSGiTest {
             newFile = tempFolder.newFile();
             logger.debug("Test file: {}", newFile.getAbsolutePath());
             logger.info("Testing for created event.");
-            latch.await();
-            latch.reset();
-            assertEquals(1, createdFiles.size());
-            assertEquals(newFile.getAbsolutePath(), createdFiles.get(0).getAbsolutePath());
+            File created = createdFiles.poll(eventTimeoutDuration(), eventTimeoutTimeUnit());
+            assertNotNull(created);
+            assertEquals(newFile.getAbsolutePath(), created.getAbsolutePath());
 
             /*
              * Write to the file.
              */
-            modifiedFiles.clear(); // bug workaround for JPathWatch on Windows XP... sometimes creation causes modification too
             logger.info("Testing for modification event.");
             FileOutputStream fileOut = null;
             byte[] bytes = new byte[4096];
@@ -161,10 +153,16 @@ public abstract class AbstractOSGiTest {
                     }
                 }
             }
-            latch.await();
-            latch.reset();
-            assertFalse(modifiedFiles.isEmpty());
-            assertEquals(newFile.getAbsolutePath(), modifiedFiles.get(0).getAbsolutePath());
+            File modified = modifiedFiles.poll(eventTimeoutDuration(), eventTimeoutTimeUnit());
+            assertNotNull(modified);
+            assertEquals(newFile.getAbsolutePath(), modified.getAbsolutePath());
+            /*
+             * Test deletion.
+             */
+            newFile.delete();
+            File deleted = deletedFiles.poll(eventTimeoutDuration(), eventTimeoutTimeUnit());
+            assertNotNull(deleted);
+            assertEquals(newFile.getAbsolutePath(), deleted.getAbsolutePath());
         } finally {
             if (folder!=null) {
                 fileMonitor.unregisterDirectoryListener(folder, listener);
