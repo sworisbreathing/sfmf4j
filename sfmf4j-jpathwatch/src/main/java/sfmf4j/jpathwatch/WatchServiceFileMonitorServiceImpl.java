@@ -24,8 +24,11 @@ import java.util.List;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.ConcurrentMap;
 import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
 import java.util.concurrent.Future;
+import java.util.concurrent.ThreadFactory;
 import name.pachler.nio.file.ClosedWatchServiceException;
+import name.pachler.nio.file.FileSystems;
 import name.pachler.nio.file.Path;
 import name.pachler.nio.file.Paths;
 import name.pachler.nio.file.StandardWatchEventKind;
@@ -46,9 +49,14 @@ public class WatchServiceFileMonitorServiceImpl implements FileMonitorService {
 
     private static final Logger logger = LoggerFactory.getLogger(WatchServiceFileMonitorServiceImpl.class);
     private Future watchFuture = null;
-    private final WatchService watchService;
+    private WatchService watchService;
     private static final Kind[] interested_types = new Kind[]{StandardWatchEventKind.ENTRY_CREATE, StandardWatchEventKind.ENTRY_DELETE, StandardWatchEventKind.ENTRY_MODIFY};
-    private final ExecutorService executorService;
+    private ExecutorService executorService;
+
+    private volatile boolean closeWatchServiceOnShutdown = false;
+
+    private volatile boolean shutdownExecutorServiceOnShutdown = false;
+
 
     /**
      * Package-protected getter (for automated testing).
@@ -67,6 +75,7 @@ public class WatchServiceFileMonitorServiceImpl implements FileMonitorService {
     WatchService getWatchService() {
         return watchService;
     }
+
     private final ConcurrentMap<String, WatchKey> watchKeysByPath;
     private final ConcurrentMap<WatchKey, String> pathsByWatchKey;
     private final ConcurrentMap<WatchKey, Collection<SFMF4JWatchListener>> listenersByWatchKey;
@@ -133,7 +142,7 @@ public class WatchServiceFileMonitorServiceImpl implements FileMonitorService {
         try {
             key.cancel();
         }catch(Exception ex) {
-            
+
         }
         Collection<SFMF4JWatchListener> listeners = listenersByWatchKey.remove(key);
         if (listeners != null && !listeners.isEmpty()) {
@@ -143,11 +152,26 @@ public class WatchServiceFileMonitorServiceImpl implements FileMonitorService {
         if (path != null) {
             watchKeysByPath.remove(path);
         }
-
     }
 
     @Override
     public synchronized void initialize() {
+        if (watchService==null) {
+            logger.warn("No watch service was explicitly set.  Setting one now.");
+            closeWatchServiceOnShutdown = true;
+            this.watchService = FileSystems.getDefault().newWatchService();
+        }
+        if (executorService==null) {
+            logger.warn("No executor service was explicitly set.  Setting one now.");
+            shutdownExecutorServiceOnShutdown = true;
+            this.executorService = Executors.newCachedThreadPool(new ThreadFactory(){
+
+                @Override
+                public Thread newThread(Runnable r) {
+                    return new Thread(r, "FileMonitorService");
+                }
+            });
+        }
         watchFuture = executorService.submit(new Runnable() {
             @Override
             public void run() {
@@ -197,6 +221,16 @@ public class WatchServiceFileMonitorServiceImpl implements FileMonitorService {
         watchFuture.cancel(true);
         for (WatchKey key : pathsByWatchKey.keySet()) {
             cleanup(key);
+        }
+        if (shutdownExecutorServiceOnShutdown) {
+            executorService.shutdownNow();
+        }
+        if (closeWatchServiceOnShutdown) {
+            try {
+                watchService.close();
+            }catch(IOException ex) {
+                //trap
+            }
         }
     }
 
