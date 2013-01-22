@@ -94,8 +94,8 @@
 
             <dependency>
                 <groupId>jpathwatch</groupId>
-                <artifactId>jpathwatch</artifactId>
-                <version>0.95</version>
+                <artifactId>jpathwatch-bundle</artifactId>
+                <version>0.96-SNAPSHOT</version>
             </dependency>
         </dependencies>
     </dependencyManagement>
