@@ -24,15 +24,25 @@ import sfmf4j.api.DirectoryListener;
 import sfmf4j.api.FileMonitorService;
 
 /**
- *
+ * File monitor service which uses a Commons-IO {@link FileAlterationMonitor}.
  * @author Steven Swor
  */
 public class CommonsIOFileMonitorServiceImpl implements FileMonitorService {
 
+    /**
+     * The file monitor.
+     */
     private final FileAlterationMonitor fileMonitor;
 
+    /**
+     * The observers for each directory.
+     */
     private final ConcurrentMap<File, FileAlterationObserver> directoryObservers;
 
+    /**
+     * Creates a new CommonsIOFileMonitorServiceImpl.
+     * @param fileMonitor the file monitor
+     */
     public CommonsIOFileMonitorServiceImpl(FileAlterationMonitor fileMonitor) {
         this.fileMonitor = fileMonitor;
         this.directoryObservers = new ConcurrentHashMap<File, FileAlterationObserver>();
@@ -53,7 +63,7 @@ public class CommonsIOFileMonitorServiceImpl implements FileMonitorService {
     public boolean isMonitoringDirectory(File directory) {
         return directoryObservers.containsKey(directory);
     }
-    
+
     public void registerDirectoryListener(File directory, DirectoryListener directoryListener) {
         FileAlterationObserver newObserver = new FileAlterationObserver(directory);
         FileAlterationObserver oldObserver = directoryObservers.putIfAbsent(directory, newObserver);

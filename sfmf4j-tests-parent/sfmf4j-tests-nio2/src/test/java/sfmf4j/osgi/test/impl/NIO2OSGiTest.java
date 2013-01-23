@@ -21,11 +21,6 @@ public class NIO2OSGiTest extends AbstractOSGiTest {
     }
 
     @Override
-    protected String implementationClassName() {
-         return "sfmf4j.nio2.WatchServiceFileMonitorServiceFactory";
-    }
-
-    @Override
     protected long eventTimeoutDuration() {
         return 2L;
     }
@@ -34,7 +29,7 @@ public class NIO2OSGiTest extends AbstractOSGiTest {
     protected TimeUnit eventTimeoutTimeUnit() {
         return TimeUnit.MINUTES;
     }
-    
-    
+
+
 
 }

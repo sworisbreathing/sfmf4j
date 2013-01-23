@@ -24,7 +24,7 @@ import sfmf4j.api.DirectoryListener;
 /**
  * A Commons-IO {@link FileAlterationListener} that decorates a {@link
  * DirectoryListener}, passing calls to it.
- * 
+ *
  * @author Steven Swor
  */
 public class SFMF4JFileAlterationListener implements FileAlterationListener {

@@ -22,27 +22,49 @@ import sfmf4j.api.FileMonitorService;
 import sfmf4j.api.FileMonitorServiceFactory;
 
 /**
- *
+ * Commons-IO implementation of FileMonitorServiceFactory.
  * @author Steven Swor
  */
 public class CommonsIOFileMonitorServiceFactory implements FileMonitorServiceFactory {
 
+    /**
+     * The polling interval.
+     */
     private volatile long pollingInterval = 1;
 
+    /**
+     * The polling time interval.
+     */
     private volatile TimeUnit pollingTimeUnit = TimeUnit.MINUTES;
 
+    /**
+     * Gets the polling interval.
+     * @return the polling interval
+     */
     public long getPollingInterval() {
         return pollingInterval;
     }
 
+    /**
+     * Sets the polling interval.
+     * @param pollingInterval the polling interval
+     */
     public void setPollingInterval(long pollingInterval) {
         this.pollingInterval = pollingInterval;
     }
 
+    /**
+     * Gets the polling time unit.
+     * @return the polling time unit
+     */
     public TimeUnit getPollingTimeUnit() {
         return pollingTimeUnit;
     }
 
+    /**
+     * Sets the polling time unit.
+     * @param pollingTimeUnit the polling time unit
+     */
     public void setPollingTimeUnit(TimeUnit pollingTimeUnit) {
         this.pollingTimeUnit = pollingTimeUnit;
     }

@@ -20,15 +20,33 @@ import name.pachler.nio.file.WatchEvent;
 import name.pachler.nio.file.WatchEvent.Kind;
 
 /**
- *
+ * A watch event with a resolved path.
  * @author Steven Swor
  */
 public class ResolvedPathWatchEvent extends WatchEvent<Path> {
 
+    /**
+     * The path.
+     */
     private final Path context;
+
+    /**
+     * The event count.
+     */
     private final int count;
+
+    /**
+     * The kind.
+     */
     private final Kind<Path> kind;
 
+    /**
+     * Copy constructor for a watch event, which ensures the path is fully
+     * resolved.
+     * @param source the event to copy
+     * @param parentPath the parent path
+     * @see Path#resolve(Path)
+     */
     public ResolvedPathWatchEvent(final WatchEvent<Path> source, final Path parentPath) {
         this.context = parentPath.resolve(source.context());
         this.count = source.count();

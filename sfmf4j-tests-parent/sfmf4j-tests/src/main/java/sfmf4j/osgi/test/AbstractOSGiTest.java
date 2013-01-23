@@ -1,22 +1,25 @@
 /*
- * To change this template, choose Tools | Templates
- * and open the template in the editor.
+ * Copyright 2012 Steven Swor.
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *      http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
  */
 package sfmf4j.osgi.test;
 
-import com.carrotsearch.junitbenchmarks.BenchmarkOptions;
-import com.carrotsearch.junitbenchmarks.BenchmarkRule;
-import java.io.File;
-import java.io.FileOutputStream;
-import java.util.concurrent.BlockingQueue;
-import java.util.concurrent.LinkedBlockingQueue;
-import java.util.concurrent.TimeUnit;
 import javax.inject.Inject;
+import org.junit.After;
 import static org.junit.Assert.*;
-import org.junit.Rule;
+import org.junit.Before;
 import org.junit.Test;
-import org.junit.rules.MethodRule;
-import org.junit.rules.TemporaryFolder;
 import org.junit.runner.RunWith;
 import org.ops4j.pax.exam.Constants;
 import static org.ops4j.pax.exam.CoreOptions.*;
@@ -24,47 +27,55 @@ import org.ops4j.pax.exam.Option;
 import org.ops4j.pax.exam.junit.Configuration;
 import org.ops4j.pax.exam.junit.JUnit4TestRunner;
 import org.ops4j.pax.exam.util.PathUtils;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-import sfmf4j.api.DirectoryListener;
 import sfmf4j.api.FileMonitorService;
 import sfmf4j.api.FileMonitorServiceFactory;
+import sfmf4j.test.AbstractSFMF4JTest;
 
 /**
- *
+ * Parent class for testing implementations in an OSGi environment.
  * @author sswor
  */
 @RunWith(JUnit4TestRunner.class)
-public abstract class AbstractOSGiTest {
+public abstract class AbstractOSGiTest extends AbstractSFMF4JTest {
 
+    /**
+     * The required options to provide the implementation to the OSGi container.
+     * At the very least, this should include a reference to the
+     * implementation's class files or bundled JAR.
+     * @return the required options to provide the implementation to the OSGi
+     * container
+     */
     protected abstract Option implementationOption();
 
-    protected abstract String implementationClassName();
-
-    protected long eventTimeoutDuration() {
-        return 10;
-    }
-
-    protected TimeUnit eventTimeoutTimeUnit() {
-        return TimeUnit.SECONDS;
-    }
+    /**
+     * The file monitor service factory implementation.  This should be injected
+     * by the OSGi container.
+     */
     @Inject
     private FileMonitorServiceFactory factoryInstance;
-    @Rule
-    public TemporaryFolder tempFolder = new TemporaryFolder();
-    @Rule
-    public MethodRule benchmarkRun = new BenchmarkRule();
 
+    /**
+     * Gets the SFMF4J group ID from the system property {@code sfmf4j.groupId}.
+     * @return the SFMf4J group ID
+     */
     protected static String sfmf4jGroupId() {
-        return System.getProperty("sfmf4j.groupId");
+        return System.getProperty("sfmf4j.groupId", "sfmf4j");
     }
 
+    /**
+     * Gets the SFMF4J version from the system property {@code sfmf4j.version}.
+     * @return the SFMF4J version
+     */
     protected static String sfmf4jVersion() {
-        return System.getProperty("sfmf4j.version");
+        return System.getProperty("sfmf4j.version", "1.0-SNAPSHOT");
     }
 
+    /**
+     * Gets the Pax Exam configuration for the OSGi tests.
+     * @return the Pax Exam configuration to run the tests
+     */
     @Configuration
-    public Option[] config() throws Exception {
+    public Option[] config() {
         return options(
                 systemProperty("org.ops4j.pax.logging.DefaultServiceLog.level").value("NONE"),
                 systemProperty("logback.configurationFile").value("file:" + PathUtils.getBaseDir() + "/src/test/resources/logback.groovy"),
@@ -96,90 +107,38 @@ public abstract class AbstractOSGiTest {
                 junitBundles());
     }
 
-    @Test
-    @BenchmarkOptions(warmupRounds=2, benchmarkRounds=10)
-    public void testFileMonitoring() throws Throwable {
+    /**
+     * The file monitor service.
+     */
+    private FileMonitorService fileMonitor = null;
+
+    /**
+     * Initializes the file monitor service before running the tests.
+     */
+    @Before
+    public void setUp() {
         assertNotNull(factoryInstance);
-        final Logger logger = LoggerFactory.getLogger(getClass());
-        FileMonitorService fileMonitor = factoryInstance.createFileMonitorService();
+        fileMonitor = factoryInstance.createFileMonitorService();
         fileMonitor.initialize();
-        File newFile = null;
-        final BlockingQueue<File> createdFiles = new LinkedBlockingQueue<File>();
-        final BlockingQueue<File> modifiedFiles = new LinkedBlockingQueue<File>();
-        final BlockingQueue<File> deletedFiles = new LinkedBlockingQueue<File>();
-        final DirectoryListener listener = new DirectoryListener() {
-                public void fileCreated(File created) {
-                    createdFiles.add(created);
-                }
+    }
 
-                public void fileChanged(File changed) {
-                    modifiedFiles.add(changed);
-                }
-
-                public void fileDeleted(File deleted) {
-                    deletedFiles.add(deleted);
-                }
-            };
-        File folder = null;
-        try {
-            folder = tempFolder.getRoot();
-            fileMonitor.registerDirectoryListener(folder, listener);
-
-            /*
-             * Create a new file.
-             */
-            newFile = tempFolder.newFile();
-            logger.debug("Test file: {}", newFile.getAbsolutePath());
-            logger.info("Testing for created event.");
-            File created = createdFiles.poll(eventTimeoutDuration(), eventTimeoutTimeUnit());
-            assertNotNull(created);
-            assertEquals(newFile.getAbsolutePath(), created.getAbsolutePath());
-
-            /*
-             * Write to the file.
-             */
-            logger.info("Testing for modification event.");
-            FileOutputStream fileOut = null;
-            byte[] bytes = new byte[4096];
-            try {
-                fileOut = new FileOutputStream(newFile);
-                fileOut.write(bytes);
-            } finally {
-                if (fileOut != null) {
-                    try {
-                        fileOut.close();
-                    } catch (Exception ex) {
-                        //trap.  We'll have bigger fish to fry if this happens
-                    }
-                }
-            }
-            File modified = modifiedFiles.poll(eventTimeoutDuration(), eventTimeoutTimeUnit());
-            assertNotNull(modified);
-            assertEquals(newFile.getAbsolutePath(), modified.getAbsolutePath());
-            /*
-             * Test deletion.
-             */
-            newFile.delete();
-            File deleted = deletedFiles.poll(eventTimeoutDuration(), eventTimeoutTimeUnit());
-            assertNotNull(deleted);
-            assertEquals(newFile.getAbsolutePath(), deleted.getAbsolutePath());
-        } finally {
-            if (folder!=null) {
-                try {
-                    fileMonitor.unregisterDirectoryListener(folder, listener);
-                }catch(Exception ex) {
-                    //trap
-                }
-            }
-            if (newFile != null && newFile.exists()) {
-                try {
-                    newFile.delete();
-                }catch(Exception ex) {
-                    //trap
-                }
-            }
+    /**
+     * Shuts down the file monitor service after running the tests.
+     */
+    @After
+    public void tearDown() {
+        if (fileMonitor != null) {
             fileMonitor.shutdown();
         }
+        fileMonitor = null;
+    }
 
+    /**
+     * Runs the file system monitoring tests in the OSGi container.
+     * @throws Throwable if the test fails
+     */
+    @Test
+    public void testFileMonitoring() throws Throwable {
+        doTestFileMonitoring(fileMonitor);
     }
 }

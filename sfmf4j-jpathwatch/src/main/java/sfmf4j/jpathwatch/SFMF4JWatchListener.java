@@ -24,16 +24,32 @@ import name.pachler.nio.file.WatchEvent.Kind;
 import sfmf4j.api.DirectoryListener;
 
 /**
+ * Decorator to forward watch events to SFMF4J listeners.
  *
  * @author Steven Swor
  */
 public class SFMF4JWatchListener {
+    /**
+     * The listener.
+     */
     private final DirectoryListener listener;
 
+    /**
+     * Creates a new SFMF4JWatchListener.
+     * @param listener the listener to decorate
+     */
     public SFMF4JWatchListener(DirectoryListener listener) {
         this.listener = listener;
     }
 
+    /**
+     * Forwards watch events to the listener.
+     * @param event the event to forward
+     * @see StandardWatchEventKind
+     * @see DirectoryListener#fileCreated(File)
+     * @see DirectoryListener#fileDeleted(File)
+     * @see DirectoryListener#fileChanged(File)
+     */
     public void onEvent(final WatchEvent<Path> event) {
         Kind kind = event.kind();
         if (StandardWatchEventKind.ENTRY_CREATE.equals(kind)) {

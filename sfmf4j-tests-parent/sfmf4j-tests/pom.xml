@@ -9,7 +9,7 @@
     </parent>
     <groupId>sfmf4j</groupId>
     <artifactId>sfmf4j-tests</artifactId>
-    <name>SFMF4J :: OSGi Tests :: Common Classes</name>
+    <name>SFMF4J :: Testing :: Common Classes</name>
 
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>

@@ -20,11 +20,17 @@ import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
 /**
+ * Factory class for creating an executor service (makes IoC easier).
  *
  * @author Steven Swor
  */
 public class ExecutorServiceFactory {
 
+    /**
+     * Creates a single thread executor.
+     * @return a single thread executor.
+     * @see Executors#newSingleThreadExecutor()
+     */
     public ExecutorService newSingleThreadExecutor() {
         return Executors.newSingleThreadExecutor();
     }

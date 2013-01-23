@@ -18,9 +18,4 @@ public class CommonsIOOSGiTest extends AbstractOSGiTest {
     protected Option implementationOption() {
         return mavenBundle(sfmf4jGroupId(), "sfmf4j-commonsio", sfmf4jVersion());
     }
-
-    @Override
-    protected String implementationClassName() {
-        return "sfmf4j.commonsio.CommonsIOFileMonitorServiceFactory";
-    }
 }

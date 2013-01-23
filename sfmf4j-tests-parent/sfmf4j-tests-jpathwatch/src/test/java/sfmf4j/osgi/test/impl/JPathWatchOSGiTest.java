@@ -22,9 +22,4 @@ public class JPathWatchOSGiTest extends AbstractOSGiTest {
                 mavenBundle("jpathwatch", "jpathwatch-bundle", "0.96-SNAPSHOT").startLevel(Constants.START_LEVEL_SYSTEM_BUNDLES),
                 mavenBundle(sfmf4jGroupId(), "sfmf4j-jpathwatch", sfmf4jVersion()));
     }
-
-    @Override
-    protected String implementationClassName() {
-        return "sfmf4j.jpathwatch.WatchServiceFileMonitorServiceFactory";
-    }
 }

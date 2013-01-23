@@ -8,13 +8,13 @@ import org.junit.AfterClass;
 import org.junit.BeforeClass;
 import org.slf4j.bridge.SLF4JBridgeHandler;
 import sfmf4j.api.FileMonitorServiceFactory;
-import sfmf4j.test.AbstractSFMF4JTest;
+import sfmf4j.test.AbstractNonOSGiTest;
 
 /**
  *
  * @author sswor
  */
-public class JPathWatchTest extends AbstractSFMF4JTest {
+public class JPathWatchTest extends AbstractNonOSGiTest {
 
     private static java.util.logging.Level originalLevel = null;
 

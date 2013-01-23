@@ -21,11 +21,18 @@ import name.pachler.nio.file.FileSystems;
 import name.pachler.nio.file.WatchService;
 
 /**
- *
+ * Factory class for creating a watch service (makes IoC easier).
  * @author Steven Swor
  */
 public class FileSystemFactory {
 
+    /**
+     * Creates a new WatchService.
+     * @return a new WatchService
+     * @throws IOException if a new watch service cannot be created
+     * @see FileSystems#getDefault()
+     * @see name.pachler.nio.file.FileSystem#newWatchService()
+     */
     public WatchService newWatchService() throws IOException {
         return FileSystems.getDefault().newWatchService();
     }

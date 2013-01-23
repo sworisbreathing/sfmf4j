@@ -42,19 +42,49 @@ import sfmf4j.api.DirectoryListener;
 import sfmf4j.api.FileMonitorService;
 
 /**
- *
+ * jpathwatch implementation of a file monitor service.
  * @author Steven Swor
  */
 public class WatchServiceFileMonitorServiceImpl implements FileMonitorService {
 
+    /**
+     * The logger.
+     */
     private static final Logger logger = LoggerFactory.getLogger(WatchServiceFileMonitorServiceImpl.class);
+
+    /**
+     * Future for the asynchronous task which polls the watch service.
+     */
     private Future watchFuture = null;
+
+    /**
+     * The watch service.
+     */
     private WatchService watchService;
+
+    /**
+     * The watch kinds we are interested in.
+     * @see StandardWatchEventKind#ENTRY_CREATE
+     * @see StandardWatchEventKind#ENTRY_DELETE
+     * @see StandardWatchEventKind#ENTRY_MODIFY
+     */
     private static final Kind[] interested_types = new Kind[]{StandardWatchEventKind.ENTRY_CREATE, StandardWatchEventKind.ENTRY_DELETE, StandardWatchEventKind.ENTRY_MODIFY};
+
+    /**
+     * The executor service which runs the task of polling the watch service.
+     */
     private ExecutorService executorService;
 
+    /**
+     * Flag to indicate that the watch service should be stopped during
+     * shutdown.
+     */
     private volatile boolean closeWatchServiceOnShutdown = false;
 
+    /**
+     * Flag to indiate that the executor service should be stopped during
+     * shutdown.
+     */
     private volatile boolean shutdownExecutorServiceOnShutdown = false;
 
 
@@ -76,10 +106,34 @@ public class WatchServiceFileMonitorServiceImpl implements FileMonitorService {
         return watchService;
     }
 
+    /**
+     * The registered watch keys for each path.
+     */
     private final ConcurrentMap<String, WatchKey> watchKeysByPath;
+
+    /**
+     * The registered paths for each watch key.
+     */
     private final ConcurrentMap<WatchKey, String> pathsByWatchKey;
+
+    /**
+     * The listeners for each watch key.
+     */
     private final ConcurrentMap<WatchKey, Collection<SFMF4JWatchListener>> listenersByWatchKey;
 
+    /**
+     * Creates a new WatchServiceFileMonitorServiceImpl.
+     * @param watchService the watch service to use.  When this argument is
+     * {@code null}, the watch service will be created during {@link
+     * #initialize()} and stopped during {@link #shutdown()}.  If this argument
+     * is not {@code null}, then it is assumed that the watch service is running
+     * and will be closed elsewhere (for example, an IoC container)
+     * @param executorService the executor service to use.  When this argument
+     * is {@code null}, the executor service will be created during {@link
+     * #initialize()} and stopped during {@link #shutdown()}.  If this argument
+     * is not {@code null}, then it is assumed that the executor service is
+     * running and will be closed elsewhere (for example, in an IoC container)
+     */
     public WatchServiceFileMonitorServiceImpl(final WatchService watchService, final ExecutorService executorService) {
         this.watchService = watchService;
         this.executorService = executorService;
@@ -88,6 +142,12 @@ public class WatchServiceFileMonitorServiceImpl implements FileMonitorService {
         this.listenersByWatchKey = new ConcurrentHashMap<WatchKey, Collection<SFMF4JWatchListener>>();
     }
 
+    /**
+     * Gets the watch key for a path with lazy initialization.
+     * @param path the path
+     * @return a registered watch key for the path
+     * @throws IOException if lazy initialization fails
+     */
     private synchronized WatchKey getWatchKeyForPath(final String path) throws IOException {
         WatchKey key = watchKeysByPath.get(path);
         if (key == null) {
@@ -132,11 +192,21 @@ public class WatchServiceFileMonitorServiceImpl implements FileMonitorService {
         }
     }
 
+    /**
+     * Resolves a watch event with its absolute path.
+     * @param key the watch key (used to look up the parent path)
+     * @param event the event to resolve
+     * @return a copy of the event, with a resolved path
+     */
     private synchronized WatchEvent<Path> resolveEventWithCorrectPath(final WatchKey key, final WatchEvent<Path> event) {
         Path correctPath = Paths.get(pathsByWatchKey.get(key));
         return new ResolvedPathWatchEvent(event, correctPath);
     }
 
+    /**
+     * Properly unregisters and removes a watch key.
+     * @param key the watch key
+     */
     private synchronized void cleanup(final WatchKey key) {
         logger.trace("cleanUp {}", key);
         try {
@@ -234,6 +304,7 @@ public class WatchServiceFileMonitorServiceImpl implements FileMonitorService {
         }
     }
 
+    @Override
     public synchronized boolean isMonitoringDirectory(File directory) {
         return !getExecutorService().isShutdown() && watchKeysByPath.containsKey(directory.getAbsolutePath());
     }

@@ -1,6 +1,17 @@
 /*
- * To change this template, choose Tools | Templates
- * and open the template in the editor.
+ * Copyright 2012 Steven Swor.
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *      http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
  */
 package sfmf4j.test;
 
@@ -9,69 +20,51 @@ import java.io.FileOutputStream;
 import java.util.concurrent.BlockingQueue;
 import java.util.concurrent.LinkedBlockingQueue;
 import java.util.concurrent.TimeUnit;
-import org.junit.After;
 import static org.junit.Assert.*;
-import org.junit.Before;
 import org.junit.Rule;
-import org.junit.Test;
 import org.junit.rules.TemporaryFolder;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import sfmf4j.api.DirectoryListener;
 import sfmf4j.api.FileMonitorService;
-import sfmf4j.api.FileMonitorServiceFactory;
 
 /**
+ * Parent class for testing implementations.
  *
  * @author sswor
  */
 public abstract class AbstractSFMF4JTest {
 
+    /**
+     * The timeout duration when verifying events have been fired.
+     * @return the timeout duration when verifying events have been fired
+     */
     protected long eventTimeoutDuration() {
         return 10;
     }
 
+    /**
+     * The timeout time unit when verifying events have been fired.
+     * @return the timout time unit when verifying events have been fired
+     */
     protected TimeUnit eventTimeoutTimeUnit() {
         return TimeUnit.SECONDS;
     }
 
+    /**
+     * Temporary folder used for creating, modifying, and deleting files and
+     * folders.
+     */
     @Rule
     public TemporaryFolder tempFolder = new TemporaryFolder();
 
-    protected static String sfmf4jGroupId() {
-        return System.getProperty("sfmf4j.groupId");
-    }
-
-    protected static String sfmf4jVersion() {
-        return System.getProperty("sfmf4j.version");
-    }
-
-    protected abstract FileMonitorServiceFactory factoryInstance();
-
-    private FileMonitorServiceFactory factoryInstance = null;
-
-    private FileMonitorService fileMonitor = null;
-
-    @Before
-    public void setUp() throws Exception{
-        factoryInstance = factoryInstance();
-        assert (factoryInstance != null);
-        fileMonitor = factoryInstance.createFileMonitorService();
-        assert (fileMonitor != null);
-        fileMonitor.initialize();
-    }
-
-    @After
-    public void tearDown() throws Exception {
-        if (fileMonitor != null) {
-            fileMonitor.shutdown();
-        }
-        fileMonitor = null;
-        factoryInstance = null;
-    }
-
-    @Test
-    public void testFileMonitoring() throws Throwable {
+    /**
+     * Performs the tests for the implementation by creating, modifying, and
+     * deleting files.
+     * @param fileMonitor the implementation to test
+     * @throws Throwable if the test fails
+     */
+    protected void doTestFileMonitoring(final FileMonitorService fileMonitor) throws Throwable {
         final Logger logger = LoggerFactory.getLogger(getClass());
         File newFile = null;
         final BlockingQueue<File> createdFiles = new LinkedBlockingQueue<File>();
@@ -148,7 +141,6 @@ public abstract class AbstractSFMF4JTest {
                     //trap
                 }
             }
-            fileMonitor.shutdown();
         }
 
     }

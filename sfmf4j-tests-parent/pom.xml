@@ -9,7 +9,7 @@
     <groupId>sfmf4j</groupId>
     <artifactId>sfmf4j-tests-parent</artifactId>
     <packaging>pom</packaging>
-    <name>SFMF4J :: OSGi Tests</name>
+    <name>SFMF4J :: Testing :: Parent</name>
 
     <modules>
         <module>sfmf4j-tests</module>
