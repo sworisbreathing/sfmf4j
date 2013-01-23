@@ -11,19 +11,6 @@
     <packaging>pom</packaging>
     <name>SFMF4J :: OSGi Tests</name>
 
-    <dependencies>
-        <dependency>
-            <groupId>${project.groupId}</groupId>
-            <artifactId>sfmf4j-commonsio</artifactId>
-            <version>${project.version}</version>
-        </dependency>
-        <dependency>
-            <groupId>${project.groupId}</groupId>
-            <artifactId>sfmf4j-jpathwatch</artifactId>
-            <version>${project.version}</version>
-        </dependency>
-    </dependencies>
-
     <modules>
         <module>sfmf4j-tests</module>
         <module>sfmf4j-tests-commonsio</module>
