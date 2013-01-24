@@ -16,35 +16,22 @@
 
 package sfmf4j.nio2;
 
-import java.nio.file.WatchEvent;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
 
 /**
+ * Factory class for creating an executor service (makes IoC easier).
  *
  * @author Steven Swor
  */
-public class SimpleWatchEvent<T> implements WatchEvent<T> {
+public class ExecutorServiceFactory {
 
-    private final T context;
-    
-    private final Kind<T> kind;
-    
-    public SimpleWatchEvent(final T context, final Kind<T> kind) {
-        this.context = context;
-        this.kind = kind;
-    }
-
-    @Override
-    public T context() {
-        return this.context;
-    }
-
-    @Override
-    public int count() {
-        return 1;
-    }
-
-    @Override
-    public Kind<T> kind() {
-        return kind;
+    /**
+     * Creates a single thread executor.
+     * @return a single thread executor.
+     * @see Executors#newSingleThreadExecutor()
+     */
+    public ExecutorService newSingleThreadExecutor() {
+        return Executors.newSingleThreadExecutor();
     }
 }

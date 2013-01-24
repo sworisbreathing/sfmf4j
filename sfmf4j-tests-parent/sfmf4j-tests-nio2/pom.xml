@@ -1,17 +1,17 @@
 <?xml version="1.0"?>
 <project xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd" xmlns="http://maven.apache.org/POM/4.0.0"
-    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
-  <modelVersion>4.0.0</modelVersion>
-  <parent>
-    <artifactId>sfmf4j-tests-parent</artifactId>
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+    <modelVersion>4.0.0</modelVersion>
+    <parent>
+        <artifactId>sfmf4j-tests-parent</artifactId>
+        <groupId>sfmf4j</groupId>
+        <version>1.0-SNAPSHOT</version>
+    </parent>
     <groupId>sfmf4j</groupId>
-    <version>1.0-SNAPSHOT</version>
-  </parent>
-  <groupId>sfmf4j</groupId>
-  <artifactId>sfmf4j-tests-nio2</artifactId>
-  <name>SFMF4J :: OSGi Tests :: NIO2</name>
+    <artifactId>sfmf4j-tests-nio2</artifactId>
+    <name>SFMF4J :: OSGi Tests :: NIO2</name>
 
-  <dependencies>
+    <dependencies>
         <dependency>
             <groupId>junit</groupId>
             <artifactId>junit</artifactId>
@@ -42,6 +42,12 @@
         <dependency>
             <groupId>org.ops4j.pax.url</groupId>
             <artifactId>pax-url-wrap</artifactId>
+            <scope>test</scope>
+        </dependency>
+        <dependency>
+            <groupId>${project.groupId}</groupId>
+            <artifactId>sfmf4j-nio2</artifactId>
+            <version>${project.version}</version>
             <scope>test</scope>
         </dependency>
     </dependencies>

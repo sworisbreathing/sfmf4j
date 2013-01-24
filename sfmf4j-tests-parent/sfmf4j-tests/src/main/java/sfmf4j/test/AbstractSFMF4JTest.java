@@ -40,7 +40,11 @@ public abstract class AbstractSFMF4JTest {
      * @return the timeout duration when verifying events have been fired
      */
     protected long eventTimeoutDuration() {
-        return 10;
+        if (System.getProperty("os.name").contains("Mac OS X")) {
+            return 120;
+        } else {
+            return 10;
+        }
     }
 
     /**

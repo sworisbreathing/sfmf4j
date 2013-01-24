@@ -19,20 +19,21 @@ package sfmf4j.nio2;
 import java.io.IOException;
 import java.nio.file.FileSystems;
 import java.nio.file.WatchService;
-import java.util.concurrent.ExecutorService;
-import java.util.concurrent.Executors;
 
 /**
- *
+ * Factory class for creating a watch service (makes IoC easier).
  * @author Steven Swor
  */
 public class FileSystemFactory {
 
+    /**
+     * Creates a new WatchService.
+     * @return a new WatchService
+     * @throws IOException if a new watch service cannot be created
+     * @see FileSystems#getDefault()
+     * @see name.pachler.nio.file.FileSystem#newWatchService()
+     */
     public WatchService newWatchService() throws IOException {
         return FileSystems.getDefault().newWatchService();
-    }
-    
-    public ExecutorService newSingleThreadExecutor() {
-        return Executors.newSingleThreadExecutor();
     }
 }

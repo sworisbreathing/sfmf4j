@@ -17,18 +17,36 @@ package sfmf4j.nio2;
 
 import java.nio.file.Path;
 import java.nio.file.WatchEvent;
-import java.util.Objects;
+import java.nio.file.WatchEvent.Kind;
 
 /**
- *
+ * A watch event with a resolved path.
  * @author Steven Swor
  */
 public class ResolvedPathWatchEvent implements WatchEvent<Path> {
 
+    /**
+     * The path.
+     */
     private final Path context;
+
+    /**
+     * The event count.
+     */
     private final int count;
+
+    /**
+     * The kind.
+     */
     private final Kind<Path> kind;
 
+    /**
+     * Copy constructor for a watch event, which ensures the path is fully
+     * resolved.
+     * @param source the event to copy
+     * @param parentPath the parent path
+     * @see Path#resolve(Path)
+     */
     public ResolvedPathWatchEvent(final WatchEvent<Path> source, final Path parentPath) {
         this.context = parentPath.resolve(source.context());
         this.count = source.count();
@@ -51,6 +69,15 @@ public class ResolvedPathWatchEvent implements WatchEvent<Path> {
     }
 
     @Override
+    public int hashCode() {
+        int hash = 7;
+        hash = 53 * hash + (this.context != null ? this.context.hashCode() : 0);
+        hash = 53 * hash + this.count;
+        hash = 53 * hash + (this.kind != null ? this.kind.hashCode() : 0);
+        return hash;
+    }
+
+    @Override
     public boolean equals(Object obj) {
         if (obj == null) {
             return false;
@@ -59,24 +86,15 @@ public class ResolvedPathWatchEvent implements WatchEvent<Path> {
             return false;
         }
         final ResolvedPathWatchEvent other = (ResolvedPathWatchEvent) obj;
-        if (!Objects.equals(this.context, other.context)) {
+        if (this.context != other.context && (this.context == null || !this.context.equals(other.context))) {
             return false;
         }
         if (this.count != other.count) {
             return false;
         }
-        if (!Objects.equals(this.kind, other.kind)) {
+        if (this.kind != other.kind && (this.kind == null || !this.kind.equals(other.kind))) {
             return false;
         }
         return true;
-    }
-
-    @Override
-    public int hashCode() {
-        int hash = 7;
-        hash = 29 * hash + Objects.hashCode(this.context);
-        hash = 29 * hash + this.count;
-        hash = 29 * hash + Objects.hashCode(this.kind);
-        return hash;
     }
 }
