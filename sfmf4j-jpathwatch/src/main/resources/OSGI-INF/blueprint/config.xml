@@ -7,7 +7,7 @@
    http://aries.apache.org/blueprint/xmlns/blueprint-cm/v1.1.0 http://aries.apache.org/schemas/blueprint-cm/blueprint-cm-1.1.0.xsd'>
 
     <bean id="executorServiceFactory" class="sfmf4j.jpathwatch.ExecutorServiceFactory" />
-    <bean id="executorService" class="java.util.concurrent.ExecutorService" factory-ref="executorServiceFactory" factory-method="newSingleThreadExecutor" />
+    <bean id="executorService" class="java.util.concurrent.ExecutorService" factory-ref="executorServiceFactory" factory-method="newSingleThreadExecutor" destroy-method="shutdown" />
 
     <bean id="fileSystemFactory" class="sfmf4j.jpathwatch.FileSystemFactory" />
     <bean id="watchService" class="name.pachler.nio.file.WatchService" factory-ref="fileSystemFactory" factory-method="newWatchService" destroy-method="close" />
