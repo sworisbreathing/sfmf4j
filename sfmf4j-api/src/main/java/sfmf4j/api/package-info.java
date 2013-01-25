@@ -15,6 +15,6 @@
  */
 
 /**
- * Contains public API classes.
+ * Public APIs.
  */
 package sfmf4j.api;
