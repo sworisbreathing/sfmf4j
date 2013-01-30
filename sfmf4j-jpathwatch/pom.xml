@@ -75,7 +75,6 @@
                 <configuration>
                     <instructions>
                         <Bundle-SymbolicName>${project.groupId}.${project.artifactId}</Bundle-SymbolicName>
-                        <Export-Package>sfmf4j.api</Export-Package>
                         <Private-Package>sfmf4j.jpathwatch</Private-Package>
                     </instructions>
                 </configuration>

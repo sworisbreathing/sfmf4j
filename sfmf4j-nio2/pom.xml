@@ -67,7 +67,6 @@
                 <extensions>true</extensions>
                 <configuration>
                     <instructions>
-                        <Export-Package>sfmf4j.api</Export-Package>
                         <Private-Package>sfmf4j.nio2</Private-Package>
                     </instructions>
                 </configuration>

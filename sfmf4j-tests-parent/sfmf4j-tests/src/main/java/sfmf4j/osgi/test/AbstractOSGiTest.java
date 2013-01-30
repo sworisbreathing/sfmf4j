@@ -102,6 +102,7 @@ public abstract class AbstractOSGiTest extends AbstractSFMF4JTest {
                 mavenBundle("org.apache.aries", "org.apache.aries.util", "1.0.0"),
                 mavenBundle("org.apache.aries.proxy", "org.apache.aries.proxy", "1.0.0"),
                 mavenBundle("org.apache.aries.blueprint", "org.apache.aries.blueprint", "1.0.0"),
+                mavenBundle(sfmf4jGroupId(), "sfmf4j-api", sfmf4jVersion()),
                 wrappedBundle(mavenBundle(sfmf4jGroupId(), "sfmf4j-tests", sfmf4jVersion())),
                 implementationOption(),
                 junitBundles());
