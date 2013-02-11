@@ -92,10 +92,32 @@
                 <version>3.2.2</version>
             </dependency>
 
+            <!--
+                I've forked the SVN tag for jpathwatch 0.95 and put it up on
+                GitHub while I've been working with its author on Mavenizing it
+                (and turning it into an OSGi bundle).
+
+                I'd rather have SFMF4J depend on the official releases of
+                jpathwatch than my own fork, however, so until it gets pushed
+                to Central, you'll need to manually install it into your own
+                repository manager or local Maven repository.
+
+                jpathwatch is available at http://jpathwatch.wordpress.com/download/
+                and is licensed under the GPLv2 with a linking exception
+                (commonly referred to as the "Classpath" exception).
+
+                Once you've downloaded jpathwatch and extracted the jar from the
+                zip file, you can install it into your local repository using
+                the following command:
+
+mvn install:install-file -Dfile=<path-to-jpathwatch.jar> -DgroupId=jpathwatch
+-DartifactId=jpathwatch -Dversion=0.95 -Dpackaging=jar
+
+            -->
             <dependency>
                 <groupId>jpathwatch</groupId>
-                <artifactId>jpathwatch-bundle</artifactId>
-                <version>0.96-SNAPSHOT</version>
+                <artifactId>jpathwatch</artifactId>
+                <version>0.95</version>
             </dependency>
         </dependencies>
     </dependencyManagement>

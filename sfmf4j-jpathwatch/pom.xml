@@ -34,7 +34,7 @@
         </dependency>
         <dependency>
             <groupId>jpathwatch</groupId>
-            <artifactId>jpathwatch-bundle</artifactId>
+            <artifactId>jpathwatch</artifactId>
         </dependency>
 
         <dependency>
