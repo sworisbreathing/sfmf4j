@@ -22,12 +22,15 @@ import sfmf4j.test.AbstractNonOSGiTest;
  *
  * @author sswor
  */
-public class NIO2Test extends AbstractNonOSGiTest {
+public class NIO2Test extends AbstractNonOSGiTest<WatchServiceFileMonitorServiceFactory> {
 
     @Override
     protected FileMonitorServiceFactory factoryInstance() {
         return new WatchServiceFileMonitorServiceFactory();
     }
 
-
+    @Override
+    protected Class<WatchServiceFileMonitorServiceFactory> implementationClass() {
+        return WatchServiceFileMonitorServiceFactory.class;
+    }
 }

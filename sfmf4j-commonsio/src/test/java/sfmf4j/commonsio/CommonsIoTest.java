@@ -23,7 +23,7 @@ import sfmf4j.test.AbstractNonOSGiTest;
  * Unit test for commons-io implementation.
  * @author Steven Swor
  */
-public class CommonsIoTest extends AbstractNonOSGiTest {
+public class CommonsIoTest extends AbstractNonOSGiTest<CommonsIOFileMonitorServiceFactory> {
 
     @Override
     protected FileMonitorServiceFactory factoryInstance() {
@@ -33,5 +33,8 @@ public class CommonsIoTest extends AbstractNonOSGiTest {
         return instance;
     }
 
-
+    @Override
+    protected Class<CommonsIOFileMonitorServiceFactory> implementationClass() {
+        return CommonsIOFileMonitorServiceFactory.class;
+    }
 }

@@ -15,7 +15,11 @@
  */
 package sfmf4j.test;
 
+import java.util.Iterator;
+import java.util.ServiceLoader;
 import org.junit.After;
+import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.assertTrue;
 import org.junit.Before;
 import org.junit.Test;
 import sfmf4j.api.FileMonitorService;
@@ -26,7 +30,7 @@ import sfmf4j.api.FileMonitorServiceFactory;
  *
  * @author sswor
  */
-public abstract class AbstractNonOSGiTest extends AbstractSFMF4JTest {
+public abstract class AbstractNonOSGiTest<T extends FileMonitorServiceFactory> extends AbstractSFMF4JTest {
 
     /**
      * Gets the implementation of {@link FileMonitorServiceFactory} being
@@ -78,5 +82,26 @@ public abstract class AbstractNonOSGiTest extends AbstractSFMF4JTest {
     @Test
     public void testFileMonitoring() throws Throwable {
         doTestFileMonitoring(fileMonitor);
+    }
+    
+    /**
+     * Gets the implementation class being tested.
+     * @return the implementation class being tested
+     */
+    protected abstract Class<T> implementationClass();
+    
+    /**
+     * Tests {@link java.util.ServiceLoader} lookups. 
+     */
+    @Test
+    public void testSpi() {
+        ServiceLoader<FileMonitorServiceFactory> serviceLoader = ServiceLoader.load(FileMonitorServiceFactory.class);
+        assertNotNull(serviceLoader);
+        Iterator<FileMonitorServiceFactory> iterator = serviceLoader.iterator();
+        assertNotNull(iterator);
+        assertTrue(iterator.hasNext());
+        FileMonitorServiceFactory instance = iterator.next();
+        assertNotNull(instance);
+        assertTrue(implementationClass().isAssignableFrom(instance.getClass()));
     }
 }

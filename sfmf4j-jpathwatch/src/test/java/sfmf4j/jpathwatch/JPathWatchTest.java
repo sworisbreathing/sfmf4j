@@ -25,7 +25,7 @@ import sfmf4j.test.AbstractNonOSGiTest;
  *
  * @author sswor
  */
-public class JPathWatchTest extends AbstractNonOSGiTest {
+public class JPathWatchTest extends AbstractNonOSGiTest<WatchServiceFileMonitorServiceFactory> {
 
     private static java.util.logging.Level originalLevel = null;
 
@@ -55,5 +55,8 @@ public class JPathWatchTest extends AbstractNonOSGiTest {
         return new WatchServiceFileMonitorServiceFactory();
     }
 
-
+    @Override
+    protected Class<WatchServiceFileMonitorServiceFactory> implementationClass() {
+        return WatchServiceFileMonitorServiceFactory.class;
+    }
 }
