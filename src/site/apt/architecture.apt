@@ -1,0 +1,19 @@
+ -------------------------------------------------------------------------------
+                               Architecture
+ -------------------------------------------------------------------------------
+                                Steven Swor
+ -------------------------------------------------------------------------------
+                                2013-02-12
+
+SFMF4J's Architecture
+
+    SFMF4J's architecture was inspired by the widely popular logging library
+    SLF4J (and its name was chosen as a tribute).  This design does a good job
+    of separating APIs from their implementations.  It allows <library>
+    developers to focus on what actions should be taken when a file system event
+    has occurred, and defers the responsibility of choosing an implementation to
+    the <application> developer.
+
+DirectoryListener
+
+    A <<<DirectoryListener>>> handles 

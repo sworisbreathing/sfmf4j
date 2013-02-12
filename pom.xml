@@ -5,15 +5,32 @@
     <artifactId>sfmf4j</artifactId>
     <version>1.0-SNAPSHOT</version>
     <packaging>pom</packaging>
+
     <name>SFMF4J: Simple File Monitor Facade For Java</name>
-    <description><![CDATA[
+    <description>
       SFMF4J is a simple file monitoring facade for Java.  It attempts to do for
       file monitoring what SLF4J does for logging, which is to abstract away the
-      API from the interface, such that <i>library</i> developers can write code
-      against a file monitoring solution without forcing an <i>application</i>
+      API from the interface, such thatlibrary developers can write code
+      against a file monitoring solution without forcing an application
       developer to choose a particular file monitoring implementation.
-      ]]>
     </description>
+
+    <licenses>
+        <license>
+            <name>The Apache Software License, Version 2.0</name>
+            <url>http://www.apache.org/licenses/LICENSE-2.0.txt</url>
+            <distribution>repo</distribution>
+            <comments>A business-friendly OSS license</comments>
+        </license>
+    </licenses>
+
+    <url>http://sworisbreathing.github.com/sfmf4j</url>
+
+    <scm>
+        <connection>scm:git:git@github.com:sworisbreathing/sfmf4j.git</connection>
+        <url>scm:git:git@github.com:sworisbreathing/sfmf4j.git</url>
+        <developerConnection>scm:git:git@github.com:sworisbreathing/sfmf4j.git</developerConnection>
+    </scm>
 
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
@@ -158,6 +175,11 @@ mvn install:install-file -Dfile=<path-to-jpathwatch.jar> -DgroupId=jpathwatch
                     <artifactId>maven-surefire-plugin</artifactId>
                     <version>2.12.4</version>
                 </plugin>
+                <plugin>
+                    <groupId>org.apache.maven.plugins</groupId>
+                    <artifactId>maven-site-plugin</artifactId>
+                    <version>3.2</version>
+                </plugin>
             </plugins>
         </pluginManagement>
     </build>
@@ -167,18 +189,147 @@ mvn install:install-file -Dfile=<path-to-jpathwatch.jar> -DgroupId=jpathwatch
         <module>sfmf4j-commonsio</module>
         <module>sfmf4j-tests-parent</module>
         <module>sfmf4j-jpathwatch</module>
-  </modules>
+    </modules>
 
     <profiles>
+        <profile>
+            <id>pre-nio2</id>
+            <activation>
+                <jdk>[,1.7)</jdk>
+            </activation>
+            <properties>
+                <jdk.version>1.6</jdk.version>
+            </properties>
+        </profile>
         <profile>
             <id>has-nio2</id>
             <activation>
                 <!-- Activate by default on JDK version 7 or higher. -->
                 <jdk>[1.7,)</jdk>
             </activation>
+            <properties>
+                <jdk.version>1.7</jdk.version>
+            </properties>
             <modules>
                 <module>sfmf4j-nio2</module>
             </modules>
         </profile>
+
+        <profile>
+            <id>github-site-publish</id>
+            <build>
+                <plugins>
+                    <plugin>
+                        <groupId>com.github.github</groupId>
+                        <artifactId>site-maven-plugin</artifactId>
+                        <version>0.7</version>
+                        <configuration>
+                            <message>Creating site for ${project.version}</message>
+                            <merge>true</merge>
+                        </configuration>
+                        <executions>
+                            <execution>
+                                <goals>
+                                    <goal>site</goal>
+                                </goals>
+                                <phase>site</phase>
+                            </execution>
+                        </executions>
+                    </plugin>
+                </plugins>
+            </build>
+        </profile>
     </profiles>
+
+    <reporting>
+        <plugins>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-project-info-reports-plugin</artifactId>
+                <version>2.6</version>
+            </plugin>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-javadoc-plugin</artifactId>
+                <version>2.9</version>
+            </plugin>
+
+            <!--
+                Generates source cross-reference reports.  These are similar to
+                Javadoc, except the HTML includes hyperlinks on the classes and
+                method headers to view the source code.
+            -->
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-jxr-plugin</artifactId>
+                <version>2.3</version>
+                <reportSets>
+                    <reportSet>
+                        <reports>
+                            <report>jxr</report>
+                            <report>test-jxr</report>
+                        </reports>
+                    </reportSet>
+                </reportSets>
+                <configuration>
+                    <aggregate>true</aggregate>
+                </configuration>
+            </plugin>
+
+            <!--
+                PMD is a code quality tool.  The PMD report is a general code
+                quality report, while the CPD report identifies "copy-and-paste"
+                code blocks.
+            -->
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-pmd-plugin</artifactId>
+                <version>2.7.1</version>
+                <reportSets>
+                    <reportSet>
+                        <reports>
+                            <report>pmd</report>
+                            <report>cpd</report>
+                        </reports>
+                    </reportSet>
+                </reportSets>
+                <configuration>
+                    <aggregate>true</aggregate>
+                    <targetJdk>${jdk.version}</targetJdk>
+                </configuration>
+            </plugin>
+
+            <!--
+                Findbugs is a code quality tool.
+            -->
+            <plugin>
+                <groupId>org.codehaus.mojo</groupId>
+                <artifactId>findbugs-maven-plugin</artifactId>
+                <version>2.5.2</version>
+                <reportSets>
+                    <reportSet>
+                        <reports>
+                            <report>findbugs</report>
+                        </reports>
+                    </reportSet>
+                </reportSets>
+            </plugin>
+
+            <plugin>
+                <groupId>org.codehaus.mojo</groupId>
+                <artifactId>cobertura-maven-plugin</artifactId>
+                <version>2.5.2</version>
+                <reportSets>
+                    <reportSet>
+                        <reports>
+                            <report>cobertura</report>
+                        </reports>
+                        <configuration>
+                            <aggregate>true</aggregate>
+                        </configuration>
+                    </reportSet>
+                </reportSets>
+            </plugin>
+        </plugins>
+    </reporting>
 </project>
