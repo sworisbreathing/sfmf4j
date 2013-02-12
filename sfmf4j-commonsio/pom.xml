@@ -11,7 +11,11 @@
     <artifactId>sfmf4j-commonsio</artifactId>
     <packaging>bundle</packaging>
 
-    <name>SFMF4J :: Commons IO Implementation</name>
+    <name>SFMF4J :: Commons IO</name>
+    <description>
+        SFMF4J :: Commons IO is an SFMF4J provider for file system monitoring
+        using Apache Commons IO.  This is strictly a polling implementation.
+    </description>
 
     <dependencies>
         <dependency>

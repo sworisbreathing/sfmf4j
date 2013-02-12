@@ -10,6 +10,10 @@
     <groupId>sfmf4j</groupId>
     <artifactId>sfmf4j-tests-commonsio</artifactId>
     <name>SFMF4J :: OSGi Tests :: Commons IO</name>
+    <description>
+      This module contains OSGi integration tests for the Commons IO
+      implementation.
+  </description>
     <dependencies>
         <dependency>
             <groupId>junit</groupId>

@@ -10,7 +10,10 @@
     <groupId>sfmf4j</groupId>
     <artifactId>sfmf4j-tests-nio2</artifactId>
     <name>SFMF4J :: OSGi Tests :: NIO2</name>
-
+    <description>
+      This module contains OSGi integration tests for the NIO2
+      implementation.
+  </description>
     <dependencies>
         <dependency>
             <groupId>junit</groupId>

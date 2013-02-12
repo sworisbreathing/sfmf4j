@@ -10,9 +10,9 @@
     <description>
       SFMF4J is a simple file monitoring facade for Java.  It attempts to do for
       file monitoring what SLF4J does for logging, which is to abstract away the
-      API from the interface, such thatlibrary developers can write code
+      API from the interface, such that library developers can write code
       against a file monitoring solution without forcing an application
-      developer to choose a particular file monitoring implementation.
+      developer to use any particular file monitoring implementation.
     </description>
 
     <licenses>
@@ -139,6 +139,14 @@ mvn install:install-file -Dfile=<path-to-jpathwatch.jar> -DgroupId=jpathwatch
         </dependencies>
     </dependencyManagement>
 
+    <dependencies>
+        <dependency>
+            <groupId>org.apache.maven.plugins</groupId>
+            <artifactId>maven-site-plugin</artifactId>
+            <version>3.2</version>
+        </dependency>
+    </dependencies>
+
     <build>
         <pluginManagement>
             <plugins>
@@ -175,13 +183,15 @@ mvn install:install-file -Dfile=<path-to-jpathwatch.jar> -DgroupId=jpathwatch
                     <artifactId>maven-surefire-plugin</artifactId>
                     <version>2.12.4</version>
                 </plugin>
-                <plugin>
-                    <groupId>org.apache.maven.plugins</groupId>
-                    <artifactId>maven-site-plugin</artifactId>
-                    <version>3.2</version>
-                </plugin>
             </plugins>
         </pluginManagement>
+        <plugins>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-site-plugin</artifactId>
+                <version>3.2</version>
+            </plugin>
+        </plugins>
     </build>
 
     <modules>

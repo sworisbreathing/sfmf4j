@@ -14,6 +14,21 @@ SFMF4J's Architecture
     has occurred, and defers the responsibility of choosing an implementation to
     the <application> developer.
 
-DirectoryListener
+* FileMonitorServiceFactory
 
-    A <<<DirectoryListener>>> handles 
+    A <<<FileMonitorServiceFactory>>> is responsible for creating and
+    configuring <<<FileMonitorService>>> instances.  It is provided by the
+    SFMF4J implementation library.
+
+* FileMonitorService
+
+    A <<<FileMonitorService>>> is responsible for monitoring the file system and
+    notifying interested parties of change events.  It is provided by the SFMF4J
+    implementation library.
+
+* DirectoryListener
+
+    A <<<DirectoryListener>>> implements callback methods for handling file
+    system events.  The <<<DirectoryListener>>> interface is supplied by
+    sfmf4j-api (along with a no-op implementation,
+    <<<DirectoryListenerAdapter>>>).  It must be implemented in your own code.
