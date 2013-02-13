@@ -36,8 +36,12 @@ public class SFMF4JFileAlterationListener implements FileAlterationListener {
     /**
      * Creates a new SFMF4JFileAlterationListener.
      * @param listener the listener to wrap
+     * @throws IllegalArgumentException if the listener is {@code null}.
      */
-    public SFMF4JFileAlterationListener(DirectoryListener listener) {
+    public SFMF4JFileAlterationListener(final DirectoryListener listener) throws IllegalArgumentException {
+        if (listener == null) {
+            throw new IllegalArgumentException("Listener may not be null");
+        }
         this.listener = listener;
     }
 

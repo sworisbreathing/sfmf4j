@@ -18,6 +18,7 @@ package sfmf4j.commonsio;
 import java.io.File;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.ConcurrentMap;
+import org.apache.commons.io.monitor.FileAlterationListener;
 import org.apache.commons.io.monitor.FileAlterationMonitor;
 import org.apache.commons.io.monitor.FileAlterationObserver;
 import sfmf4j.api.DirectoryListener;
@@ -25,6 +26,7 @@ import sfmf4j.api.FileMonitorService;
 
 /**
  * File monitor service which uses a Commons-IO {@link FileAlterationMonitor}.
+ *
  * @author Steven Swor
  */
 public class CommonsIOFileMonitorServiceImpl implements FileMonitorService {
@@ -33,7 +35,6 @@ public class CommonsIOFileMonitorServiceImpl implements FileMonitorService {
      * The file monitor.
      */
     private final FileAlterationMonitor fileMonitor;
-
     /**
      * The observers for each directory.
      */
@@ -41,6 +42,7 @@ public class CommonsIOFileMonitorServiceImpl implements FileMonitorService {
 
     /**
      * Creates a new CommonsIOFileMonitorServiceImpl.
+     *
      * @param fileMonitor the file monitor
      */
     public CommonsIOFileMonitorServiceImpl(FileAlterationMonitor fileMonitor) {
@@ -67,7 +69,8 @@ public class CommonsIOFileMonitorServiceImpl implements FileMonitorService {
     }
 
     @Override
-    public void registerDirectoryListener(File directory, DirectoryListener directoryListener) {
+    @SuppressWarnings("PMD.EmptyCatchBlock")
+    public synchronized void registerDirectoryListener(File directory, DirectoryListener directoryListener) {
         FileAlterationObserver newObserver = new FileAlterationObserver(directory);
         FileAlterationObserver oldObserver = directoryObservers.putIfAbsent(directory, newObserver);
         final FileAlterationObserver observer;
@@ -76,14 +79,22 @@ public class CommonsIOFileMonitorServiceImpl implements FileMonitorService {
         } else {
             observer = oldObserver;
         }
-        synchronized (observer) {
-            observer.addListener(new SFMF4JFileAlterationListener(directoryListener));
+        SFMF4JFileAlterationListener newListener = new SFMF4JFileAlterationListener(directoryListener);
+        boolean found = false;
+        for (FileAlterationListener fal : observer.getListeners()) {
+            if (newListener.equals(fal)) {
+                found = true;
+                break;
+            }
+        }
+        if (!found) {
+            observer.addListener(newListener);
         }
         if (observer == newObserver) {
             try {
                 observer.initialize();
                 fileMonitor.addObserver(observer);
-            }catch(Exception ex) {
+            } catch (Exception ex) {
                 //trap
             }
         }
@@ -91,6 +102,7 @@ public class CommonsIOFileMonitorServiceImpl implements FileMonitorService {
     }
 
     @Override
+    @SuppressWarnings("PMD.EmptyCatchBlock")
     public void shutdown() {
         try {
             fileMonitor.stop();
@@ -100,18 +112,17 @@ public class CommonsIOFileMonitorServiceImpl implements FileMonitorService {
     }
 
     @Override
-    public void unregisterDirectoryListener(File directory, DirectoryListener directoryListener) {
+    @SuppressWarnings("PMD.EmptyCatchBlock")
+    public synchronized void unregisterDirectoryListener(File directory, DirectoryListener directoryListener) {
         SFMF4JFileAlterationListener listener = new SFMF4JFileAlterationListener(directoryListener);
         final FileAlterationObserver observer = directoryObservers.get(directory);
         if (observer != null) {
             boolean shouldDestroy = false;
-            synchronized (observer) {
-                observer.removeListener(listener);
-                if (!observer.getListeners().iterator().hasNext()) {
-                    shouldDestroy = true;
-                    directoryObservers.remove(directory);
-                    fileMonitor.removeObserver(observer);
-                }
+            observer.removeListener(listener);
+            if (!observer.getListeners().iterator().hasNext()) {
+                shouldDestroy = true;
+                directoryObservers.remove(directory);
+                fileMonitor.removeObserver(observer);
             }
             if (shouldDestroy) {
                 try {

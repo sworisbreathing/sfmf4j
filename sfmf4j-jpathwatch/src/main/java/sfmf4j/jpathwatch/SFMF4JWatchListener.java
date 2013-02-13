@@ -39,6 +39,9 @@ public class SFMF4JWatchListener {
      * @param listener the listener to decorate
      */
     public SFMF4JWatchListener(DirectoryListener listener) {
+        if (listener == null) {
+            throw new IllegalArgumentException("listener may not be null");
+        }
         this.listener = listener;
     }
 
@@ -73,7 +76,7 @@ public class SFMF4JWatchListener {
             return false;
         }
         final SFMF4JWatchListener other = (SFMF4JWatchListener) obj;
-        if (this.listener != other.listener && (this.listener == null || !this.listener.equals(other.listener))) {
+        if (this.listener != other.listener && !this.listener.equals(other.listener)) {
             return false;
         }
         return true;
@@ -82,7 +85,7 @@ public class SFMF4JWatchListener {
     @Override
     public int hashCode() {
         int hash = 3;
-        hash = 73 * hash + (this.listener != null ? this.listener.hashCode() : 0);
+        hash = 73 * hash + this.listener.hashCode();
         return hash;
     }
 

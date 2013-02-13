@@ -207,12 +207,13 @@ public class WatchServiceFileMonitorServiceImpl implements FileMonitorService {
      * Properly unregisters and removes a watch key.
      * @param key the watch key
      */
+    @SuppressWarnings("PMD.EmptyCatchBlock")
     private synchronized void cleanup(final WatchKey key) {
         logger.trace("cleanUp {}", key);
         try {
             key.cancel();
         }catch(Exception ex) {
-
+            //trap
         }
         Collection<SFMF4JWatchListener> listeners = listenersByWatchKey.remove(key);
         if (listeners != null && !listeners.isEmpty()) {
@@ -287,6 +288,7 @@ public class WatchServiceFileMonitorServiceImpl implements FileMonitorService {
     }
 
     @Override
+    @SuppressWarnings("PMD.EmptyCatchBlock")
     public synchronized void shutdown() {
         watchFuture.cancel(true);
         for (WatchKey key : pathsByWatchKey.keySet()) {
