@@ -48,9 +48,15 @@ public class ResolvedPathWatchEvent implements WatchEvent<Path> {
      * @see Path#resolve(Path)
      */
     public ResolvedPathWatchEvent(final WatchEvent<Path> source, final Path parentPath) {
-        this.context = parentPath.resolve(source.context());
-        this.count = source.count();
-        this.kind = source.kind();
+        if (source==null) {
+            throw new IllegalArgumentException("source is null");
+        }else if(parentPath==null) {
+            throw new IllegalArgumentException("parentPath is null");
+        } else {
+            this.context = parentPath.resolve(source.context());
+            this.count = source.count();
+            this.kind = source.kind();
+        }
     }
 
     @Override

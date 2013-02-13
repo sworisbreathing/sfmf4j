@@ -39,6 +39,9 @@ public class SFMF4JWatchListener {
      * @param listener the listener to decorate
      */
     public SFMF4JWatchListener(DirectoryListener listener) {
+        if (listener == null) {
+            throw new IllegalArgumentException("listener was null");
+        }
         this.listener = listener;
     }
 
