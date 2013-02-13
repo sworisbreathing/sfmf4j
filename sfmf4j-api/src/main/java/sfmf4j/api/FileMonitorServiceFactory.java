@@ -15,8 +15,6 @@
  */
 package sfmf4j.api;
 
-import java.util.concurrent.TimeUnit;
-
 /**
  * Factory interface for creating file monitor services.
  *
