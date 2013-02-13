@@ -41,26 +41,32 @@ public class SFMF4JFileAlterationListener implements FileAlterationListener {
         this.listener = listener;
     }
 
+    @Override
     public void onDirectoryChange(File file) {
         listener.fileChanged(file);
     }
 
+    @Override
     public void onDirectoryCreate(File file) {
         listener.fileCreated(file);
     }
 
+    @Override
     public void onDirectoryDelete(File file) {
         listener.fileDeleted(file);
     }
 
+    @Override
     public void onFileChange(File file) {
         listener.fileChanged(file);
     }
 
+    @Override
     public void onFileCreate(File file) {
         listener.fileCreated(file);
     }
 
+    @Override
     public void onFileDelete(File file) {
         listener.fileDeleted(file);
     }
@@ -69,6 +75,7 @@ public class SFMF4JFileAlterationListener implements FileAlterationListener {
      * No-op.
      * @param fao {@inheritDoc}
      */
+    @Override
     public void onStart(FileAlterationObserver fao) {
     }
 
@@ -76,6 +83,7 @@ public class SFMF4JFileAlterationListener implements FileAlterationListener {
      * No-op.
      * @param fao {@inheritDoc}
      */
+    @Override
     public void onStop(FileAlterationObserver fao) {
     }
 

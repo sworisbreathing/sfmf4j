@@ -48,6 +48,7 @@ public class CommonsIOFileMonitorServiceImpl implements FileMonitorService {
         this.directoryObservers = new ConcurrentHashMap<File, FileAlterationObserver>();
     }
 
+    @Override
     public void initialize() {
         try {
             fileMonitor.start();
@@ -60,10 +61,12 @@ public class CommonsIOFileMonitorServiceImpl implements FileMonitorService {
         }
     }
 
+    @Override
     public boolean isMonitoringDirectory(File directory) {
         return directoryObservers.containsKey(directory);
     }
 
+    @Override
     public void registerDirectoryListener(File directory, DirectoryListener directoryListener) {
         FileAlterationObserver newObserver = new FileAlterationObserver(directory);
         FileAlterationObserver oldObserver = directoryObservers.putIfAbsent(directory, newObserver);
@@ -87,6 +90,7 @@ public class CommonsIOFileMonitorServiceImpl implements FileMonitorService {
 
     }
 
+    @Override
     public void shutdown() {
         try {
             fileMonitor.stop();
@@ -95,6 +99,7 @@ public class CommonsIOFileMonitorServiceImpl implements FileMonitorService {
         }
     }
 
+    @Override
     public void unregisterDirectoryListener(File directory, DirectoryListener directoryListener) {
         SFMF4JFileAlterationListener listener = new SFMF4JFileAlterationListener(directoryListener);
         final FileAlterationObserver observer = directoryObservers.get(directory);

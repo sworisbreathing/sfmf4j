@@ -75,14 +75,18 @@ public abstract class AbstractSFMF4JTest {
         final BlockingQueue<File> modifiedFiles = new LinkedBlockingQueue<File>();
         final BlockingQueue<File> deletedFiles = new LinkedBlockingQueue<File>();
         final DirectoryListener listener = new DirectoryListener() {
+
+                @Override
                 public void fileCreated(File created) {
                     createdFiles.add(created);
                 }
 
+                @Override
                 public void fileChanged(File changed) {
                     modifiedFiles.add(changed);
                 }
 
+                @Override
                 public void fileDeleted(File deleted) {
                     deletedFiles.add(deleted);
                 }
