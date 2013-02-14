@@ -4,7 +4,7 @@
   <parent>
     <artifactId>sfmf4j-tests-parent</artifactId>
     <groupId>sfmf4j</groupId>
-    <version>1.0</version>
+    <version>1.1-SNAPSHOT</version>
   </parent>
   <groupId>sfmf4j</groupId>
   <artifactId>sfmf4j-tests-jpathwatch</artifactId>
