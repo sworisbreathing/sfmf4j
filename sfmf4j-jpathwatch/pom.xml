@@ -4,7 +4,7 @@
     <parent>
     <artifactId>sfmf4j</artifactId>
     <groupId>sfmf4j</groupId>
-    <version>1.0-SNAPSHOT</version>
+    <version>1.0</version>
   </parent>
 
     <groupId>sfmf4j</groupId>
