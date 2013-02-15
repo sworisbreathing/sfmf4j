@@ -1,0 +1,51 @@
+<?xml version="1.0"?>
+<project xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd" xmlns="http://maven.apache.org/POM/4.0.0"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+    <modelVersion>4.0.0</modelVersion>
+    <parent>
+        <groupId>sfmf4j</groupId>
+        <artifactId>sfmf4j</artifactId>
+        <version>1.0-SNAPSHOT</version>
+    </parent>
+
+    <groupId>sfmf4j</groupId>
+    <artifactId>sfmf4j-tests</artifactId>
+
+    <name>SFMF4J :: Testing :: Common Classes</name>
+    <description>
+        This project provides classes which are common to all tests for SFMF4J.
+        It is declared as a test-scoped dependency by the implementation modules
+        as well as the OSGi test modules.
+    </description>
+
+    <properties>
+        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+    </properties>
+    <dependencies>
+        <dependency>
+            <groupId>junit</groupId>
+            <artifactId>junit</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>${project.groupId}</groupId>
+            <artifactId>sfmf4j-api</artifactId>
+            <version>${project.version}</version>
+        </dependency>
+        <!-- OSGi Testing Dependencies -->
+
+        <dependency>
+            <groupId>org.ops4j.pax.exam</groupId>
+            <artifactId>pax-exam-junit4</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>org.ops4j.pax.url</groupId>
+            <artifactId>pax-url-aether</artifactId>
+        </dependency>
+
+        <dependency>
+            <groupId>com.carrotsearch</groupId>
+            <artifactId>junit-benchmarks</artifactId>
+            <version>0.4.0</version>
+        </dependency>
+    </dependencies>
+</project>
