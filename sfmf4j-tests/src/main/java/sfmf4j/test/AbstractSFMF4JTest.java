@@ -43,11 +43,7 @@ public abstract class AbstractSFMF4JTest {
      * @return the timeout duration when verifying events have been fired
      */
     protected long eventTimeoutDuration() {
-        if (System.getProperty("os.name").contains("Mac OS X")) {
-            return 120;
-        } else {
-            return 3;
-        }
+        return 3;
     }
 
     /**
@@ -80,6 +76,7 @@ public abstract class AbstractSFMF4JTest {
         final BlockingQueue<File> modifiedFiles = new LinkedBlockingQueue<File>();
         final BlockingQueue<File> deletedFiles = new LinkedBlockingQueue<File>();
         final DirectoryListener listener = new DirectoryListener() {
+
             @Override
             public void fileCreated(File created) {
                 createdFiles.add(created);
@@ -166,6 +163,7 @@ public abstract class AbstractSFMF4JTest {
 
     /**
      * Appends bytes to a file.
+     *
      * @param f the file
      * @throws FileNotFoundException if the file does not exist
      * @throws IOException if the file cannot be written

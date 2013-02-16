@@ -15,6 +15,7 @@
  */
 package sfmf4j.nio2;
 
+import java.util.concurrent.TimeUnit;
 import sfmf4j.api.FileMonitorServiceFactory;
 import sfmf4j.test.AbstractNonOSGiTest;
 
@@ -23,6 +24,24 @@ import sfmf4j.test.AbstractNonOSGiTest;
  * @author sswor
  */
 public class NIO2Test extends AbstractNonOSGiTest<WatchServiceFileMonitorServiceFactory> {
+    
+    protected boolean isPollingImplementation() {
+        boolean results = false;
+        String osName = System.getProperty("os.name");
+        if (osName.contains("Mac OS X")) {
+            results = true;
+        }
+        return results;
+    }
+
+    @Override
+    protected long eventTimeoutDuration() {
+        long results = super.eventTimeoutDuration();
+        if (isPollingImplementation()) {
+            results = 15L;
+        }
+        return results;
+    }    
 
     @Override
     protected FileMonitorServiceFactory factoryInstance() {

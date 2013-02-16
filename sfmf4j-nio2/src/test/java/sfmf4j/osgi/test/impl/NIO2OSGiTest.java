@@ -25,6 +25,24 @@ import sfmf4j.osgi.test.AbstractOSGiTest;
  * @author sswor
  */
 public class NIO2OSGiTest extends AbstractOSGiTest {
+    
+    protected boolean isPollingImplementation() {
+        boolean results = false;
+        String osName = System.getProperty("os.name");
+        if (osName.contains("Mac OS X")) {
+            results = true;
+        }
+        return results;
+    }
+
+    @Override
+    protected long eventTimeoutDuration() {
+        long results = super.eventTimeoutDuration();
+        if (isPollingImplementation()) {
+            results = 15L;
+        }
+        return results;
+    }
 
     @Override
     protected Option implementationOption() {
