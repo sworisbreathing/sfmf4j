@@ -21,6 +21,15 @@
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
     </properties>
+    
+    <distributionManagement>
+        <site>
+            <id>github-pages-site</id>
+            <name>GHPages Deployment</name>
+            <url>${project.parent.distributionManagement.site.url}/${project.artifactId}</url>
+        </site>
+    </distributionManagement>
+    
     <dependencies>
         <dependency>
             <groupId>junit</groupId>

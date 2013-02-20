@@ -17,6 +17,14 @@
         The SFMF4J API module provides client APIs for implementation-agnostic
         file system monitoring.
     </description>
+    
+    <distributionManagement>
+        <site>
+            <id>github-pages-site</id>
+            <name>GHPages Deployment</name>
+            <url>${project.parent.distributionManagement.site.url}/${project.artifactId}</url>
+        </site>
+    </distributionManagement>
 
     <dependencies>
         <dependency>

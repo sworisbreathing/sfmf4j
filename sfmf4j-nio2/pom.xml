@@ -16,6 +16,14 @@
         SFMF4J :: NIO2 is an SFMF4J provider for file system monitoring using
         the java.nio.file APIs.  It requires Java 7 or above.
     </description>
+    
+    <distributionManagement>
+        <site>
+            <id>github-pages-site</id>
+            <name>GHPages Deployment</name>
+            <url>${project.parent.distributionManagement.site.url}/${project.artifactId}</url>
+        </site>
+    </distributionManagement>
 
     <dependencies>
         <dependency>
