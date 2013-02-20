@@ -16,14 +16,6 @@
         SFMF4J :: Commons IO is an SFMF4J provider for file system monitoring
         using Apache Commons IO.  This is strictly a polling implementation.
     </description>
-    
-    <distributionManagement>
-        <site>
-            <id>github-pages-site</id>
-            <name>GHPages Deployment</name>
-            <url>${project.parent.distributionManagement.site.url}/${project.artifactId}</url>
-        </site>
-    </distributionManagement>
 
     <dependencies>
         <dependency>
@@ -127,4 +119,32 @@
             </plugin>
         </plugins>
     </build>
+    
+    <profiles>
+        <profile>
+            <id>github-site-publish</id>
+            <build>
+                <plugins>
+                    <plugin>
+                        <groupId>com.github.github</groupId>
+                        <artifactId>site-maven-plugin</artifactId>
+                        <version>0.7</version>
+                        <configuration>
+                            <message>Creating site for ${project.version}</message>
+                            <merge>true</merge>
+                            <path>${project.artifactId}</path>
+                        </configuration>
+                        <executions>
+                            <execution>
+                                <goals>
+                                    <goal>site</goal>
+                                </goals>
+                                <phase>site-deploy</phase>
+                            </execution>
+                        </executions>
+                    </plugin>
+                </plugins>
+            </build>
+        </profile>
+    </profiles>
 </project>
