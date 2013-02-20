@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<pmd version="4.3" timestamp="2013-02-21T01:28:52.189">
+<pmd version="4.3" timestamp="2013-02-21T01:33:29.472">
 <suppressedviolation filename="/Volumes/Development/Git/sfmf4j/sfmf4j-commonsio/src/main/java/com/github/sworisbreathing/sfmf4j/commonsio/CommonsIOFileMonitorServiceImpl.java" suppressiontype="annotation" msg="Avoid empty catch blocks" usermsg=""/>
 <suppressedviolation filename="/Volumes/Development/Git/sfmf4j/sfmf4j-commonsio/src/main/java/com/github/sworisbreathing/sfmf4j/commonsio/CommonsIOFileMonitorServiceImpl.java" suppressiontype="annotation" msg="Avoid empty catch blocks" usermsg=""/>
 <suppressedviolation filename="/Volumes/Development/Git/sfmf4j/sfmf4j-commonsio/src/main/java/com/github/sworisbreathing/sfmf4j/commonsio/CommonsIOFileMonitorServiceImpl.java" suppressiontype="annotation" msg="Avoid empty catch blocks" usermsg=""/>
