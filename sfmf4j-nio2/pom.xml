@@ -2,12 +2,12 @@
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
     <parent>
+        <groupId>com.github.sworisbreathing</groupId>
         <artifactId>sfmf4j</artifactId>
-        <groupId>sfmf4j</groupId>
         <version>1.0-SNAPSHOT</version>
     </parent>
 
-    <groupId>sfmf4j</groupId>
+    <groupId>com.github.sworisbreathing.sfmf4j</groupId>
     <artifactId>sfmf4j-nio2</artifactId>
     <packaging>bundle</packaging>
 
@@ -92,7 +92,7 @@
                 <extensions>true</extensions>
                 <configuration>
                     <instructions>
-                        <Private-Package>sfmf4j.nio2</Private-Package>
+                        <Private-Package>com.github.sworisbreathing.sfmf4j.nio2</Private-Package>
                     </instructions>
                 </configuration>
                 <executions>

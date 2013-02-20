@@ -2,12 +2,12 @@
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
     <parent>
-    <artifactId>sfmf4j</artifactId>
-    <groupId>sfmf4j</groupId>
-    <version>1.0-SNAPSHOT</version>
-  </parent>
+        <groupId>com.github.sworisbreathing</groupId>
+        <artifactId>sfmf4j</artifactId>
+        <version>1.0-SNAPSHOT</version>
+    </parent>
 
-    <groupId>sfmf4j</groupId>
+    <groupId>com.github.sworisbreathing.sfmf4j</groupId>
     <artifactId>sfmf4j-jpathwatch</artifactId>
     <packaging>bundle</packaging>
 
@@ -101,7 +101,7 @@
                 <configuration>
                     <instructions>
                         <Bundle-SymbolicName>${project.groupId}.${project.artifactId}</Bundle-SymbolicName>
-                        <Private-Package>sfmf4j.jpathwatch</Private-Package>
+                        <Private-Package>com.github.sworisbreathing.sfmf4j.jpathwatch</Private-Package>
                     </instructions>
                 </configuration>
                 <executions>

@@ -7,5 +7,5 @@ appender("STDOUT", ConsoleAppender) {
   }
 }
 root(WARN, ["STDOUT"])
-logger("sfmf4j",ALL)
+logger("com.github.sworisbreathing.sfmf4j",ALL)
 logger("name.pachler",ALL)

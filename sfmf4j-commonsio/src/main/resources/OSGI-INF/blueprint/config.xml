@@ -15,9 +15,9 @@
         </cm:default-properties>
     </cm:property-placeholder>
 
-    <bean id="file-monitor-service-factory" class="sfmf4j.commonsio.CommonsIOFileMonitorServiceFactory">
+    <bean id="file-monitor-service-factory" class="com.github.sworisbreathing.sfmf4j.commonsio.CommonsIOFileMonitorServiceFactory">
         <property name="pollingInterval" value="${pollingInterval}" />
         <property name="pollingTimeUnit" value="${pollingTimeUnit}" />
     </bean>
-    <service id="fileMonitorServiceFactory" ref="file-monitor-service-factory" interface="sfmf4j.api.FileMonitorServiceFactory" />
+    <service id="fileMonitorServiceFactory" ref="file-monitor-service-factory" interface="com.github.sworisbreathing.sfmf4j.api.FileMonitorServiceFactory" />
 </blueprint>
