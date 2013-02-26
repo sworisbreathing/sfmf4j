@@ -38,7 +38,7 @@
             <scope>provided</scope>
         </dependency>
         <dependency>
-            <groupId>jpathwatch</groupId>
+            <groupId>net.sf.jpathwatch</groupId>
             <artifactId>jpathwatch</artifactId>
         </dependency>
 
@@ -123,7 +123,7 @@
             </plugin>
         </plugins>
     </build>
-    
+
     <profiles>
         <profile>
             <id>github-site-publish</id>
