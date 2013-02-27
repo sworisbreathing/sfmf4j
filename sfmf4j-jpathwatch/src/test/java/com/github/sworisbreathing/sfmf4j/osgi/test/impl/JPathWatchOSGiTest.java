@@ -30,7 +30,7 @@ public class JPathWatchOSGiTest extends AbstractOSGiTest {
     @Override
     protected Option implementationOption() {
         return composite(
-                wrappedBundle(mavenBundle("jpathwatch", "jpathwatch", "0.95")).startLevel(Constants.START_LEVEL_SYSTEM_BUNDLES),
+                wrappedBundle(mavenBundle("net.sf.jpathwatch", "jpathwatch", "0.95")).startLevel(Constants.START_LEVEL_SYSTEM_BUNDLES),
                 //mavenBundle(sfmf4jGroupId(), "sfmf4j-jpathwatch", sfmf4jVersion()));
                 bundle("reference:file:" + PathUtils.getBaseDir() + "/target/classes"));
     }
