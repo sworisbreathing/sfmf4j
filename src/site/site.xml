@@ -1,6 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<project name="${project.name}"
-    xmlns:xsi='http://www.w3.org/2001/XMLSchema-instance'
+<project xmlns:xsi='http://www.w3.org/2001/XMLSchema-instance'
     xmlns='http://maven.apache.org/DECORATION/1.1.0'
     xsi:schemaLocation='http://maven.apache.org/DECORATION/1.1.0 http://maven.apache.org/xsd/decoration-1.1.0.xsd'>
     <skin>
@@ -15,7 +14,11 @@
         </fluidoSkin>
     </custom>
     <version position="right" />
+    <publishDate position="bottom" />
     <body>
+        <breadcrumbs>
+            <item name="${project.name}" href="/index.html" />
+        </breadcrumbs>
         <menu name="Documentation">
             <item name="Architecture" href="architecture.html" />
         </menu>
