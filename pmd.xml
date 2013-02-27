@@ -1,11 +1,13 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<pmd version="4.3" timestamp="2013-02-27T13:50:43.970">
-<suppressedviolation filename="C:\SigtecSubversionCheckouts\sfmf4j\sfmf4j-commonsio\src\main\java\com\github\sworisbreathing\sfmf4j\commonsio\CommonsIOFileMonitorServiceImpl.java" suppressiontype="annotation" msg="Avoid empty catch blocks" usermsg=""/>
-<suppressedviolation filename="C:\SigtecSubversionCheckouts\sfmf4j\sfmf4j-commonsio\src\main\java\com\github\sworisbreathing\sfmf4j\commonsio\CommonsIOFileMonitorServiceImpl.java" suppressiontype="annotation" msg="Avoid empty catch blocks" usermsg=""/>
-<suppressedviolation filename="C:\SigtecSubversionCheckouts\sfmf4j\sfmf4j-commonsio\src\main\java\com\github\sworisbreathing\sfmf4j\commonsio\CommonsIOFileMonitorServiceImpl.java" suppressiontype="annotation" msg="Avoid empty catch blocks" usermsg=""/>
-<suppressedviolation filename="C:\SigtecSubversionCheckouts\sfmf4j\sfmf4j-jpathwatch\src\main\java\com\github\sworisbreathing\sfmf4j\jpathwatch\WatchServiceFileMonitorServiceImpl.java" suppressiontype="annotation" msg="Avoid empty catch blocks" usermsg=""/>
-<suppressedviolation filename="C:\SigtecSubversionCheckouts\sfmf4j\sfmf4j-jpathwatch\src\main\java\com\github\sworisbreathing\sfmf4j\jpathwatch\WatchServiceFileMonitorServiceImpl.java" suppressiontype="annotation" msg="Avoid empty catch blocks" usermsg=""/>
-<suppressedviolation filename="C:\SigtecSubversionCheckouts\sfmf4j\sfmf4j-tests\src\main\java\com\github\sworisbreathing\sfmf4j\test\AbstractSFMF4JTest.java" suppressiontype="annotation" msg="Avoid empty catch blocks" usermsg=""/>
-<suppressedviolation filename="C:\SigtecSubversionCheckouts\sfmf4j\sfmf4j-tests\src\main\java\com\github\sworisbreathing\sfmf4j\test\AbstractSFMF4JTest.java" suppressiontype="annotation" msg="Avoid empty catch blocks" usermsg=""/>
-<suppressedviolation filename="C:\SigtecSubversionCheckouts\sfmf4j\sfmf4j-tests\src\main\java\com\github\sworisbreathing\sfmf4j\test\AbstractSFMF4JTest.java" suppressiontype="annotation" msg="Avoid empty catch blocks" usermsg=""/>
+<pmd version="4.3" timestamp="2013-02-28T06:53:50.118">
+<suppressedviolation filename="/Volumes/Development/Git/sfmf4j/sfmf4j-commonsio/src/main/java/com/github/sworisbreathing/sfmf4j/commonsio/CommonsIOFileMonitorServiceImpl.java" suppressiontype="annotation" msg="Avoid empty catch blocks" usermsg=""/>
+<suppressedviolation filename="/Volumes/Development/Git/sfmf4j/sfmf4j-commonsio/src/main/java/com/github/sworisbreathing/sfmf4j/commonsio/CommonsIOFileMonitorServiceImpl.java" suppressiontype="annotation" msg="Avoid empty catch blocks" usermsg=""/>
+<suppressedviolation filename="/Volumes/Development/Git/sfmf4j/sfmf4j-commonsio/src/main/java/com/github/sworisbreathing/sfmf4j/commonsio/CommonsIOFileMonitorServiceImpl.java" suppressiontype="annotation" msg="Avoid empty catch blocks" usermsg=""/>
+<suppressedviolation filename="/Volumes/Development/Git/sfmf4j/sfmf4j-jpathwatch/src/main/java/com/github/sworisbreathing/sfmf4j/jpathwatch/WatchServiceFileMonitorServiceImpl.java" suppressiontype="annotation" msg="Avoid empty catch blocks" usermsg=""/>
+<suppressedviolation filename="/Volumes/Development/Git/sfmf4j/sfmf4j-jpathwatch/src/main/java/com/github/sworisbreathing/sfmf4j/jpathwatch/WatchServiceFileMonitorServiceImpl.java" suppressiontype="annotation" msg="Avoid empty catch blocks" usermsg=""/>
+<suppressedviolation filename="/Volumes/Development/Git/sfmf4j/sfmf4j-nio2/src/main/java/com/github/sworisbreathing/sfmf4j/nio2/WatchServiceFileMonitorServiceImpl.java" suppressiontype="annotation" msg="Avoid empty catch blocks" usermsg=""/>
+<suppressedviolation filename="/Volumes/Development/Git/sfmf4j/sfmf4j-nio2/src/main/java/com/github/sworisbreathing/sfmf4j/nio2/WatchServiceFileMonitorServiceImpl.java" suppressiontype="annotation" msg="Avoid empty catch blocks" usermsg=""/>
+<suppressedviolation filename="/Volumes/Development/Git/sfmf4j/sfmf4j-tests/src/main/java/com/github/sworisbreathing/sfmf4j/test/AbstractSFMF4JTest.java" suppressiontype="annotation" msg="Avoid empty catch blocks" usermsg=""/>
+<suppressedviolation filename="/Volumes/Development/Git/sfmf4j/sfmf4j-tests/src/main/java/com/github/sworisbreathing/sfmf4j/test/AbstractSFMF4JTest.java" suppressiontype="annotation" msg="Avoid empty catch blocks" usermsg=""/>
+<suppressedviolation filename="/Volumes/Development/Git/sfmf4j/sfmf4j-tests/src/main/java/com/github/sworisbreathing/sfmf4j/test/AbstractSFMF4JTest.java" suppressiontype="annotation" msg="Avoid empty catch blocks" usermsg=""/>
 </pmd>
