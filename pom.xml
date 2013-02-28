@@ -62,6 +62,11 @@
         </site>
     </distributionManagement>
 
+    <issueManagement>
+        <system>GitHub Issues</system>
+        <url>https://github.com/sworisbreathing/sfmf4j/issues/</url>
+    </issueManagement>
+
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
