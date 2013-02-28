@@ -137,6 +137,18 @@ public abstract class AbstractSFMF4JTest {
              */
             fileMonitor.unregisterDirectoryListener(folder, listener);
             assertFalse(fileMonitor.isMonitoringDirectory(folder));
+
+            /*
+             * Some implementations may have fired multiple events for the same
+             * operation (i.e. a file change and a file delete), so our lists
+             * are not guaranteed to be empty at this point.
+             *
+             * Now that the listener has been unregistered, we empty the lists
+             * and then verify that we are no longer receiving events.
+             */
+            createdFiles.clear();
+            modifiedFiles.clear();
+            deletedFiles.clear();
             File createdAfterUnregister = tempFolder.newFile();
             assertNull(createdFiles.poll(eventTimeoutDuration(), eventTimeoutTimeUnit()));
             appendBytesToFile(createdAfterUnregister);
