@@ -6,7 +6,6 @@
         <breadcrumbs>
             <item name="${project.name}" href="/index.html" />
         </breadcrumbs>
-        <menu ref="parent" />
         <menu ref="reports" />
     </body>
 </project>

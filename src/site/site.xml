@@ -21,9 +21,9 @@
         </breadcrumbs>
         <menu name="Documentation">
             <item name="About" href="index.html" />
-            <item name="Architecture" href="architecture.html" />
             <item name="Howto" href="howto.html" />
             <item name="Implementation Features" href="implementation-features.html" />
+            <item name="Architecture" href="architecture.html" />
         </menu>
         <menu ref="modules" />
         <menu ref="reports" />
