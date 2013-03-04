@@ -1,0 +1,74 @@
+ -------------------------------------------------------------------------------
+                             Implementation Features
+ -------------------------------------------------------------------------------
+                                  Steven Swor
+ -------------------------------------------------------------------------------
+                                   2013-03-04
+ -------------------------------------------------------------------------------
+
+Implementation Features
+
+    Feature comparisons for the various SFMF4J implementations are listed here.
+    These are based on the current versions of each of the third-party
+    implementations, and Java 7 update 15 for the NIO2 implementation.
+
+* Implementations
+
+** Commons IO
+
+    Commons IO uses a dedicated polling thread running at a fixed interval.  It
+    uses file attributes such as file sizes and timestamps to detect changes.
+
+    Commons IO is licensed under the Apache Software License, version 2.0 (the
+    same license as SFMF4J).
+
+** NIO2
+
+    NIO2 is Java 7's new file system API.  NIO2 uses native operating system
+    features when possible, falling back to a polling implementation when native
+    OS features are not available.  Since NIO2 is installed as part of Java,
+    NIO2 does not use JNI, nor does it require an additional third-party
+    library on the classpath.  The only requirement for using NIO2 is that you
+    must have Java  7 or later installed.
+
+** jpathwatch
+
+    jpathwatch attempts to bring the semantics of NIO2's <<<WatchService>>> API
+    to earlier versions of Java.  Under the hood, jpathwatch implements its own
+    <<<WatchService>>> interface with OS-dependent native code, using JNI, which
+    is bundled within <<<jpathwatch.jar>>>.  Like NIO2, jpathwatch includes a
+    polling implementation as a fallback, in case it is used on a system which
+    is not supported by its native implementations.
+
+    jpathwath is licensed under the GNU General Public License, version 2, with
+    a linking exception (commonly known as the "Classpath" exception).
+
+* Other Thoughts
+
+    The various implementations each have their advantages and drawbacks.
+
+    NIO2 might seem advantageous due to its being built into Java, but
+    the user has very little control over NIO2's implementation.  As of Java
+    7u15, NIO2 for Mac OS X still uses a polling implementation of
+    WatchService, despite the operating system's inclusion of both BSD kernel
+    queues (<<<kqueue>>>) and Apple's own file system events API
+    (<<<FSEvents>>>, since Mac OS 10.5). Furthermore, many enterprise systems
+    administrators prefer to delay adoption of new Java releases until they can
+    be thoroughly tested in-house, to ensure the new version does not include
+    any serious regression bugs which could affect existing production systems,
+    so your IT policies may prohibit the use of Java 7 in production.
+
+    In some instances, jpathwatch may be the most desirable implementation,
+    since it works with older Java versions (and, in certain environments,
+    outperforms NIO2).  However, some people are averse to use of native code in
+    Java applications (even if it is bundled within a library's .jar file).
+    Additionally, there may be some reluctance to make use of libraries licensed
+    under the GPL (although the linking exception is pretty darn permissive).
+
+    Commons IO is arguably the simplest implementation (and possibly the
+    slowest).  It uses a dedicated polling thread, and simply compares file
+    timestamps and sizes for changes since the previous polling attempt.
+    While this may be slower than queue-based implementations, it is arguably
+    more reliable when monitoring folders on network shares (where <<<inotify>>>
+    and <<<kqueue>>> don't work particularly well) and has more consistent
+    behavior across different OS/JVM combinations.

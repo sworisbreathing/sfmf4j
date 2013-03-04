@@ -1,0 +1,134 @@
+ -------------------------------------------------------------------------------
+                                    Howto
+ -------------------------------------------------------------------------------
+                                 Steven Swor
+ -------------------------------------------------------------------------------
+                                  2013-03-04
+ -------------------------------------------------------------------------------
+
+How To Use SFMF4J
+
+* For Library Architects
+
+    Developing a file monitoring solution using SFMF4J is pretty simple.  You
+    simply need to:
+
+    [[1]] Define a dependency on <<<sfmf4j-api>>>.
+
+    [[1]] Implement
+    {{{./sfmf4j-api/apidocs/com/github/sworisbreathing/sfmf4j/api/DirectoryListener.html}DirectoryListener}}.
+
+    [[1]] Register the <<<DirectoryListener>>> implementation with a
+    {{{./sfmf4j-api/apidocs/com/github/sworisbreathing/sfmf4j/api/FileMonitorService.html}FileMonitorService}}.
+
+
+** Define a dependency on <<<sfmf4j-api>>>.
+
+    When writing code against SFMF4J, you need only add a
+    {{{./sfmf4j-api/dependency-info.html}compile-time dependency}} on
+    <<<sfmf4j-api>>>.  You can (and should) defer the choice of implementation
+    to the application architecture.
+
+** Implement DirectoryListener
+
+    SFMF4J uses an event/listener paradigm for handling file system changes at
+    the directory level.  SFMF4J supports three types of events:
+
+    [File Creation] events are fired when a new file or subdirectory is detected
+
+    [File Change] events are fired when the contents of a file or subdirectory
+    have changed, or are likely to have changed.
+
+    [File Deletion] events are fired when a monitored directory no longer
+    contains a subdirectory or file.
+
+    []
+
+    Sometimes you may only be interested in a subset of these events.  For
+    example, you may have a process which monitors a folder on an FTP server
+    where users upload files, so you only really care about new files being
+    added. In such a case, you are encouraged to extend
+    {{{./sfmf4j-api/apidocs/com/github/sworisbreathing/sfmf4j/api/DirectoryListenerAdapter.html}DirectoryListenerAdapter}}
+    and override its no-op implementations.
+
+** Register with a FileMonitorService
+
+    The act of monitoring the file system for changes and notifying interested
+    parties is handled by a
+    {{{./sfmf4j-api/apidocs/com/github/sworisbreathing/sfmf4j/api/FileMonitorService.html}FileMonitorService}}.
+    How you obtain a reference to a <<<FileMonitorService>>> is up to you, but
+    for your convenience, you can create a pre-configured instance from a
+    {{{./sfmf4j-api/apidocs/com/github/sworisbreathing/sfmf4j/api/FileMonitorServiceFactory.html}FileMonitorServiceFactory}}.
+
+    You will need to maintain a reference to your <<<FileMonitorService>>> in
+    order to later unregister the listener when you no longer have any interest
+    in file system events.
+
+* For Application Architects
+
+    Deploying an application with file monitoring is easy.
+
+    [[1]] Choose your implementation
+
+    [[1]] Obtain a <<<FileMonitorServiceFactory>>> and a <<<FileMonitorService>>>
+
+    [[1]] Make your <<<FileMonitorService>>> available to interested parties.
+
+** Choose your implementation
+
+    Using SFMF4J in an application is simply a matter of adding You should give
+    some consideration to which implementation you choose, as each has its own
+    advantages and drawbacks.
+
+    Once you have decided on an implementation, you need only add it to your
+    application's classpath, or (for OSGi environments), install its bundle in
+    your OSGi container.
+
+** Obtain a FileMonitorServiceFactory
+
+    In Java 6+ environments, implementations can be loaded via Java SPI (a.k.a.
+    <<<java.util.ServiceLoader>>>).  Note that when using this method, you must
+    invoke the lifecycle methods <<<initialize>>> and <<<shutdown>>> yourself.
+
++------------------------------------------------------------------------------+
+import com.github.sworisbreathing.sfmf4j.api.FileMonitorServiceFactory;
+import java.util.Iterator;
+import java.util.ServiceLoader;
+
+static FileMonitorServiceFactory loadFileMonitorServiceFactory() {
+    ServiceLoader<FileMonitorServiceFactory> serviceLoader = ServiceLoader.load(
+        FileMonitorServiceFactory.class);
+    Iterator<FileMonitorServiceFactory> implementationIterator = serviceLoader.iterator();
+    if(implementationIterator.hasNext()) {
+        return implementationIterator.next();
+    }
+}
+
+static FileMonitorService newFileMonitorServiceInstance() {
+    FileMonitorServiceFactory implementationFactory = loadFileMonitorServiceFactory();
+    FileMonitorService results = implementationFactory.createFileMonitorService();
+    return results;
+}
+
++------------------------------------------------------------------------------+
+
+    In OSGi environments, implementations are registered as services via
+    Blueprint.  Using this approach, you can easily rely on the OSGi container
+    to manage the file monitor service's lifecycle for you, simply by declaring
+    the <<<init-method>>> and <<<destroy-method>>>.
+
++------------------------------------------------------------------------------+
+<reference id="implementationFactory" interface="com.github.sworisbreathing.sfmf4j.api.FileMonitorServiceFactory" />
+<bean id="fileMonitorService" class="com.github.sworisbreathing.sfmf4j.api.FileMonitorService"
+    factory-ref="implementationFactory" factory-method="createFileMonitorService"
+    init-method="initialize" destroy-method="shutdown"/>
++------------------------------------------------------------------------------+
+
+** Supplying a FileMonitorService
+
+    Once your application has a <<<FileMonitorService>>> instance, it must be
+    made available to interested parties.  If you are using a dependency
+    injection framework, such as Spring, then this should be fairly easy.
+    Otherwise, you may need to register the service via JNDI or make it
+    available via some other mechanism.  This largely depends on how the
+    library code expects to obtain the <<<FileMonitorService>>> instance.

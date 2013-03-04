@@ -1,0 +1,21 @@
+ -------------------------------------------------------------------------------
+                                  About
+ -------------------------------------------------------------------------------
+                                Steven Swor
+ -------------------------------------------------------------------------------
+                                2013-03-04
+ -------------------------------------------------------------------------------
+
+About ${project.name}
+
+    ${project.description}
+
+Documentation Index
+
+    * {{{./howto.html}Howto}}
+
+    * {{{./implementation-features.html}Implementation Features}}
+
+    * {{{./architecture.html}Architecture}}
+
+    * {{{./threading.html}Threading}}
