@@ -7,9 +7,11 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="author" content="Steven Swor" />
+    <meta name="Date-Creation-yyyymmdd" content="20130304" />
     <meta name="Date-Revision-yyyymmdd" content="20130304" />
     <meta http-equiv="Content-Language" content="en" />
-    <title>SFMF4J :: Commons IO - Project Build Plugins</title>
+    <title>SFMF4J: Simple File Monitor Facade For Java - Implementation Features</title>
     <link rel="stylesheet" href="./css/apache-maven-fluido-1.3.0.min.css" />
     <link rel="stylesheet" href="./css/site.css" />
     <link rel="stylesheet" href="./css/print.css" media="print" />
@@ -32,10 +34,36 @@
                 
                                 <ul class="nav">
                           <li class="dropdown">
-        <a href="#" class="dropdown-toggle" data-toggle="dropdown">Parent Project <b class="caret"></b></a>
+        <a href="#" class="dropdown-toggle" data-toggle="dropdown">Documentation <b class="caret"></b></a>
         <ul class="dropdown-menu">
         
-                      <li>      <a href="../index.html"  title="SFMF4J: Simple File Monitor Facade For Java">SFMF4J: Simple File Monitor Facade For Java</a>
+                      <li>      <a href="index.html"  title="About">About</a>
+</li>
+                  
+                      <li>      <a href="architecture.html"  title="Architecture">Architecture</a>
+</li>
+                  
+                      <li>      <a href="howto.html"  title="Howto">Howto</a>
+</li>
+                  
+                      <li>      <a href="implementation-features.html"  title="Implementation Features">Implementation Features</a>
+</li>
+                          </ul>
+      </li>
+                <li class="dropdown">
+        <a href="#" class="dropdown-toggle" data-toggle="dropdown">Modules <b class="caret"></b></a>
+        <ul class="dropdown-menu">
+        
+                      <li>      <a href="sfmf4j-api/index.html"  title="SFMF4J :: API">SFMF4J :: API</a>
+</li>
+                  
+                      <li>      <a href="sfmf4j-tests/index.html"  title="SFMF4J :: Testing :: Common Classes">SFMF4J :: Testing :: Common Classes</a>
+</li>
+                  
+                      <li>      <a href="sfmf4j-commonsio/index.html"  title="SFMF4J :: Commons IO">SFMF4J :: Commons IO</a>
+</li>
+                  
+                      <li>      <a href="sfmf4j-jpathwatch/index.html"  title="SFMF4J :: JPathWatch">SFMF4J :: JPathWatch</a>
 </li>
                           </ul>
       </li>
@@ -49,6 +77,8 @@
                                   <li>      <a href="index.html"  title="About">About</a>
 </li>
                                   <li>      <a href="team-list.html"  title="Project Team">Project Team</a>
+</li>
+                                  <li>      <a href="modules.html"  title="Project Modules">Project Modules</a>
 </li>
                                   <li>      <a href="dependency-info.html"  title="Dependency Information">Dependency Information</a>
 </li>
@@ -86,7 +116,13 @@
 </li>
                                   <li>      <a href="testapidocs/index.html"  title="Test JavaDocs">Test JavaDocs</a>
 </li>
-                                  <li>      <a href="findbugs.html"  title="FindBugs Report">FindBugs Report</a>
+                                  <li>      <a href="xref/index.html"  title="Source Xref">Source Xref</a>
+</li>
+                                  <li>      <a href="xref-test/index.html"  title="Test Source Xref">Test Source Xref</a>
+</li>
+                                  <li>      <a href="pmd.html"  title="PMD Report">PMD Report</a>
+</li>
+                                  <li>      <a href="cpd.html"  title="CPD Report">CPD Report</a>
 </li>
                                   <li>      <a href="cobertura/index.html"  title="Cobertura Test Coverage">Cobertura Test Coverage</a>
 </li>
@@ -109,7 +145,7 @@
           <div id="banner">
         <div class="pull-left">
                                 <div id="bannerLeft">
-                <h2>SFMF4J :: Commons IO</h2>
+                <h2>SFMF4J: Simple File Monitor Facade For Java</h2>
                 </div>
                       </div>
         <div class="pull-right">  </div>
@@ -121,16 +157,11 @@
                 
                     
                               <li class="">
-                    <a href="../index.html" title="SFMF4J: Simple File Monitor Facade For Java">
+                    <a href="index.html" title="SFMF4J: Simple File Monitor Facade For Java">
         SFMF4J: Simple File Monitor Facade For Java</a>
         </li>
       <li class="divider ">/</li>
-            <li class="">
-                    <a href="index.html" title="SFMF4J :: Commons IO">
-        SFMF4J :: Commons IO</a>
-        </li>
-      <li class="divider ">/</li>
-        <li class="">Project Build Plugins</li>
+        <li class="">Implementation Features</li>
         
                 
                     
@@ -143,7 +174,7 @@
                 
         <div id="bodyColumn" >
                                   
-            <div class="section"><h2>Project Build Plugins<a name="Project_Build_Plugins"></a></h2><a name="Project_Build_Plugins"></a><table border="0" class="table table-striped"><tr class="a"><th>GroupId</th><th>ArtifactId</th><th>Version</th></tr><tr class="b"><td>org.apache.felix</td><td><a class="externalLink" href="http://felix.apache.org/maven-bundle-plugin/">maven-bundle-plugin</a></td><td>2.3.7</td></tr><tr class="a"><td>org.apache.maven.plugins</td><td><a class="externalLink" href="http://maven.apache.org/plugins/maven-clean-plugin/">maven-clean-plugin</a></td><td>2.4.1</td></tr><tr class="b"><td>org.apache.maven.plugins</td><td><a class="externalLink" href="http://maven.apache.org/plugins/maven-compiler-plugin/">maven-compiler-plugin</a></td><td>2.5.1</td></tr><tr class="a"><td>org.apache.maven.plugins</td><td><a class="externalLink" href="http://maven.apache.org/plugins/maven-deploy-plugin/">maven-deploy-plugin</a></td><td>2.7</td></tr><tr class="b"><td>org.apache.maven.plugins</td><td><a class="externalLink" href="http://maven.apache.org/plugins/maven-enforcer-plugin/">maven-enforcer-plugin</a></td><td>1.0</td></tr><tr class="a"><td>org.apache.maven.plugins</td><td><a class="externalLink" href="http://maven.apache.org/surefire/maven-failsafe-plugin">maven-failsafe-plugin</a></td><td>2.12.4</td></tr><tr class="b"><td>org.apache.maven.plugins</td><td><a class="externalLink" href="http://maven.apache.org/plugins/maven-install-plugin/">maven-install-plugin</a></td><td>2.3.1</td></tr><tr class="a"><td>org.apache.maven.plugins</td><td><a class="externalLink" href="http://maven.apache.org/plugins/maven-resources-plugin/">maven-resources-plugin</a></td><td>2.5</td></tr><tr class="b"><td>org.apache.maven.plugins</td><td><a class="externalLink" href="http://maven.apache.org/plugins/maven-site-plugin/">maven-site-plugin</a></td><td>3.2</td></tr><tr class="a"><td>org.apache.maven.plugins</td><td><a class="externalLink" href="http://maven.apache.org/surefire/maven-surefire-plugin">maven-surefire-plugin</a></td><td>2.12.4</td></tr></table></div><div class="section"><h2>Project Report Plugins<a name="Project_Report_Plugins"></a></h2><a name="Project_Report_Plugins"></a><table border="0" class="table table-striped"><tr class="a"><th>GroupId</th><th>ArtifactId</th><th>Version</th></tr><tr class="b"><td>org.apache.maven.plugins</td><td><a class="externalLink" href="http://maven.apache.org/plugins/maven-javadoc-plugin/">maven-javadoc-plugin</a></td><td>2.9</td></tr><tr class="a"><td>org.apache.maven.plugins</td><td><a class="externalLink" href="http://maven.apache.org/jxr/maven-jxr-plugin/">maven-jxr-plugin</a></td><td>2.3</td></tr><tr class="b"><td>org.apache.maven.plugins</td><td><a class="externalLink" href="http://maven.apache.org/plugins/maven-pmd-plugin/">maven-pmd-plugin</a></td><td>2.7.1</td></tr><tr class="a"><td>org.apache.maven.plugins</td><td><a class="externalLink" href="http://maven.apache.org/plugins/maven-project-info-reports-plugin/">maven-project-info-reports-plugin</a></td><td>2.6</td></tr><tr class="b"><td>org.codehaus.mojo</td><td><a class="externalLink" href="http://mojo.codehaus.org/cobertura-maven-plugin/">cobertura-maven-plugin</a></td><td>2.5.2</td></tr><tr class="a"><td>org.codehaus.mojo</td><td><a class="externalLink" href="http://mojo.codehaus.org/findbugs-maven-plugin">findbugs-maven-plugin</a></td><td>2.5.2</td></tr></table></div>
+            <div class="section"><h2>Implementation Features<a name="Implementation_Features"></a></h2><p>Feature comparisons for the various SFMF4J implementations are listed here. These are based on the current versions of each of the third-party implementations, and Java 7 update 15 for the NIO2 implementation.</p><div class="section"><h3>Implementations<a name="Implementations"></a></h3><div class="section"><h4>Commons IO<a name="Commons_IO"></a></h4><p>Commons IO uses a dedicated polling thread running at a fixed interval. It uses file attributes such as file sizes and timestamps to detect changes.</p><p>Commons IO is licensed under the Apache Software License, version 2.0 (the same license as SFMF4J).</p></div><div class="section"><h4>NIO2<a name="NIO2"></a></h4><p>NIO2 is Java 7's new file system API. NIO2 uses native operating system features when possible, falling back to a polling implementation when native OS features are not available. Since NIO2 is installed as part of Java, NIO2 does not use JNI, nor does it require an additional third-party library on the classpath. The only requirement for using NIO2 is that you must have Java 7 or later installed.</p></div><div class="section"><h4>jpathwatch<a name="jpathwatch"></a></h4><p>jpathwatch attempts to bring the semantics of NIO2's <tt>WatchService</tt> API to earlier versions of Java. Under the hood, jpathwatch implements its own <tt>WatchService</tt> interface with OS-dependent native code, using JNI, which is bundled within <tt>jpathwatch.jar</tt>. Like NIO2, jpathwatch includes a polling implementation as a fallback, in case it is used on a system which is not supported by its native implementations.</p><p>jpathwath is licensed under the GNU General Public License, version 2, with a linking exception (commonly known as the &quot;Classpath&quot; exception).</p></div></div><div class="section"><h3>Other Thoughts<a name="Other_Thoughts"></a></h3><p>The various implementations each have their advantages and drawbacks.</p><p>NIO2 might seem advantageous due to its being built into Java, but the user has very little control over NIO2's implementation. As of Java 7u15, NIO2 for Mac OS X still uses a polling implementation of WatchService, despite the operating system's inclusion of both BSD kernel queues (<tt>kqueue</tt>) and Apple's own file system events API (<tt>FSEvents</tt>, since Mac OS 10.5). Furthermore, many enterprise systems administrators prefer to delay adoption of new Java releases until they can be thoroughly tested in-house, to ensure the new version does not include any serious regression bugs which could affect existing production systems, so your IT policies may prohibit the use of Java 7 in production.</p><p>In some instances, jpathwatch may be the most desirable implementation, since it works with older Java versions (and, in certain environments, outperforms NIO2). However, some people are averse to use of native code in Java applications (even if it is bundled within a library's .jar file). Additionally, there may be some reluctance to make use of libraries licensed under the GPL (although the linking exception is pretty darn permissive).</p><p>Commons IO is arguably the simplest implementation (and possibly the slowest). It uses a dedicated polling thread, and simply compares file timestamps and sizes for changes since the previous polling attempt. While this may be slower than queue-based implementations, it is arguably more reliable when monitoring folders on network shares (where <tt>inotify</tt> and <tt>kqueue</tt> don't work particularly well) and has more consistent behavior across different OS/JVM combinations.</p></div></div>
                   </div>
           </div>
 

@@ -147,55 +147,67 @@
 <a class="jxr_linenumber" name="137" href="#137">137</a> <em class="jxr_comment">             */</em>
 <a class="jxr_linenumber" name="138" href="#138">138</a>             fileMonitor.unregisterDirectoryListener(folder, listener);
 <a class="jxr_linenumber" name="139" href="#139">139</a>             assertFalse(fileMonitor.isMonitoringDirectory(folder));
-<a class="jxr_linenumber" name="140" href="#140">140</a>             File createdAfterUnregister = tempFolder.newFile();
-<a class="jxr_linenumber" name="141" href="#141">141</a>             assertNull(createdFiles.poll(eventTimeoutDuration(), eventTimeoutTimeUnit()));
-<a class="jxr_linenumber" name="142" href="#142">142</a>             appendBytesToFile(createdAfterUnregister);
-<a class="jxr_linenumber" name="143" href="#143">143</a>             assertNull(modifiedFiles.poll(eventTimeoutDuration(), eventTimeoutTimeUnit()));
-<a class="jxr_linenumber" name="144" href="#144">144</a>             createdAfterUnregister.delete();
-<a class="jxr_linenumber" name="145" href="#145">145</a>             assertNull(deletedFiles.poll(eventTimeoutDuration(), eventTimeoutTimeUnit()));
-<a class="jxr_linenumber" name="146" href="#146">146</a>         } <strong class="jxr_keyword">finally</strong> {
-<a class="jxr_linenumber" name="147" href="#147">147</a>             <strong class="jxr_keyword">if</strong> (folder != <strong class="jxr_keyword">null</strong>) {
-<a class="jxr_linenumber" name="148" href="#148">148</a>                 <strong class="jxr_keyword">try</strong> {
-<a class="jxr_linenumber" name="149" href="#149">149</a>                     fileMonitor.unregisterDirectoryListener(folder, listener);
-<a class="jxr_linenumber" name="150" href="#150">150</a>                 } <strong class="jxr_keyword">catch</strong> (Exception ex) {
-<a class="jxr_linenumber" name="151" href="#151">151</a>                     <em class="jxr_comment">//trap</em>
-<a class="jxr_linenumber" name="152" href="#152">152</a>                 }
-<a class="jxr_linenumber" name="153" href="#153">153</a>             }
-<a class="jxr_linenumber" name="154" href="#154">154</a>             <strong class="jxr_keyword">if</strong> (newFile != <strong class="jxr_keyword">null</strong> &amp;&amp; newFile.exists()) {
-<a class="jxr_linenumber" name="155" href="#155">155</a>                 <strong class="jxr_keyword">try</strong> {
-<a class="jxr_linenumber" name="156" href="#156">156</a>                     newFile.delete();
-<a class="jxr_linenumber" name="157" href="#157">157</a>                 } <strong class="jxr_keyword">catch</strong> (Exception ex) {
-<a class="jxr_linenumber" name="158" href="#158">158</a>                     <em class="jxr_comment">//trap</em>
-<a class="jxr_linenumber" name="159" href="#159">159</a>                 }
-<a class="jxr_linenumber" name="160" href="#160">160</a>             }
-<a class="jxr_linenumber" name="161" href="#161">161</a>         }
-<a class="jxr_linenumber" name="162" href="#162">162</a>     }
-<a class="jxr_linenumber" name="163" href="#163">163</a> 
-<a class="jxr_linenumber" name="164" href="#164">164</a>     <em class="jxr_javadoccomment">/**</em>
-<a class="jxr_linenumber" name="165" href="#165">165</a> <em class="jxr_javadoccomment">     * Appends bytes to a file.</em>
-<a class="jxr_linenumber" name="166" href="#166">166</a> <em class="jxr_javadoccomment">     *</em>
-<a class="jxr_linenumber" name="167" href="#167">167</a> <em class="jxr_javadoccomment">     * @param f the file</em>
-<a class="jxr_linenumber" name="168" href="#168">168</a> <em class="jxr_javadoccomment">     * @throws FileNotFoundException if the file does not exist</em>
-<a class="jxr_linenumber" name="169" href="#169">169</a> <em class="jxr_javadoccomment">     * @throws IOException if the file cannot be written</em>
-<a class="jxr_linenumber" name="170" href="#170">170</a> <em class="jxr_javadoccomment">     */</em>
-<a class="jxr_linenumber" name="171" href="#171">171</a>     @SuppressWarnings(<span class="jxr_string">"PMD.EmptyCatchBlock"</span>)
-<a class="jxr_linenumber" name="172" href="#172">172</a>     <strong class="jxr_keyword">private</strong> <strong class="jxr_keyword">void</strong> appendBytesToFile(<strong class="jxr_keyword">final</strong> File f) <strong class="jxr_keyword">throws</strong> FileNotFoundException, IOException {
-<a class="jxr_linenumber" name="173" href="#173">173</a>         FileOutputStream fileOut = <strong class="jxr_keyword">null</strong>;
-<a class="jxr_linenumber" name="174" href="#174">174</a>         byte[] bytes = <strong class="jxr_keyword">new</strong> byte[4096];
-<a class="jxr_linenumber" name="175" href="#175">175</a>         <strong class="jxr_keyword">try</strong> {
-<a class="jxr_linenumber" name="176" href="#176">176</a>             fileOut = <strong class="jxr_keyword">new</strong> FileOutputStream(f, <strong class="jxr_keyword">true</strong>);
-<a class="jxr_linenumber" name="177" href="#177">177</a>             fileOut.write(bytes);
-<a class="jxr_linenumber" name="178" href="#178">178</a>         } <strong class="jxr_keyword">finally</strong> {
-<a class="jxr_linenumber" name="179" href="#179">179</a>             <strong class="jxr_keyword">if</strong> (fileOut != <strong class="jxr_keyword">null</strong>) {
-<a class="jxr_linenumber" name="180" href="#180">180</a>                 <strong class="jxr_keyword">try</strong> {
-<a class="jxr_linenumber" name="181" href="#181">181</a>                     fileOut.close();
-<a class="jxr_linenumber" name="182" href="#182">182</a>                 } <strong class="jxr_keyword">catch</strong> (Exception ex) {
-<a class="jxr_linenumber" name="183" href="#183">183</a>                     <em class="jxr_comment">//trap.  We'll have bigger fish to fry if this happens</em>
-<a class="jxr_linenumber" name="184" href="#184">184</a>                 }
-<a class="jxr_linenumber" name="185" href="#185">185</a>             }
-<a class="jxr_linenumber" name="186" href="#186">186</a>         }
-<a class="jxr_linenumber" name="187" href="#187">187</a>     }
-<a class="jxr_linenumber" name="188" href="#188">188</a> }
+<a class="jxr_linenumber" name="140" href="#140">140</a> 
+<a class="jxr_linenumber" name="141" href="#141">141</a>             <em class="jxr_comment">/*</em>
+<a class="jxr_linenumber" name="142" href="#142">142</a> <em class="jxr_comment">             * Some implementations may have fired multiple events for the same</em>
+<a class="jxr_linenumber" name="143" href="#143">143</a> <em class="jxr_comment">             * operation (i.e. a file change and a file delete), so our lists</em>
+<a class="jxr_linenumber" name="144" href="#144">144</a> <em class="jxr_comment">             * are not guaranteed to be empty at this point.</em>
+<a class="jxr_linenumber" name="145" href="#145">145</a> <em class="jxr_comment">             *</em>
+<a class="jxr_linenumber" name="146" href="#146">146</a> <em class="jxr_comment">             * Now that the listener has been unregistered, we empty the lists</em>
+<a class="jxr_linenumber" name="147" href="#147">147</a> <em class="jxr_comment">             * and then verify that we are no longer receiving events.</em>
+<a class="jxr_linenumber" name="148" href="#148">148</a> <em class="jxr_comment">             */</em>
+<a class="jxr_linenumber" name="149" href="#149">149</a>             createdFiles.clear();
+<a class="jxr_linenumber" name="150" href="#150">150</a>             modifiedFiles.clear();
+<a class="jxr_linenumber" name="151" href="#151">151</a>             deletedFiles.clear();
+<a class="jxr_linenumber" name="152" href="#152">152</a>             File createdAfterUnregister = tempFolder.newFile();
+<a class="jxr_linenumber" name="153" href="#153">153</a>             assertNull(createdFiles.poll(eventTimeoutDuration(), eventTimeoutTimeUnit()));
+<a class="jxr_linenumber" name="154" href="#154">154</a>             appendBytesToFile(createdAfterUnregister);
+<a class="jxr_linenumber" name="155" href="#155">155</a>             assertNull(modifiedFiles.poll(eventTimeoutDuration(), eventTimeoutTimeUnit()));
+<a class="jxr_linenumber" name="156" href="#156">156</a>             createdAfterUnregister.delete();
+<a class="jxr_linenumber" name="157" href="#157">157</a>             assertNull(deletedFiles.poll(eventTimeoutDuration(), eventTimeoutTimeUnit()));
+<a class="jxr_linenumber" name="158" href="#158">158</a>         } <strong class="jxr_keyword">finally</strong> {
+<a class="jxr_linenumber" name="159" href="#159">159</a>             <strong class="jxr_keyword">if</strong> (folder != <strong class="jxr_keyword">null</strong>) {
+<a class="jxr_linenumber" name="160" href="#160">160</a>                 <strong class="jxr_keyword">try</strong> {
+<a class="jxr_linenumber" name="161" href="#161">161</a>                     fileMonitor.unregisterDirectoryListener(folder, listener);
+<a class="jxr_linenumber" name="162" href="#162">162</a>                 } <strong class="jxr_keyword">catch</strong> (Exception ex) {
+<a class="jxr_linenumber" name="163" href="#163">163</a>                     <em class="jxr_comment">//trap</em>
+<a class="jxr_linenumber" name="164" href="#164">164</a>                 }
+<a class="jxr_linenumber" name="165" href="#165">165</a>             }
+<a class="jxr_linenumber" name="166" href="#166">166</a>             <strong class="jxr_keyword">if</strong> (newFile != <strong class="jxr_keyword">null</strong> &amp;&amp; newFile.exists()) {
+<a class="jxr_linenumber" name="167" href="#167">167</a>                 <strong class="jxr_keyword">try</strong> {
+<a class="jxr_linenumber" name="168" href="#168">168</a>                     newFile.delete();
+<a class="jxr_linenumber" name="169" href="#169">169</a>                 } <strong class="jxr_keyword">catch</strong> (Exception ex) {
+<a class="jxr_linenumber" name="170" href="#170">170</a>                     <em class="jxr_comment">//trap</em>
+<a class="jxr_linenumber" name="171" href="#171">171</a>                 }
+<a class="jxr_linenumber" name="172" href="#172">172</a>             }
+<a class="jxr_linenumber" name="173" href="#173">173</a>         }
+<a class="jxr_linenumber" name="174" href="#174">174</a>     }
+<a class="jxr_linenumber" name="175" href="#175">175</a> 
+<a class="jxr_linenumber" name="176" href="#176">176</a>     <em class="jxr_javadoccomment">/**</em>
+<a class="jxr_linenumber" name="177" href="#177">177</a> <em class="jxr_javadoccomment">     * Appends bytes to a file.</em>
+<a class="jxr_linenumber" name="178" href="#178">178</a> <em class="jxr_javadoccomment">     *</em>
+<a class="jxr_linenumber" name="179" href="#179">179</a> <em class="jxr_javadoccomment">     * @param f the file</em>
+<a class="jxr_linenumber" name="180" href="#180">180</a> <em class="jxr_javadoccomment">     * @throws FileNotFoundException if the file does not exist</em>
+<a class="jxr_linenumber" name="181" href="#181">181</a> <em class="jxr_javadoccomment">     * @throws IOException if the file cannot be written</em>
+<a class="jxr_linenumber" name="182" href="#182">182</a> <em class="jxr_javadoccomment">     */</em>
+<a class="jxr_linenumber" name="183" href="#183">183</a>     @SuppressWarnings(<span class="jxr_string">"PMD.EmptyCatchBlock"</span>)
+<a class="jxr_linenumber" name="184" href="#184">184</a>     <strong class="jxr_keyword">private</strong> <strong class="jxr_keyword">void</strong> appendBytesToFile(<strong class="jxr_keyword">final</strong> File f) <strong class="jxr_keyword">throws</strong> FileNotFoundException, IOException {
+<a class="jxr_linenumber" name="185" href="#185">185</a>         FileOutputStream fileOut = <strong class="jxr_keyword">null</strong>;
+<a class="jxr_linenumber" name="186" href="#186">186</a>         byte[] bytes = <strong class="jxr_keyword">new</strong> byte[4096];
+<a class="jxr_linenumber" name="187" href="#187">187</a>         <strong class="jxr_keyword">try</strong> {
+<a class="jxr_linenumber" name="188" href="#188">188</a>             fileOut = <strong class="jxr_keyword">new</strong> FileOutputStream(f, <strong class="jxr_keyword">true</strong>);
+<a class="jxr_linenumber" name="189" href="#189">189</a>             fileOut.write(bytes);
+<a class="jxr_linenumber" name="190" href="#190">190</a>         } <strong class="jxr_keyword">finally</strong> {
+<a class="jxr_linenumber" name="191" href="#191">191</a>             <strong class="jxr_keyword">if</strong> (fileOut != <strong class="jxr_keyword">null</strong>) {
+<a class="jxr_linenumber" name="192" href="#192">192</a>                 <strong class="jxr_keyword">try</strong> {
+<a class="jxr_linenumber" name="193" href="#193">193</a>                     fileOut.close();
+<a class="jxr_linenumber" name="194" href="#194">194</a>                 } <strong class="jxr_keyword">catch</strong> (Exception ex) {
+<a class="jxr_linenumber" name="195" href="#195">195</a>                     <em class="jxr_comment">//trap.  We'll have bigger fish to fry if this happens</em>
+<a class="jxr_linenumber" name="196" href="#196">196</a>                 }
+<a class="jxr_linenumber" name="197" href="#197">197</a>             }
+<a class="jxr_linenumber" name="198" href="#198">198</a>         }
+<a class="jxr_linenumber" name="199" href="#199">199</a>     }
+<a class="jxr_linenumber" name="200" href="#200">200</a> }
 </pre>
 <hr/><div id="footer">This page was automatically generated by <a href="http://maven.apache.org/">Maven</a></div></body>
 </html>

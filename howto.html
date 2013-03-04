@@ -7,9 +7,11 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="author" content="Steven Swor" />
+    <meta name="Date-Creation-yyyymmdd" content="20130304" />
     <meta name="Date-Revision-yyyymmdd" content="20130304" />
     <meta http-equiv="Content-Language" content="en" />
-    <title>SFMF4J: Simple File Monitor Facade For Java - Dependency Information</title>
+    <title>SFMF4J: Simple File Monitor Facade For Java - Howto</title>
     <link rel="stylesheet" href="./css/apache-maven-fluido-1.3.0.min.css" />
     <link rel="stylesheet" href="./css/site.css" />
     <link rel="stylesheet" href="./css/print.css" media="print" />
@@ -159,7 +161,7 @@
         SFMF4J: Simple File Monitor Facade For Java</a>
         </li>
       <li class="divider ">/</li>
-        <li class="">Dependency Information</li>
+        <li class="">Howto</li>
         
                 
                     
@@ -172,16 +174,30 @@
                 
         <div id="bodyColumn" >
                                   
-            <div class="section"><h2>Dependency Information<a name="Dependency_Information"></a></h2><a name="Dependency_Information"></a><div class="section"><h3>Apache Maven<a name="Apache_Maven"></a></h3><a name="Apache_Maven"></a><div class="source"><pre class="prettyprint">&lt;dependency&gt;
-  &lt;groupId&gt;com.github.sworisbreathing&lt;/groupId&gt;
-  &lt;artifactId&gt;sfmf4j&lt;/artifactId&gt;
-  &lt;version&gt;1.0-SNAPSHOT&lt;/version&gt;
-  &lt;type&gt;pom&lt;/type&gt;
-&lt;/dependency&gt;</pre></div></div><div class="section"><h3>Apache Buildr<a name="Apache_Buildr"></a></h3><a name="Apache_Buildr"></a><div class="source"><pre class="prettyprint">'com.github.sworisbreathing:sfmf4j:pom:1.0-SNAPSHOT'</pre></div></div><div class="section"><h3>Apache Ant<a name="Apache_Ant"></a></h3><a name="Apache_Ant"></a><div class="source"><pre class="prettyprint">&lt;dependency org=&quot;com.github.sworisbreathing&quot; name=&quot;sfmf4j&quot; rev=&quot;1.0-SNAPSHOT&quot;&gt;
-  &lt;artifact name=&quot;sfmf4j&quot; type=&quot;pom&quot; /&gt;
-&lt;/dependency&gt;</pre></div></div><div class="section"><h3>Groovy Grape<a name="Groovy_Grape"></a></h3><a name="Groovy_Grape"></a><div class="source"><pre class="prettyprint">@Grapes(
-@Grab(group='com.github.sworisbreathing', module='sfmf4j', version='1.0-SNAPSHOT')
-)</pre></div></div><div class="section"><h3>Grails<a name="Grails"></a></h3><a name="Grails"></a><div class="source"><pre class="prettyprint">compile 'com.github.sworisbreathing:sfmf4j:1.0-SNAPSHOT'</pre></div></div><div class="section"><h3>Leiningen<a name="Leiningen"></a></h3><a name="Leiningen"></a><div class="source"><pre class="prettyprint">[com.github.sworisbreathing/sfmf4j &quot;1.0-SNAPSHOT&quot;]</pre></div></div><div class="section"><h3>SBT<a name="SBT"></a></h3><a name="SBT"></a><div class="source"><pre class="prettyprint">libraryDependencies += &quot;com.github.sworisbreathing&quot; %% &quot;sfmf4j&quot; % &quot;1.0-SNAPSHOT&quot;</pre></div></div></div>
+            <div class="section"><h2>How To Use SFMF4J<a name="How_To_Use_SFMF4J"></a></h2><div class="section"><h3>For Library Architects<a name="For_Library_Architects"></a></h3><p>Developing a file monitoring solution using SFMF4J is pretty simple. You simply need to:</p><ol style="list-style-type: decimal"><li>Define a dependency on <tt>sfmf4j-api</tt>.</li><li>Implement <a href="./sfmf4j-api/apidocs/com/github/sworisbreathing/sfmf4j/api/DirectoryListener.html">DirectoryListener</a>.</li><li>Register the <tt>DirectoryListener</tt> implementation with a <a href="./sfmf4j-api/apidocs/com/github/sworisbreathing/sfmf4j/api/FileMonitorService.html">FileMonitorService</a>.</li></ol><div class="section"><h4>Define a dependency on <tt>sfmf4j-api</tt>.<a name="Define_a_dependency_on_sfmf4j-api."></a></h4><p>When writing code against SFMF4J, you need only add a <a href="./sfmf4j-api/dependency-info.html">compile-time dependency</a> on <tt>sfmf4j-api</tt>. You can (and should) defer the choice of implementation to the application architecture.</p></div><div class="section"><h4>Implement DirectoryListener<a name="Implement_DirectoryListener"></a></h4><p>SFMF4J uses an event/listener paradigm for handling file system changes at the directory level. SFMF4J supports three types of events:</p><dl><dt>File Creation</dt><dd>events are fired when a new file or subdirectory is detected</dd><dt>File Change</dt><dd>events are fired when the contents of a file or subdirectory have changed, or are likely to have changed.</dd><dt>File Deletion</dt><dd>events are fired when a monitored directory no longer contains a subdirectory or file.</dd></dl><p>Sometimes you may only be interested in a subset of these events. For example, you may have a process which monitors a folder on an FTP server where users upload files, so you only really care about new files being added. In such a case, you are encouraged to extend <a href="./sfmf4j-api/apidocs/com/github/sworisbreathing/sfmf4j/api/DirectoryListenerAdapter.html">DirectoryListenerAdapter</a> and override its no-op implementations.</p></div><div class="section"><h4>Register with a FileMonitorService<a name="Register_with_a_FileMonitorService"></a></h4><p>The act of monitoring the file system for changes and notifying interested parties is handled by a <a href="./sfmf4j-api/apidocs/com/github/sworisbreathing/sfmf4j/api/FileMonitorService.html">FileMonitorService</a>. How you obtain a reference to a <tt>FileMonitorService</tt> is up to you, but for your convenience, you can create a pre-configured instance from a <a href="./sfmf4j-api/apidocs/com/github/sworisbreathing/sfmf4j/api/FileMonitorServiceFactory.html">FileMonitorServiceFactory</a>.</p><p>You will need to maintain a reference to your <tt>FileMonitorService</tt> in order to later unregister the listener when you no longer have any interest in file system events.</p></div></div><div class="section"><h3>For Application Architects<a name="For_Application_Architects"></a></h3><p>Deploying an application with file monitoring is easy.</p><ol style="list-style-type: decimal"><li>Choose your implementation</li><li>Obtain a <tt>FileMonitorServiceFactory</tt> and a <tt>FileMonitorService</tt></li><li>Make your <tt>FileMonitorService</tt> available to interested parties.</li></ol><div class="section"><h4>Choose your implementation<a name="Choose_your_implementation"></a></h4><p>Using SFMF4J in an application is simply a matter of adding You should give some consideration to which implementation you choose, as each has its own advantages and drawbacks.</p><p>Once you have decided on an implementation, you need only add it to your application's classpath, or (for OSGi environments), install its bundle in your OSGi container.</p></div><div class="section"><h4>Obtain a FileMonitorServiceFactory<a name="Obtain_a_FileMonitorServiceFactory"></a></h4><p>In Java 6+ environments, implementations can be loaded via Java SPI (a.k.a. <tt>java.util.ServiceLoader</tt>). Note that when using this method, you must invoke the lifecycle methods <tt>initialize</tt> and <tt>shutdown</tt> yourself.</p><div class="source"><pre class="prettyprint">import com.github.sworisbreathing.sfmf4j.api.FileMonitorServiceFactory;
+import java.util.Iterator;
+import java.util.ServiceLoader;
+
+static FileMonitorServiceFactory loadFileMonitorServiceFactory() {
+    ServiceLoader&lt;FileMonitorServiceFactory&gt; serviceLoader = ServiceLoader.load(
+        FileMonitorServiceFactory.class);
+    Iterator&lt;FileMonitorServiceFactory&gt; implementationIterator = serviceLoader.iterator();
+    if(implementationIterator.hasNext()) {
+        return implementationIterator.next();
+    }
+}
+
+static FileMonitorService newFileMonitorServiceInstance() {
+    FileMonitorServiceFactory implementationFactory = loadFileMonitorServiceFactory();
+    FileMonitorService results = implementationFactory.createFileMonitorService();
+    return results;
+}
+
+</pre></div><p>In OSGi environments, implementations are registered as services via Blueprint. Using this approach, you can easily rely on the OSGi container to manage the file monitor service's lifecycle for you, simply by declaring the <tt>init-method</tt> and <tt>destroy-method</tt>.</p><div class="source"><pre class="prettyprint">&lt;reference id=&quot;implementationFactory&quot; interface=&quot;com.github.sworisbreathing.sfmf4j.api.FileMonitorServiceFactory&quot; /&gt;
+&lt;bean id=&quot;fileMonitorService&quot; class=&quot;com.github.sworisbreathing.sfmf4j.api.FileMonitorService&quot;
+    factory-ref=&quot;implementationFactory&quot; factory-method=&quot;createFileMonitorService&quot;
+    init-method=&quot;initialize&quot; destroy-method=&quot;shutdown&quot;/&gt;
+</pre></div></div><div class="section"><h4>Supplying a FileMonitorService<a name="Supplying_a_FileMonitorService"></a></h4><p>Once your application has a <tt>FileMonitorService</tt> instance, it must be made available to interested parties. If you are using a dependency injection framework, such as Spring, then this should be fairly easy. Otherwise, you may need to register the service via JNDI or make it available via some other mechanism. This largely depends on how the library code expects to obtain the <tt>FileMonitorService</tt> instance.</p></div></div></div>
                   </div>
           </div>
 
