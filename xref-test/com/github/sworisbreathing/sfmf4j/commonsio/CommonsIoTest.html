@@ -38,7 +38,7 @@
 <a class="jxr_linenumber" name="28" href="#28">28</a>      @Override
 <a class="jxr_linenumber" name="29" href="#29">29</a>      <strong class="jxr_keyword">protected</strong> FileMonitorServiceFactory factoryInstance() {
 <a class="jxr_linenumber" name="30" href="#30">30</a>          CommonsIOFileMonitorServiceFactory instance = <strong class="jxr_keyword">new</strong> CommonsIOFileMonitorServiceFactory();
-<a class="jxr_linenumber" name="31" href="#31">31</a>          instance.setPollingInterval(100);
+<a class="jxr_linenumber" name="31" href="#31">31</a>          instance.setPollingInterval(250);
 <a class="jxr_linenumber" name="32" href="#32">32</a>          instance.setPollingTimeUnit(TimeUnit.MILLISECONDS);
 <a class="jxr_linenumber" name="33" href="#33">33</a>          <strong class="jxr_keyword">return</strong> instance;
 <a class="jxr_linenumber" name="34" href="#34">34</a>      }
