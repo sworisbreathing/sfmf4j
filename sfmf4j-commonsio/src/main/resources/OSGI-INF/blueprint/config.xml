@@ -6,11 +6,11 @@
     xsi:schemaLocation='http://www.osgi.org/xmlns/blueprint/v1.0.0 http://www.osgi.org/xmlns/blueprint/v1.0.0/blueprint.xsd
    http://aries.apache.org/blueprint/xmlns/blueprint-cm/v1.1.0 http://aries.apache.org/schemas/blueprint-cm/blueprint-cm-1.1.0.xsd'>
 
-    <cm:property-placeholder persistent-id="${project.artifactId}" update-strategy="reload">
+    <cm:property-placeholder persistent-id="sfmf4j-commonsio" update-strategy="reload">
         <cm:default-properties>
-            <cm:property name="pollingInterval" value="250" />
+            <cm:property name="pollingInterval" value="1" />
             <cm:property name="pollingTimeUnit">
-                <value type="java.util.concurrent.TimeUnit">MILLISECONDS</value>
+                <value type="java.util.concurrent.TimeUnit">MINUTES</value>
             </cm:property>
         </cm:default-properties>
     </cm:property-placeholder>
