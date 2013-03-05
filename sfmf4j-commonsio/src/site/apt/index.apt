@@ -1,0 +1,37 @@
+ -------------------------------------------------------------------------------
+                                About
+ -------------------------------------------------------------------------------
+                              Steven Swor
+ -------------------------------------------------------------------------------
+                              2013-03-05
+ -------------------------------------------------------------------------------
+
+About SFMF4J :: Commons IO
+
+    SFMF4J :: Commons IO is an SFMF4J provider for file system monitoring
+    using Apache Commons IO.  This is strictly a polling implementation.
+
+Configuration
+
+    {{{./apidocs/com/github/sworisbreathing/sfmf4j/commonsio/CommonsIOFileMonitorServiceFactory.html}CommonsIOFileMonitorServiceFactory}}
+    supports the following configuration parameters, which will be used in the
+    construction of
+    {{{./apidocs/com/github/sworisbreathing/sfmf4j/commonsio/CommonsIOFileMonitorServiceImpl.html}CommonsIOFileMonitorServiceImpl}}
+    instances:
+
+    [pollingInterval] the delay between file system polling attempts
+
+    [pollingTimeUnit] the time unit for the polling delay
+
+    []
+
+    The default polling interval is 1 minute.  Changing these settings only
+    affects newly-created instances of <<<CommonsIOFileMonitorServiceImpl>>>.
+    Existing instances retain the polling intervals from when they were created.
+
+* OSGi Configuration
+
+    In OSGi environments (where <<<CommonsIOFileMonitorServiceFactory>>> is
+    loaded through Blueprint), the polling interval is set through the Config
+    Admin service.  The PID for Config Admin is <<<sfmf4j-commonsio>>>, and the
+    Blueprint update strategy is <<<reload>>>.

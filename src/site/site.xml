@@ -19,7 +19,7 @@
         <breadcrumbs>
             <item name="${project.name}" href="/index.html" />
         </breadcrumbs>
-        <menu name="Documentation">
+        <menu name="SFMF4J">
             <item name="About" href="index.html" />
             <item name="Howto" href="howto.html" />
             <item name="Implementation Features" href="implementation-features.html" />

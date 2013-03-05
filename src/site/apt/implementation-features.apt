@@ -69,6 +69,7 @@ Implementation Features
     slowest).  It uses a dedicated polling thread, and simply compares file
     timestamps and sizes for changes since the previous polling attempt.
     While this may be slower than queue-based implementations, it is arguably
-    more reliable when monitoring folders on network shares (where <<<inotify>>>
-    and <<<kqueue>>> don't work particularly well) and has more consistent
-    behavior across different OS/JVM combinations.
+    more reliable when monitoring folders on network shares (where
+    <<<inotify>>>, <<<kqueue>>>, and <<<ReadDirectoryChangesW>>> don't always
+    work particularly well) and has more consistent behavior across different
+    OS/JVM combinations.

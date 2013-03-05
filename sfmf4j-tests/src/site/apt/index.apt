@@ -1,0 +1,98 @@
+
+
+About SFMF4J :: Test Classes
+
+    This project provides classes which are common to all tests for SFMF4J
+    implementations. It exists to make developing and testing SFMF4J
+    implementations as easy as possible.  It is declared as a test-scoped
+    dependency by the implementation modules, and is not intended for use by
+    applications.
+
+Testing Implementations
+
+    Libraries which implement SFMF4J should declare this module as a
+    {{{./dependency-info.html}test-scoped dependency}}.
+
+* Non-OSGi
+
+    Test classes for non-OSGi environments need only extend
+    {{{./apidocs/com/github/sworisbreathing/sfmf4j/test/AbstractNonOSGiTest.html}AbstractNonOSGiTest}}
+    and implement the following methods:
+
+    [factoryInstance] provides the test harness with a fully-configured instance
+    of your implementation's <<<FileMonitorServiceFactory>>>.
+
+    [implementationClass] should return a reference to the class which
+    implements <<<FileMonitorService>>>.
+
+    []
+
+* OSGi
+
+    Test classes for OSGi environments should extend
+    {{{./apidocs/com/github/sworisbreathing/sfmf4j/osgi/test/AbstractOSGiTest.html}AbstractOSGiTest}}
+    and implement the following methods:
+
+    [implementationOption] specifies the OSGi bundles the Pax Exam container
+    will use during testing.  At a bare minimum, this should include your
+    implementation bundle and its dependencies.
+
+    [configure] specifies additional settings to <<<ConfigurationAdmin>>> prior
+    to obtaining your implementation's <<<FileMonitorServiceFactory>>> from the
+    OSGi container.  This is an optional step, as the default method is a no-op.
+
+    []
+
+** Testing During The Build
+
+    Testing your OSGi bundle with Pax Exam as part of the build process can be a
+    bit tricky.  Your bundle won't be produced until the tests have passed, so
+    how can you test against a non-existent OSGi bundle?
+
+    Fortunately, Pax Exam can be configured to load a folder hierarchy as if it
+    were packaged into a single file. <<<$\{project.build.outputDirectory\}>>> is
+    perfect for this, but you'll also need to ensure there is an OSGi bundle
+    manifest in this folder so that Pax Exam can load it.  All you need to do is
+    configure
+    {{{http://felix.apache.org/site/apache-felix-maven-bundle-plugin-bnd.html}maven-bundle-plugin}}
+    to generate the manifest before the tests are run:
+
++------------------------------------------------------------------------------+
+<build>
+  <plugins>
+    <plugin>
+      <groupId>org.apache.felix</groupId>
+      <artifactId>maven-bundle-plugin</artifactId>
+      <!--
+          ... (version, configuration, et cetera)
+      -->
+      <executions>
+        <execution>
+          <id>bundle-manifest</id>
+          <phase>process-classes</phase>
+          <goals>
+            <goal>manifest</goal>
+          </goals>
+        </execution>
+      </executions>
+    </plugin>
+  </plugins>
+</build>
++------------------------------------------------------------------------------+
+
+    Then, you can reference the exploded bundle in your OSGi test:
+
++------------------------------------------------------------------------------+
+import com.github.sworisbreathing.sfmf4j.osgi.test.AbstractOSGiTest;
+import org.ops4j.pax.exam.CoreOptions;
+import org.ops4j.pax.exam.Option;
+import org.ops4j.pax.exam.util.PathUtils;
+
+public class MyOSGiTest extends AbstractOSGiTest {
+
+  @Override
+  protected Option implementationOption() {
+    return CoreOptions.bundle("reference:file:" + PathUtils.getBaseDir() + "/target/classes");
+  }
+}
++------------------------------------------------------------------------------+

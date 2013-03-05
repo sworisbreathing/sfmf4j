@@ -76,13 +76,13 @@ How To Use SFMF4J
 
 ** Choose your implementation
 
-    Using SFMF4J in an application is simply a matter of adding You should give
-    some consideration to which implementation you choose, as each has its own
-    advantages and drawbacks.
+    Adding an SFMF4J implementation to your application is a simple matter of
+    ensuring the implementation's jar is on the application's classpath (along
+    with its dependencies).  For OSGi environments, the implementation bundle
+    needs to be installed in the OSGi container.
 
-    Once you have decided on an implementation, you need only add it to your
-    application's classpath, or (for OSGi environments), install its bundle in
-    your OSGi container.
+    You should give some consideration to which implementation you choose, as
+    each has its own {{{./implementation-features.html}advantages and drawbacks}}.
 
 ** Obtain a FileMonitorServiceFactory
 
@@ -132,3 +132,33 @@ static FileMonitorService newFileMonitorServiceInstance() {
     Otherwise, you may need to register the service via JNDI or make it
     available via some other mechanism.  This largely depends on how the
     library code expects to obtain the <<<FileMonitorService>>> instance.
+
+* Notes On Threading
+
+    By default, each instance of <<<FileMonitorService>>> runs in its own
+    dedicated thread, from which it detects file change events and invokes
+    <<<DirectoryListener>>> callbacks.  If this is a concern for you, you have
+    a few options, such as:
+
+    * Offloading <<<DirectoryListener>>> callbacks to a separate thread.  There
+    are various approaches which can be used here.  For example, your
+    <<<DirectoryListener>>> callbacks can submit tasks to an
+    {{{http://http://docs.oracle.com/javase/7/docs/api/java/util/concurrent/ExecutorService.html}ExecutorService}}
+    or push the events onto a service bus such as
+    {{{http://code.google.com/p/guava-libraries/wiki/EventBusExplained}Guava EventBus}}
+    or an asynchronous {{{http://camel.apache.org/seda.html}Camel route}}.  This
+    can be a good option for library architects.
+
+    * Using multiple <<<FileMonitorService>>> instances.  This is better suited
+    to application architects than library architects, since its effectiveness
+    largely depends on how it is applied to the deployment environment.  You
+    might choose to split up the <<<FileMonitorService>>> instances based on
+    which file systems or directories are being monitored (i.e. "per-disk" or
+    "per-folder"), or you might split them up based on which system functions
+    they are being used for.
+
+    * Using custom <<<FileMonitorServiceFactory>>> configurations.  This
+    is also better suited for application architects, since it requires knowing
+    which implementation is in use, and how it can be configured.
+
+    []

@@ -11,11 +11,13 @@
     <groupId>com.github.sworisbreathing.sfmf4j</groupId>
     <artifactId>sfmf4j-tests</artifactId>
 
-    <name>SFMF4J :: Testing :: Common Classes</name>
+    <name>SFMF4J :: Test Classes</name>
     <description>
-        This project provides classes which are common to all tests for SFMF4J.
-        It is declared as a test-scoped dependency by the implementation modules
-        as well as the OSGi test modules.
+        This project provides classes which are common to all tests for SFMF4J
+        implementations. It exists to make developing and testing SFMF4J
+        implementations as easy as possible.  It is declared as a test-scoped
+        dependency by the implementation modules, and is not intended for use by
+        applications.
     </description>
 
     <properties>
@@ -60,8 +62,26 @@
                 <reportSets>
                     <reportSet>
                         <reports>
-                            <report>index</report>
+                            <report>dependency-info</report>
                             <report>dependencies</report>
+                        </reports>
+                    </reportSet>
+                </reportSets>
+            </plugin>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-javadoc-plugin</artifactId>
+                <version>2.9</version>
+            </plugin>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-jxr-plugin</artifactId>
+                <version>2.3</version>
+                <reportSets>
+                    <reportSet>
+                        <reports>
+                            <report>jxr</report>
+                            <report>test-jxr</report>
                         </reports>
                     </reportSet>
                 </reportSets>

@@ -6,7 +6,9 @@
         <breadcrumbs>
             <item name="${project.name}" href="/index.html" />
         </breadcrumbs>
-        <menu ref="parent" />
+        <links>
+            <item name="Commons IO" href="http://commons.apache.org/proper/commons-io/" alt="Commons IO" target="_blank" />
+        </links>
         <menu ref="reports" />
     </body>
 </project>

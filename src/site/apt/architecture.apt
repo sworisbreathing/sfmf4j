@@ -31,5 +31,5 @@ SFMF4J's Architecture
 
     A <<<DirectoryListener>>> implements callback methods for handling file
     system events.  The <<<DirectoryListener>>> interface is supplied by
-    sfmf4j-api (along with a no-op implementation,
+    <<<sfmf4j-api>>> (along with a no-op implementation,
     <<<DirectoryListenerAdapter>>>).  It must be implemented in your own code.

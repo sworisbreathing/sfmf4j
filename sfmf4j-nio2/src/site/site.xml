@@ -6,7 +6,9 @@
         <breadcrumbs>
             <item name="${project.name}" href="/index.html" />
         </breadcrumbs>
-        <menu ref="parent" />
+        <links>
+            <item name="WatchService" href="http://docs.oracle.com/javase/tutorial/essential/io/notification.html" alt="Watching a Directory for Changes (Oracle)" target="_blank" />
+        </links>
         <menu ref="reports" />
     </body>
 </project>

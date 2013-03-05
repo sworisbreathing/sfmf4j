@@ -19,13 +19,25 @@ import com.github.sworisbreathing.sfmf4j.api.DirectoryListener;
 import com.github.sworisbreathing.sfmf4j.api.FileMonitorService;
 import java.io.File;
 import java.io.IOException;
+import java.nio.file.ClosedWatchServiceException;
+import java.nio.file.FileSystems;
+import java.nio.file.Path;
+import java.nio.file.Paths;
+import java.nio.file.StandardWatchEventKinds;
+import java.nio.file.WatchEvent;
 import java.nio.file.WatchEvent.Kind;
-import java.nio.file.*;
+import java.nio.file.WatchKey;
+import java.nio.file.WatchService;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.LinkedList;
 import java.util.List;
-import java.util.concurrent.*;
+import java.util.concurrent.ConcurrentHashMap;
+import java.util.concurrent.ConcurrentMap;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
+import java.util.concurrent.Future;
+import java.util.concurrent.ThreadFactory;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -227,81 +239,88 @@ public class WatchServiceFileMonitorServiceImpl implements FileMonitorService {
         if (executorService==null) {
             logger.warn("No executor service was explicitly set.  Setting one now.");
             shutdownExecutorServiceOnShutdown = true;
-            this.executorService = Executors.newCachedThreadPool(new ThreadFactory(){
+            this.executorService = Executors.newSingleThreadExecutor(new ThreadFactory(){
 
                 @Override
                 public Thread newThread(Runnable r) {
-                    return new Thread(r, "FileMonitorService");
+                    return new Thread(r, "NIO2FileMonitorService");
                 }
             });
         }
-        watchFuture = executorService.submit(new Runnable() {
-            @Override
-            public void run() {
-                while (true) {
-                    try {
-                        Collection<SFMF4JWatchListener> listeners;
-                        List<WatchEvent<?>> events;
-                        final WatchKey key = watchService.take();
-                        synchronized (this) {
-                            listeners = listenersByWatchKey.get(key);
-                            if (listeners != null && !listeners.isEmpty()) {
-                                listeners = new LinkedList<SFMF4JWatchListener>(listeners);
-                                events = key.pollEvents();
-                                boolean stillValid = key.reset();
-                                if (!stillValid) {
-                                    logger.warn("Key no longer valid.");
-                                    cleanup(key);
-                                } else {
-                                    logger.debug("Key is still valid.");
-                                    if (events != null && !events.isEmpty()) {
-                                        for (WatchEvent event : events) {
-                                            WatchEvent<Path> resolvedEvent = resolveEventWithCorrectPath(key, event);
-                                            logger.debug("Event kind={} count={} path={}", new Object[]{resolvedEvent.kind().name(), resolvedEvent.count(), resolvedEvent.context()});
-                                            for (SFMF4JWatchListener listener : listeners) {
-                                                listener.onEvent(resolvedEvent);
+        if (watchFuture==null || watchFuture.isCancelled() || watchFuture.isDone()) {
+            watchFuture = executorService.submit(new Runnable() {
+                @Override
+                public void run() {
+                    while (true) {
+                        try {
+                            Collection<SFMF4JWatchListener> listeners;
+                            List<WatchEvent<?>> events;
+                            final WatchKey key = watchService.take();
+                            synchronized (WatchServiceFileMonitorServiceImpl.this) {
+                                listeners = listenersByWatchKey.get(key);
+                                if (listeners != null && !listeners.isEmpty()) {
+                                    listeners = new LinkedList<SFMF4JWatchListener>(listeners);
+                                    events = key.pollEvents();
+                                    boolean stillValid = key.reset();
+                                    if (!stillValid) {
+                                        logger.warn("Key no longer valid.");
+                                        cleanup(key);
+                                    } else {
+                                        logger.debug("Key is still valid.");
+                                        if (events != null && !events.isEmpty()) {
+                                            for (WatchEvent event : events) {
+                                                WatchEvent<Path> resolvedEvent = resolveEventWithCorrectPath(key, event);
+                                                logger.debug("Event kind={} count={} path={}", new Object[]{resolvedEvent.kind().name(), resolvedEvent.count(), resolvedEvent.context()});
+                                                for (SFMF4JWatchListener listener : listeners) {
+                                                    listener.onEvent(resolvedEvent);
+                                                }
                                             }
                                         }
                                     }
+                                } else {
+                                    logger.debug("No listeners found for valid key... cleaning up.");
+                                    cleanup(key);
                                 }
-                            } else {
-                                logger.debug("No listeners found for valid key... cleaning up.");
-                                cleanup(key);
                             }
+                        } catch (InterruptedException ex) {
+                            return;
+                        } catch (ClosedWatchServiceException ex) {
+                            return;
                         }
-                    } catch (InterruptedException ex) {
-                        return;
-                    } catch (ClosedWatchServiceException ex) {
-                        return;
                     }
                 }
-            }
-        });
+            });
+        }
     }
 
     @Override
     @SuppressWarnings("PMD.EmptyCatchBlock")
     public synchronized void shutdown() {
         watchFuture.cancel(true);
+        watchFuture = null;
         for (WatchKey key : pathsByWatchKey.keySet()) {
             cleanup(key);
         }
         if (shutdownExecutorServiceOnShutdown) {
             executorService.shutdownNow();
+            executorService = null;
         }
         if (closeWatchServiceOnShutdown) {
             try {
                 watchService.close();
             }catch(IOException ex) {
                 //trap
+            }catch(ClosedWatchServiceException ex) {
+                //trap
+            }finally {
+                watchService = null;
             }
         }
     }
 
     @Override
     public synchronized boolean isMonitoringDirectory(File directory) {
-        return !getExecutorService().isShutdown() && watchKeysByPath.containsKey(directory.getAbsolutePath());
+        ExecutorService es = getExecutorService();
+        return es != null && !es.isShutdown() && watchKeysByPath.containsKey(directory.getAbsolutePath());
     }
-
-
 }

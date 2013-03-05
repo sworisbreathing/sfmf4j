@@ -6,7 +6,9 @@
         <breadcrumbs>
             <item name="${project.name}" href="/index.html" />
         </breadcrumbs>
-        <menu ref="parent" />
+        <links>
+            <item name="jpathwatch" href="http://jpathwatch.wordpress.com/" alt="jpathwatch | a Java library for monitoring directory and file changes" target="_blank" />
+        </links>
         <menu ref="reports" />
     </body>
 </project>
