@@ -257,32 +257,11 @@
         <module>sfmf4j-api</module>
         <module>sfmf4j-commonsio</module>
         <module>sfmf4j-jpathwatch</module>
+        <module>sfmf4j-nio2</module>
         <module>sfmf4j-tests</module>
     </modules>
 
     <profiles>
-        <profile>
-            <id>pre-nio2</id>
-            <activation>
-                <jdk>[,1.7)</jdk>
-            </activation>
-            <properties>
-                <jdk.version>1.6</jdk.version>
-            </properties>
-        </profile>
-        <profile>
-            <id>has-nio2</id>
-            <activation>
-                <!-- Activate by default on JDK version 7 or higher. -->
-                <jdk>[1.7,)</jdk>
-            </activation>
-            <properties>
-                <jdk.version>1.7</jdk.version>
-            </properties>
-            <modules>
-                <module>sfmf4j-nio2</module>
-            </modules>
-        </profile>
         <profile>
             <id>release-sign-artifacts</id>
             <activation>
