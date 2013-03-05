@@ -18,6 +18,8 @@ package com.github.sworisbreathing.sfmf4j.osgi.test;
 import com.github.sworisbreathing.sfmf4j.api.FileMonitorService;
 import com.github.sworisbreathing.sfmf4j.api.FileMonitorServiceFactory;
 import com.github.sworisbreathing.sfmf4j.test.AbstractSFMF4JTest;
+import java.util.concurrent.CountDownLatch;
+import java.util.concurrent.TimeUnit;
 import javax.inject.Inject;
 import org.junit.After;
 import static org.junit.Assert.assertNotNull;
@@ -30,6 +32,13 @@ import org.ops4j.pax.exam.Option;
 import org.ops4j.pax.exam.junit.Configuration;
 import org.ops4j.pax.exam.junit.JUnit4TestRunner;
 import org.ops4j.pax.exam.util.PathUtils;
+import org.osgi.framework.BundleContext;
+import org.osgi.framework.ServiceEvent;
+import org.osgi.framework.ServiceListener;
+import org.osgi.framework.ServiceReference;
+import org.osgi.service.cm.ConfigurationAdmin;
+import org.osgi.util.tracker.ServiceTracker;
+import org.osgi.util.tracker.ServiceTrackerCustomizer;
 
 /**
  * Parent class for testing implementations in an OSGi environment.
@@ -48,11 +57,16 @@ public abstract class AbstractOSGiTest extends AbstractSFMF4JTest {
     protected abstract Option implementationOption();
 
     /**
-     * The file monitor service factory implementation.  This should be injected
-     * by the OSGi container.
+     * The bundle context, used to obtain service instances.
      */
     @Inject
-    private FileMonitorServiceFactory factoryInstance;
+    private BundleContext bundleContext;
+
+    /**
+     * The configuration admin service, used to configure the service instance.
+     */
+    @Inject
+    private ConfigurationAdmin configurationAdmin;
 
     /**
      * Gets the SFMF4J group ID from the system property {@code sfmf4j.groupId}.
@@ -113,14 +127,51 @@ public abstract class AbstractOSGiTest extends AbstractSFMF4JTest {
      */
     private FileMonitorService fileMonitor = null;
 
+    protected void configure(final ConfigurationAdmin configAdmin) {}
+
     /**
      * Initializes the file monitor service before running the tests.
      */
     @Before
     public void setUp() {
+        configure(configurationAdmin);
+        FileMonitorServiceFactory factoryInstance = factoryInstance();
         assertNotNull(factoryInstance);
         fileMonitor = factoryInstance.createFileMonitorService();
         fileMonitor.initialize();
+    }
+
+    /**
+     * Gets the service instance from the bundle context.
+     * @return the service instance
+     */
+    private FileMonitorServiceFactory factoryInstance() {
+        final CountDownLatch latch = new CountDownLatch(1);
+        bundleContext.addServiceListener(new ServiceListener() {
+
+            @Override
+            public void serviceChanged(ServiceEvent event) {
+                ServiceReference ref = event.getServiceReference();
+                if (ref.isAssignableTo(ref.getBundle(), FileMonitorServiceFactory.class.getName())) {
+                    latch.countDown();
+                }
+            }
+        });
+        FileMonitorServiceFactory results = null;
+        do {
+            ServiceReference<FileMonitorServiceFactory> ref = bundleContext.getServiceReference(FileMonitorServiceFactory.class);
+            if (ref != null) {
+                results = bundleContext.getService(ref);
+            }
+            if (results == null) {
+                try {
+                    latch.await(1, TimeUnit.SECONDS);
+                }catch(InterruptedException ex) {
+                    Thread.currentThread().interrupt();
+                }
+            }
+        }while(results == null);
+        return results;
     }
 
     /**

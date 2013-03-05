@@ -16,9 +16,15 @@
 package com.github.sworisbreathing.sfmf4j.osgi.test.impl;
 
 import com.github.sworisbreathing.sfmf4j.osgi.test.AbstractOSGiTest;
+import java.io.IOException;
+import java.util.Dictionary;
+import java.util.Hashtable;
 import static org.ops4j.pax.exam.CoreOptions.*;
 import org.ops4j.pax.exam.Option;
 import org.ops4j.pax.exam.util.PathUtils;
+import org.osgi.service.cm.Configuration;
+import org.osgi.service.cm.ConfigurationAdmin;
+import org.slf4j.LoggerFactory;
 
 /**
  *
@@ -28,9 +34,21 @@ public class CommonsIOOSGiTest extends AbstractOSGiTest {
 
     @Override
     protected Option implementationOption() {
-        //return mavenBundle(sfmf4jGroupId(), "sfmf4j-commonsio", sfmf4jVersion());
         return composite(mavenBundle("commons-io", "commons-io", "2.4")
                 ,bundle("reference:file:" + PathUtils.getBaseDir() + "/target/classes")
                 );
+    }
+
+    @Override
+    protected void configure(ConfigurationAdmin configAdmin) {
+        try {
+            Configuration config = configAdmin.getConfiguration("sfmf4j-commonsio");
+            Dictionary<String, Object> properties = new Hashtable<String, Object>(2);
+            properties.put("pollingInterval", "50");
+            properties.put("pollingTimeUnit", "MILLISECONDS");
+            config.update(properties);
+        } catch (IOException ex) {
+            LoggerFactory.getLogger(CommonsIOOSGiTest.class).error("Unable to get configration.  Reason: " + ex.getMessage(), ex);
+        }
     }
 }

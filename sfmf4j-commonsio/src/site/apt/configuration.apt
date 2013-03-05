@@ -1,0 +1,21 @@
+ -------------------------------------------------------------------------------
+                             Configuration
+ -------------------------------------------------------------------------------
+                              Steven Swor
+ -------------------------------------------------------------------------------
+                              2013-03-05
+ -------------------------------------------------------------------------------
+
+Configuration
+
+    {{{./apidocs/com/github/sworisbreathing/sfmf4j/commonsio/CommonsIOFileMonitorServiceFactory}CommonsIOFileMonitorServiceFactory}}
+    supports the following configuration parameters, which will be used in the
+    construction of <<<CommonsIOFileMonitorServiceImpl>>> instances:
+
+    [pollingInterval] the delay between file system polling attempts
+
+    [pollingTimeUnit] the time unit for the polling delay
+
+    []
+
+    The default
