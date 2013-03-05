@@ -44,7 +44,7 @@ public class CommonsIOOSGiTest extends AbstractOSGiTest {
         try {
             Configuration config = configAdmin.getConfiguration("sfmf4j-commonsio", null);
             Dictionary<String, Object> properties = new Hashtable<String, Object>(2);
-            properties.put("pollingInterval", "100");
+            properties.put("pollingInterval", "250");
             properties.put("pollingTimeUnit", "MILLISECONDS");
             config.update(properties);
         } catch (IOException ex) {

@@ -28,7 +28,7 @@ public class CommonsIoTest extends AbstractNonOSGiTest<CommonsIOFileMonitorServi
     @Override
     protected FileMonitorServiceFactory factoryInstance() {
         CommonsIOFileMonitorServiceFactory instance = new CommonsIOFileMonitorServiceFactory();
-        instance.setPollingInterval(100);
+        instance.setPollingInterval(250);
         instance.setPollingTimeUnit(TimeUnit.MILLISECONDS);
         return instance;
     }
