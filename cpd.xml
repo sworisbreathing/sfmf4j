@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <pmd-cpd>
 <duplication lines="162" tokens="553">
-<file line="71" path="C:\SigtecSubversionCheckouts\sfmf4j\sfmf4j-jpathwatch\src\main\java\com\github\sworisbreathing\sfmf4j\jpathwatch\WatchServiceFileMonitorServiceImpl.java"/>
-<file line="71" path="C:\SigtecSubversionCheckouts\sfmf4j\sfmf4j-nio2\src\main\java\com\github\sworisbreathing\sfmf4j\nio2\WatchServiceFileMonitorServiceImpl.java"/>
+<file line="71" path="C:\SigtecSubversionCheckouts\sfmf4j\target\checkout\sfmf4j-jpathwatch\src\main\java\com\github\sworisbreathing\sfmf4j\jpathwatch\WatchServiceFileMonitorServiceImpl.java"/>
+<file line="71" path="C:\SigtecSubversionCheckouts\sfmf4j\target\checkout\sfmf4j-nio2\src\main\java\com\github\sworisbreathing\sfmf4j\nio2\WatchServiceFileMonitorServiceImpl.java"/>
 <codefragment>
 <![CDATA[
     private static final Kind[] interested_types = new Kind[]{StandardWatchEventKind.ENTRY_CREATE, StandardWatchEventKind.ENTRY_DELETE, StandardWatchEventKind.ENTRY_MODIFY};
@@ -171,8 +171,8 @@
 </codefragment>
 </duplication>
 <duplication lines="83" tokens="405">
-<file line="242" path="C:\SigtecSubversionCheckouts\sfmf4j\sfmf4j-jpathwatch\src\main\java\com\github\sworisbreathing\sfmf4j\jpathwatch\WatchServiceFileMonitorServiceImpl.java"/>
-<file line="246" path="C:\SigtecSubversionCheckouts\sfmf4j\sfmf4j-nio2\src\main\java\com\github\sworisbreathing\sfmf4j\nio2\WatchServiceFileMonitorServiceImpl.java"/>
+<file line="242" path="C:\SigtecSubversionCheckouts\sfmf4j\target\checkout\sfmf4j-jpathwatch\src\main\java\com\github\sworisbreathing\sfmf4j\jpathwatch\WatchServiceFileMonitorServiceImpl.java"/>
+<file line="246" path="C:\SigtecSubversionCheckouts\sfmf4j\target\checkout\sfmf4j-nio2\src\main\java\com\github\sworisbreathing\sfmf4j\nio2\WatchServiceFileMonitorServiceImpl.java"/>
 <codefragment>
 <![CDATA[
                     return new Thread(r, "jpathwatchFileMonitorService");
@@ -262,8 +262,8 @@
 </codefragment>
 </duplication>
 <duplication lines="81" tokens="336">
-<file line="26" path="C:\SigtecSubversionCheckouts\sfmf4j\sfmf4j-jpathwatch\src\main\java\com\github\sworisbreathing\sfmf4j\jpathwatch\ResolvedPathWatchEvent.java"/>
-<file line="26" path="C:\SigtecSubversionCheckouts\sfmf4j\sfmf4j-nio2\src\main\java\com\github\sworisbreathing\sfmf4j\nio2\ResolvedPathWatchEvent.java"/>
+<file line="26" path="C:\SigtecSubversionCheckouts\sfmf4j\target\checkout\sfmf4j-jpathwatch\src\main\java\com\github\sworisbreathing\sfmf4j\jpathwatch\ResolvedPathWatchEvent.java"/>
+<file line="26" path="C:\SigtecSubversionCheckouts\sfmf4j\target\checkout\sfmf4j-nio2\src\main\java\com\github\sworisbreathing\sfmf4j\nio2\ResolvedPathWatchEvent.java"/>
 <codefragment>
 <![CDATA[
 public class ResolvedPathWatchEvent extends WatchEvent<Path> {
