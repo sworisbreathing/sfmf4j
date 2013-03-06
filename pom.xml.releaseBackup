@@ -1,0 +1,417 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+
+    <parent>
+        <groupId>org.sonatype.oss</groupId>
+        <artifactId>oss-parent</artifactId>
+        <version>7</version>
+    </parent>
+
+    <groupId>com.github.sworisbreathing</groupId>
+    <artifactId>sfmf4j</artifactId>
+    <version>1.0-SNAPSHOT</version>
+    <packaging>pom</packaging>
+
+    <name>SFMF4J: Simple File Monitor Facade For Java</name>
+    <description>
+        SFMF4J is a simple file monitoring facade for Java.  It attempts to do for
+        file monitoring what SLF4J does for logging, which is to abstract away the
+        API from the interface, such that library developers can write code
+        against a file monitoring solution without forcing an application
+        developer to use any particular file monitoring implementation.
+    </description>
+
+    <url>http://sworisbreathing.github.com/sfmf4j</url>
+
+    <licenses>
+        <license>
+            <name>The Apache Software License, Version 2.0</name>
+            <url>http://www.apache.org/licenses/LICENSE-2.0.txt</url>
+            <distribution>repo</distribution>
+            <comments>A business-friendly OSS license</comments>
+        </license>
+    </licenses>
+
+    <scm>
+        <url>scm:git:git@github.com:sworisbreathing/sfmf4j.git</url>
+        <connection>scm:git:git@github.com:sworisbreathing/sfmf4j.git</connection>
+        <developerConnection>scm:git:git@github.com:sworisbreathing/sfmf4j.git</developerConnection>
+    </scm>
+
+    <organization>
+        <name>Steven Swor</name>
+        <url>https://github.com/sworisbreathing/</url>
+    </organization>
+
+    <developers>
+        <developer>
+            <id>sworisbreathing</id>
+            <name>Steven Swor</name>
+            <roles>
+                <role>Project Owner</role>
+            </roles>
+        </developer>
+    </developers>
+
+    <distributionManagement>
+        <site>
+            <id>github-pages-site</id>
+            <name>GHPages Deployment</name>
+            <url>gitsite:git@github.com/sworisbreathing/sfmf4j.git</url>
+        </site>
+    </distributionManagement>
+
+    <issueManagement>
+        <system>GitHub Issues</system>
+        <url>https://github.com/sworisbreathing/sfmf4j/issues/</url>
+    </issueManagement>
+
+    <properties>
+        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+        <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
+        <pax.exam.version>2.6.0</pax.exam.version>
+        <pax.url.version>1.5.0</pax.url.version>
+        <cobertura.version>2.5.2</cobertura.version>
+    </properties>
+
+    <dependencyManagement>
+        <dependencies>
+            <dependency>
+                <groupId>commons-io</groupId>
+                <artifactId>commons-io</artifactId>
+                <version>2.4</version>
+            </dependency>
+
+            <dependency>
+                <groupId>org.osgi</groupId>
+                <artifactId>org.osgi.compendium</artifactId>
+                <version>4.3.1</version>
+            </dependency>
+
+            <dependency>
+                <groupId>org.osgi</groupId>
+                <artifactId>org.osgi.core</artifactId>
+                <version>4.3.1</version>
+            </dependency>
+
+            <dependency>
+                <groupId>junit</groupId>
+                <artifactId>junit</artifactId>
+                <version>4.11</version>
+            </dependency>
+
+            <dependency>
+                <groupId>org.slf4j</groupId>
+                <artifactId>slf4j-api</artifactId>
+                <version>1.6.4</version>
+            </dependency>
+
+            <dependency>
+                <groupId>ch.qos.logback</groupId>
+                <artifactId>logback-classic</artifactId>
+                <version>1.0.9</version>
+            </dependency>
+
+            <dependency>
+                <groupId>org.codehaus.groovy</groupId>
+                <artifactId>groovy</artifactId>
+                <version>2.0.6</version>
+            </dependency>
+
+            <!-- OSGi Testing Dependencies -->
+            <dependency>
+                <groupId>org.ops4j.pax.exam</groupId>
+                <artifactId>pax-exam-container-native</artifactId>
+                <version>${pax.exam.version}</version>
+            </dependency>
+
+            <dependency>
+                <groupId>org.ops4j.pax.exam</groupId>
+                <artifactId>pax-exam-junit4</artifactId>
+                <version>${pax.exam.version}</version>
+            </dependency>
+
+            <dependency>
+                <groupId>org.ops4j.pax.exam</groupId>
+                <artifactId>pax-exam-link-mvn</artifactId>
+                <version>${pax.exam.version}</version>
+            </dependency>
+
+            <dependency>
+                <groupId>org.ops4j.pax.url</groupId>
+                <artifactId>pax-url-aether</artifactId>
+                <version>${pax.url.version}</version>
+            </dependency>
+
+            <dependency>
+                <groupId>org.ops4j.pax.url</groupId>
+                <artifactId>pax-url-wrap</artifactId>
+                <version>${pax.url.version}</version>
+            </dependency>
+
+            <dependency>
+                <groupId>org.apache.felix</groupId>
+                <artifactId>org.apache.felix.framework</artifactId>
+                <version>4.0.3</version>
+            </dependency>
+
+            <dependency>
+                <groupId>net.sf.jpathwatch</groupId>
+                <artifactId>jpathwatch</artifactId>
+                <version>0.95</version>
+            </dependency>
+        </dependencies>
+    </dependencyManagement>
+
+    <build>
+        <pluginManagement>
+            <plugins>
+                <plugin>
+                    <groupId>org.apache.felix</groupId>
+                    <artifactId>maven-bundle-plugin</artifactId>
+                    <version>2.3.7</version>
+                    <extensions>true</extensions>
+                </plugin>
+                <plugin>
+                    <groupId>org.apache.maven.plugins</groupId>
+                    <artifactId>maven-failsafe-plugin</artifactId>
+                    <version>2.12.4</version>
+                    <executions>
+                        <execution>
+                            <goals>
+                                <goal>integration-test</goal>
+                                <goal>verify</goal>
+                            </goals>
+                        </execution>
+                    </executions>
+                </plugin>
+                <plugin>
+                    <groupId>org.apache.maven.plugins</groupId>
+                    <artifactId>maven-surefire-plugin</artifactId>
+                    <version>2.12.4</version>
+                </plugin>
+                <plugin>
+                    <groupId>org.codehaus.mojo</groupId>
+                    <artifactId>cobertura-maven-plugin</artifactId>
+                    <version>${cobertura.version}</version>
+                    <configuration>
+                        <instrumentation>
+                            <!--
+                                Exclude everything in the sfmf4j-tests module,
+                                since its only purpose is to make writing tests
+                                against SFMF4J easier (therefore, there is no
+                                value in seeing code coverage for it).
+
+                                Exclude sfmf4j.api.DirectoryListenerAdapter,
+                                since it is a no-op implementation of
+                                sfmf4j.api.DirectoryListener (therefore, there's
+                                no code to test).
+                            -->
+                            <excludes>
+                                <exclude>sfmf4j/osgi/test/*.class</exclude>
+                                <exclude>sfmf4j/test/*.class</exclude>
+                                <exclude>sfmf4j/api/DirectoryListenerAdapter.class</exclude>
+                            </excludes>
+                        </instrumentation>
+                    </configuration>
+                </plugin>
+            </plugins>
+        </pluginManagement>
+        <plugins>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-site-plugin</artifactId>
+                <version>3.2</version>
+            </plugin>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-compiler-plugin</artifactId>
+                <version>2.5.1</version>
+                <configuration>
+                    <source>1.6</source>
+                    <target>1.6</target>
+                </configuration>
+            </plugin>
+            <plugin>
+                <groupId>org.codehaus.mojo</groupId>
+                <artifactId>cobertura-maven-plugin</artifactId>
+                <executions>
+                    <execution>
+                        <id>cobertura-aggregate-site</id>
+                        <phase>pre-site</phase>
+                        <goals>
+                            <goal>cobertura</goal>
+                        </goals>
+                        <configuration>
+                            <aggregate>true</aggregate>
+                        </configuration>
+                    </execution>
+                </executions>
+            </plugin>
+        </plugins>
+        <extensions>
+            <extension>
+                <groupId>org.apache.maven.scm</groupId>
+                <artifactId>maven-scm-provider-gitexe</artifactId>
+                <version>1.3</version>
+            </extension>
+            <extension>
+                <groupId>org.apache.maven.scm</groupId>
+                <artifactId>maven-scm-manager-plexus</artifactId>
+                <version>1.3</version>
+            </extension>
+            <extension>
+                <groupId>com.github.stephenc.wagon</groupId>
+                <artifactId>wagon-gitsite</artifactId>
+                <version>0.4.1</version>
+            </extension>
+        </extensions>
+    </build>
+
+    <modules>
+        <module>sfmf4j-api</module>
+        <module>sfmf4j-commonsio</module>
+        <module>sfmf4j-jpathwatch</module>
+        <module>sfmf4j-nio2</module>
+        <module>sfmf4j-tests</module>
+    </modules>
+
+    <profiles>
+        <profile>
+            <id>release-sign-artifacts</id>
+            <activation>
+                <property>
+                    <name>performRelease</name>
+                    <value>true</value>
+                </property>
+            </activation>
+            <build>
+                <plugins>
+                    <plugin>
+                        <groupId>org.apache.maven.plugins</groupId>
+                        <artifactId>maven-gpg-plugin</artifactId>
+                        <version>1.4</version>
+                        <executions>
+                            <execution>
+                                <id>sign-artifacts</id>
+                                <phase>package</phase>
+                                <goals>
+                                    <goal>sign</goal>
+                                </goals>
+                            </execution>
+                        </executions>
+                    </plugin>
+                </plugins>
+            </build>
+        </profile>
+    </profiles>
+
+    <reporting>
+        <plugins>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-project-info-reports-plugin</artifactId>
+                <version>2.6</version>
+                <reportSets>
+                    <reportSet>
+                        <reports>
+                            <report>summary</report>
+                            <report>modules</report>
+                            <report>issue-tracking</report>
+                            <report>scm</report>
+                            <report>project-team</report>
+                            <report>distribution-management</report>
+                            <report>dependency-management</report>
+                            <report>plugin-management</report>
+                            <report>plugins</report>
+                            <report>license</report>
+                        </reports>
+                    </reportSet>
+                </reportSets>
+            </plugin>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-javadoc-plugin</artifactId>
+                <version>2.9</version>
+            </plugin>
+
+            <!--
+                Generates source cross-reference reports.  These are similar to
+                Javadoc, except the HTML includes hyperlinks on the classes and
+                method headers to view the source code.
+            -->
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-jxr-plugin</artifactId>
+                <version>2.3</version>
+                <reportSets>
+                    <reportSet>
+                        <reports>
+                            <report>jxr</report>
+                            <report>test-jxr</report>
+                        </reports>
+                    </reportSet>
+                </reportSets>
+                <configuration>
+                    <aggregate>true</aggregate>
+                </configuration>
+            </plugin>
+
+            <!--
+                PMD is a code quality tool.  The PMD report is a general code
+                quality report, while the CPD report identifies "copy-and-paste"
+                code blocks.
+            -->
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-pmd-plugin</artifactId>
+                <version>2.7.1</version>
+                <reportSets>
+                    <reportSet>
+                        <reports>
+                            <report>pmd</report>
+                            <report>cpd</report>
+                        </reports>
+                    </reportSet>
+                </reportSets>
+                <configuration>
+                    <aggregate>true</aggregate>
+                    <targetJdk>${jdk.version}</targetJdk>
+                </configuration>
+            </plugin>
+
+            <!--
+                Findbugs is a code quality tool.
+            -->
+            <plugin>
+                <groupId>org.codehaus.mojo</groupId>
+                <artifactId>findbugs-maven-plugin</artifactId>
+                <version>2.5.2</version>
+                <reportSets>
+                    <reportSet>
+                        <reports>
+                            <report>findbugs</report>
+                        </reports>
+                    </reportSet>
+                </reportSets>
+            </plugin>
+
+            <plugin>
+                <groupId>org.codehaus.mojo</groupId>
+                <artifactId>cobertura-maven-plugin</artifactId>
+                <version>${cobertura.version}</version>
+                <reportSets>
+                    <reportSet>
+                        <reports>
+                            <report>cobertura</report>
+                        </reports>
+                        <configuration>
+                            <aggregate>true</aggregate>
+                        </configuration>
+                    </reportSet>
+                </reportSets>
+            </plugin>
+        </plugins>
+    </reporting>
+</project>
